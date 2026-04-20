@@ -1,0 +1,13 @@
+for the newest created file in career_data_exports
+1. on the income projection, also project the current job title income to death, make it pretty
+2. change the value accordingly to career level accross the board
+3. make a day/light version toggle (that acutally does the job and place at the right place)
+4. MBTI Recommendation change to "How does my MBTI fit this job" or whatever better wording
+5. remove "Startup Preparation" and change to finding sifu
+
+must keep the original design intact
+
+write it to new file and mark the model use on new file and daytime seperated
+by _
+
+write a log to save 
