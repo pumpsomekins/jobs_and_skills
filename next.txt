@@ -1,13 +1,12 @@
 for the newest created file in career_data_exports
-1. on the income projection, also project the current job title income to death, make it pretty
-2. change the value accordingly to career level accross the board
-3. make a day/light version toggle (that acutally does the job and place at the right place)
-4. MBTI Recommendation change to "How does my MBTI fit this job" or whatever better wording
-5. remove "Startup Preparation" and change to finding sifu
-
+1. put upload resume and enter mbti on the left of light/night switch, and login button
+2. remove the death part and just project when the career would end
+3. 'How Does My MBTI Fit This Job?' change to 'MBTI fit' and replace the content with login to see
+4. 'Prestige University Required?' change to 'Prestige University'
+5. Job Application Tracker (User Uploads) hide this until user login
 must keep the original design intact
 
-write it to new file and mark the model use on new file and daytime seperated
-by _
+do not creat new file just edit it and renamed it with daytime and model used seperated by _
 
-write a log to save 
+write a log to save(if it is not existed yet) the prompt i use, list the instruction i gave(if they are in a text file) and the file name generated or edited
+and the name before, tick back to the next.txt for the tasks that are done.
