@@ -1,13 +1,17 @@
-for the newest created file in career_data_exports
-[x] 1. the default displaying LTV number should be the job level selected, currently is line cook
-[x] 2. the i think you get Sous Chef and Chef de Partie backward
-[x] 3. for higher career level, should include a percentage indicating the income this career level provide
+[x] for the newest created file in career_data_exports
+[x] 1. Content have to change for Private School Issue a. could it be beneficial for me b. could current job level and
+job as entirety afford my kid go to private School
+[x] 2. Recommended Schools add content that says login to find school better for you otherwise just put the most famous ones
+[x] 3. Retirement Issue a. for myself and could it afford my parents retirement(for the countries that support this custom only)
+[x] 4. Skill Pivot: job titles should be capitcal, and also says login to find job better suit your skillset and 
+past experience
+[x] 5. Self-Directed Work
+Build portfolio dinners, tasting menu decks, and direct referral pipelines i want this section to be a place
+direct to outside weblink to show user's portfolio, so change the wording
 
-[x] translate these into better english wording
+must keep the original design intact
 
-[x] must keep the original design intact
+do not create new html file just edit it and renamed it with daytime(MMDDYY_TIMERN) and model used seperated by _
 
-[x] do not create new html file just edit it and renamed it with daytime and model used seperated by _
-
-[x] go to log.md to save(if it is not existed yet, create it) the prompts i use, list the instruction i gave(if they are in a text file) and the file name generated or edited
+go to log.md to save(if it is not existed yet, create it) the prompts i use, list the instruction i gave(if they are in a text file) and the file name generated or edited
 and the name before, tick back to the next.txt for the tasks that are done.
