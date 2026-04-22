@@ -1,8 +1,7 @@
 for the newest created file in career_data_exports
-[x] 1. add 3 functions to the file
-    a. 是不是要经常出差 (Done: Business Travel Frequency)
-    b. 是不是要经常走动 (Done: Physical Mobility Level)
-    c. 是不是要经常表达自己 (Done: Creative Self-Expression)
+[x] 1. the default displaying LTV number should be the job level selected, currently is line cook
+[x] 2. the i think you get Sous Chef and Chef de Partie backward
+[x] 3. for higher career level, should include a percentage indicating the income this career level provide
 
 [x] translate these into better english wording
 

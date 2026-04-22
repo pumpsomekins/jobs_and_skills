@@ -219,6 +219,8 @@ tbody tr.hidden-row{display:none}
 .ltab.active{background:var(--surface-2);border-color:var(--accent);color:#fff;z-index:2}
 .ltab .lyears{font-size:9px;font-weight:500;color:var(--text-faint);letter-spacing:.04em}
 .ltab.active .lyears{color:var(--accent)}
+.ltab .lpct{font-size:9px;font-weight:700;color:var(--accent);letter-spacing:.03em;background:color-mix(in oklch,var(--accent) 12%,transparent);border:1px solid color-mix(in oklch,var(--accent) 25%,transparent);padding:1px 5px;border-radius:3px;margin-top:1px}
+.ltab.active .lpct{background:color-mix(in oklch,var(--accent) 20%,transparent)}
 .ltab .lcolor-dot{width:6px;height:6px;border-radius:50%;background:var(--ldot,var(--text-faint));margin-bottom:2px}
 
 /* ── Income Curve Chart ── */
@@ -489,11 +491,11 @@ html[data-theme="light"] .lang-name{color:#111}
   <div class="level-section">
     <div class="section-label">Career Level — Click to compare salary, LTV &amp; insights</div>
     <div class="level-tabs" id="levelTabs">
-      <button class="ltab active" data-level="0" style="--ldot:#888"><span class="lcolor-dot"></span>Line Cook<span class="lyears">Entry · Yr 0</span></button>
-      <button class="ltab" data-level="1" style="--ldot:#4f98a3"><span class="lcolor-dot"></span>Sous Chef<span class="lyears">≈ 2–3 yrs</span></button>
-      <button class="ltab" data-level="2" style="--ldot:#eab308"><span class="lcolor-dot"></span>Chef de Partie<span class="lyears">≈ 5–6 yrs</span></button>
-      <button class="ltab" data-level="3" style="--ldot:#f97316"><span class="lcolor-dot"></span>Head Chef<span class="lyears">≈ 8–11 yrs</span></button>
-      <button class="ltab" data-level="4" style="--ldot:#22c55e"><span class="lcolor-dot"></span>Executive Chef<span class="lyears">≈ 16–19 yrs</span></button>
+      <button class="ltab active" data-level="0" style="--ldot:#888"><span class="lcolor-dot"></span>Line Cook<span class="lyears">Entry · Yr 0</span><span class="lpct" id="lpct-0"></span></button>
+      <button class="ltab" data-level="1" style="--ldot:#4f98a3"><span class="lcolor-dot"></span>Chef de Partie<span class="lyears">≈ 2–3 yrs</span><span class="lpct" id="lpct-1"></span></button>
+      <button class="ltab" data-level="2" style="--ldot:#eab308"><span class="lcolor-dot"></span>Sous Chef<span class="lyears">≈ 5–6 yrs</span><span class="lpct" id="lpct-2"></span></button>
+      <button class="ltab" data-level="3" style="--ldot:#f97316"><span class="lcolor-dot"></span>Head Chef<span class="lyears">≈ 8–11 yrs</span><span class="lpct" id="lpct-3"></span></button>
+      <button class="ltab" data-level="4" style="--ldot:#22c55e"><span class="lcolor-dot"></span>Executive Chef<span class="lyears">≈ 16–19 yrs</span><span class="lpct" id="lpct-4"></span></button>
     </div>
   </div>
 
@@ -581,8 +583,8 @@ html[data-theme="light"] .lang-name{color:#111}
     <svg id="incomeSVG" height="220" viewBox="0 0 900 220" preserveAspectRatio="none"></svg>
     <div class="level-legend" id="levelLegend">
       <div class="level-legend-item"><div class="level-legend-dot" style="background:#888"></div>Line Cook</div>
-      <div class="level-legend-item"><div class="level-legend-dot" style="background:#4f98a3"></div>Sous Chef</div>
-      <div class="level-legend-item"><div class="level-legend-dot" style="background:#eab308"></div>Chef de Partie</div>
+      <div class="level-legend-item"><div class="level-legend-dot" style="background:#4f98a3"></div>Chef de Partie</div>
+      <div class="level-legend-item"><div class="level-legend-dot" style="background:#eab308"></div>Sous Chef</div>
       <div class="level-legend-item"><div class="level-legend-dot" style="background:#f97316"></div>Head Chef</div>
       <div class="level-legend-item"><div class="level-legend-dot" style="background:#22c55e"></div>Executive Chef</div>
       <div class="level-legend-item" style="margin-left:10px;border-left:1px solid #333;padding-left:10px">
@@ -733,8 +735,8 @@ html[data-theme="light"] .lang-name{color:#111}
         <tbody>
           <tr data-status="playable">
             <td class="col-action">Inventory &amp; Ordering</td>
-            <td class="col-human">盘点冰箱，预估消耗，给供应商打电话</td>
-            <td class="col-ai">MarketMan / BlueCart AI 预测分析自动下单</td>
+            <td class="col-human">Manually count fridge inventory, estimate usage, and call suppliers for orders</td>
+            <td class="col-ai">MarketMan / BlueCart AI predictive analytics for automated ordering</td>
             <td><div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:85%;background:var(--green)"></div></div><div class="bar-lbl"><span>Automated</span><span>85%</span></div></div></td>
             <td style="text-align:center"><span class="ltv-chip risk">~10% at risk</span></td>
             <td style="text-align:center"><span class="eta-badge eta-soon">~2 yrs</span></td>
@@ -742,8 +744,8 @@ html[data-theme="light"] .lang-name{color:#111}
           </tr>
           <tr data-status="ingame">
             <td class="col-action">Frying &amp; Grilling</td>
-            <td class="col-human">守在油锅前看火候，手动翻面沥油</td>
-            <td class="col-ai">Miso Robotics (Flippy) 机械臂视觉识别翻面</td>
+            <td class="col-human">Stand over hot oil, monitor temperature, manually flip and drain food</td>
+            <td class="col-ai">Miso Robotics (Flippy) robotic arm with computer vision for automated flipping</td>
             <td><div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:65%;background:var(--yellow)"></div></div><div class="bar-lbl"><span>Automated</span><span>65%</span></div></div></td>
             <td style="text-align:center"><span class="ltv-chip partial">~30% partial</span></td>
             <td style="text-align:center"><span class="eta-badge eta-mid">3–5 yrs</span></td>
@@ -751,8 +753,8 @@ html[data-theme="light"] .lang-name{color:#111}
           </tr>
           <tr data-status="intro">
             <td class="col-action">Recipe Creation</td>
-            <td class="col-human">凭借味觉经验和灵感搭配新食材</td>
-            <td class="col-ai">生成式AI分析分子风味图谱输出配方</td>
+            <td class="col-human">Draw on sensory experience and intuition to pair new ingredients</td>
+            <td class="col-ai">Generative AI analyzes molecular flavor profiles and outputs recipes</td>
             <td><div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:30%;background:var(--orange)"></div></div><div class="bar-lbl"><span>Automated</span><span>30%</span></div></div></td>
             <td style="text-align:center"><span class="ltv-chip partial">~20% partial</span></td>
             <td style="text-align:center"><span class="eta-badge eta-far">7–10 yrs</span></td>
@@ -760,8 +762,8 @@ html[data-theme="light"] .lang-name{color:#111}
           </tr>
           <tr data-status="nothing">
             <td class="col-action">Plating &amp; Tasting</td>
-            <td class="col-human">艺术性摆盘，尝咸淡，微调风味</td>
-            <td class="col-ai">无现成AI方案，传感器无法完全模拟人类主观味觉</td>
+            <td class="col-human">Artistically plate dishes, taste for seasoning balance, and fine-tune flavor</td>
+            <td class="col-ai">No viable AI solution yet; sensors cannot fully replicate human subjective taste</td>
             <td><div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--red)"></div></div><div class="bar-lbl"><span>Automated</span><span>8%</span></div></div></td>
             <td style="text-align:center"><span class="ltv-chip safe">~40% protected</span></td>
             <td style="text-align:center"><span class="eta-badge eta-prot">10+ yrs</span></td>
@@ -774,9 +776,9 @@ html[data-theme="light"] .lang-name{color:#111}
 
   <!-- Summary -->
   <div class="summary-row">
-    <div class="summary-card"><strong>Survival Strategy</strong>专注于 Plating &amp; Tasting 和 Recipe Creation — AI 最难渗透的高价值节点。培养主厨品牌与感官判断力。</div>
-    <div class="summary-card"><strong>Highest Threat</strong>Inventory &amp; Ordering 是最脆弱节点（85%），但仅占职位价值约 10%。真正杠杆在厨房执行感官层。</div>
-    <div class="summary-card"><strong>LTV Methodology</strong>BLS 2025 中位薪资 × 30年职业周期。AI Risk 加权：各节点自动化率 × 估算时间占比。各国使用当地参考车型折算。</div>
+    <div class="summary-card"><strong>Survival Strategy</strong>Focus on Plating &amp; Tasting and Recipe Creation — the highest-value nodes least penetrable by AI. Build your chef brand and sharpen sensory judgment.</div>
+    <div class="summary-card"><strong>Highest Threat</strong>Inventory &amp; Ordering is the most vulnerable node (85%), yet accounts for only ~10% of role value. True leverage lies in the sensory execution layer.</div>
+    <div class="summary-card"><strong>LTV Methodology</strong>BLS 2025 median salary × 30-year career horizon. AI Risk weighted: automation rate per task node × estimated time share. Local reference vehicle used per country.</div>
   </div>
   <div class="footnote">* Data: Miso Robotics deployments · BLS Occupational Outlook 2025 · JobForesight 2026 · ILO salary benchmarks</div>
 </div>
@@ -988,16 +990,16 @@ obs.observe(document.querySelector('.ltv-section'));
 <script>
 // ── NEW DATA ──────────────────────────────────────────────────────────────────
 const LEVELS = [
-  {id:0,name:'Line Cook',    short:'Line',yearsFrom:0, color:'#888888'},
-  {id:1,name:'Sous Chef',    short:'Sous',yearsFrom:2, color:'#4f98a3'},
-  {id:2,name:'Chef de Partie',short:'CDP',yearsFrom:5,color:'#eab308'},
-  {id:3,name:'Head Chef',    short:'Head',yearsFrom:8, color:'#f97316'},
-  {id:4,name:'Executive Chef',short:'Exec',yearsFrom:16,color:'#22c55e'}
+  {id:0,name:'Line Cook',     short:'Line',yearsFrom:0,  color:'#888888'},
+  {id:1,name:'Chef de Partie',short:'CDP', yearsFrom:2,  color:'#4f98a3'},
+  {id:2,name:'Sous Chef',     short:'Sous',yearsFrom:5,  color:'#eab308'},
+  {id:3,name:'Head Chef',     short:'Head',yearsFrom:8,  color:'#f97316'},
+  {id:4,name:'Executive Chef',short:'Exec',yearsFrom:16, color:'#22c55e'}
 ];
 const PROMO_TRANSITIONS=[
-  {from:'Line Cook',to:'Sous Chef',years:'2–3 yrs',tip:'Performance + skills upgrade'},
-  {from:'Sous Chef',to:'Chef de Partie',years:'2–3 yrs',tip:'Station mastery required'},
-  {from:'Chef de Partie',to:'Head Chef',years:'3–5 yrs',tip:'Leadership + menu creation'},
+  {from:'Line Cook',to:'Chef de Partie',years:'2–3 yrs',tip:'Station mastery required'},
+  {from:'Chef de Partie',to:'Sous Chef',years:'2–3 yrs',tip:'Performance + kitchen leadership'},
+  {from:'Sous Chef',to:'Head Chef',years:'3–5 yrs',tip:'Menu creation + team management'},
   {from:'Head Chef',to:'Executive Chef',years:'5–8 yrs',tip:'Business acumen + reputation'}
 ];
 // USD equiv annual salary per country per level
@@ -1307,27 +1309,27 @@ function renderRequirementExtensions(country){
   if(network){
     network.innerHTML=`
       <div class="note-card">
-        <div class="note-title">Recommended Majors (推荐读的专业)</div>
+        <div class="note-title">Recommended Majors</div>
         <div class="note-value" style="font-size:14px">Culinary Arts & Hospitality Mgt</div>
         <div class="note-meta">Secondary: Food Science, Nutrition, or Business Administration.</div>
       </div>
       <div class="note-card">
-        <div class="note-title">Target Courses (推荐读的课)</div>
+        <div class="note-title">Target Courses</div>
         <div class="note-value" style="font-size:14px">Kitchen Ops & Cost Control</div>
         <div class="note-meta">Also highly recommended: Molecular Gastronomy, Sustainable Sourcing, and Staff Leadership.</div>
       </div>
       <div class="note-card">
-        <div class="note-title">Majors to Strive For (努力学的专业)</div>
+        <div class="note-title">Stretch Majors</div>
         <div class="note-value" style="font-size:14px">F&B Tech & Innovation</div>
         <div class="note-meta">To beat AI risk, transition into tech-enabled food systems or high-end molecular research.</div>
       </div>
       <div class="note-card">
-        <div class="note-title">People to Network With (推荐认识的人)</div>
+        <div class="note-title">Key Connections</div>
         <div class="note-value" style="font-size:14px">Michelin Execs & F&B Directors</div>
         <div class="note-meta">Connect with suppliers, specialized food critics, and affluent club managers.</div>
       </div>
       <div class="note-card" style="grid-column:span 2">
-        <div class="note-title">Hall of Fame (收入靠前的名人)</div>
+        <div class="note-title">Hall of Fame</div>
         <div class="note-value" style="font-size:14px">Gordon Ramsay, Wolfgang Puck, René Redzepi</div>
         <div class="note-meta">These chefs scaled by leveraging personal brand, media, and multi-venue empires rather than just line cooking.</div>
       </div>
@@ -1448,12 +1450,28 @@ document.getElementById('levelTabs')?.addEventListener('click',e=>{
   renderPromoFlow(currentCountry);
   renderIncomeChart(currentCountry);
   renderLevelLTV(currentLevel,currentCountry);
+  updateLevelPcts(currentCountry);
 });
+
+// ── Income % badges on level tabs ─────────────────────────────────────────────
+function updateLevelPcts(country){
+  const salaries=LEVEL_USD[country]||LEVEL_USD.US;
+  const maxSal=salaries[LEVELS.length-1];
+  LEVELS.forEach((_,i)=>{
+    const el=document.getElementById('lpct-'+i);
+    if(!el)return;
+    if(i===LEVELS.length-1){el.textContent='Peak';return;}
+    const pct=Math.round(salaries[i]/maxSal*100);
+    el.textContent=pct+'% of peak';
+  });
+}
 
 // ── PATCH renderCountry to also update new sections ───────────────────────────
 const _origRenderCountry=renderCountry;
 function renderCountryFull(code,animate=true){
   _origRenderCountry(code,animate);
+  renderLevelLTV(currentLevel||0,code);
+  updateLevelPcts(code);
   renderIncomeChart(code);
   renderPromoFlow(code);
   renderInsights(code);
@@ -1473,12 +1491,15 @@ document.getElementById('countryTabs')?.addEventListener('click', e=>{
 
 // Init new sections after a short delay (after original init)
 setTimeout(()=>{
-  renderIncomeChart(currentCountry||'US');
-  renderPromoFlow(currentCountry||'US');
-  renderInsights(currentCountry||'US');
-  renderLang(currentCountry||'US');
-  renderHeatmap(currentCountry||'US');
-  renderRequirementExtensions(currentCountry||'US');
+  const cc=currentCountry||'US';
+  renderLevelLTV(currentLevel||0,cc);
+  updateLevelPcts(cc);
+  renderIncomeChart(cc);
+  renderPromoFlow(cc);
+  renderInsights(cc);
+  renderLang(cc);
+  renderHeatmap(cc);
+  renderRequirementExtensions(cc);
 },300);
 </script>
 

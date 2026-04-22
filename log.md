@@ -39,3 +39,21 @@ For the newest created file in `career_data_exports`:
 - **Updated:** `career_data_exports/20260421_204730_Gemini.html`
 
 ---
+
+## Log Entry: 2026-04-21 21:04:18
+
+**Prompt Used:** `do next.txt`
+
+### Instructions (from `next.txt`)
+For the newest created file in `career_data_exports`:
+1. **Default LTV display** should reflect the selected career level (was showing country average instead of Line Cook).
+2. **Swap Sous Chef and Chef de Partie** — they were in the wrong order (Chef de Partie precedes Sous Chef in kitchen hierarchy).
+3. **Income percentage badges** added to each level tab showing salary as % of Executive Chef (peak) income.
+4. **Translate all Chinese text to English** — table human/AI workflow columns, summary cards, and network grid note titles.
+- Constraints: Keep original design intact; edit file and rename with datetime and model.
+
+### File Transformation
+- **Original:** `career_data_exports/20260421_204730_Gemini.html`
+- **Updated:** `career_data_exports/20260421_210418_claude-sonnet-4-6.html`
+
+---
