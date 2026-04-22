@@ -1,15 +1,14 @@
 for the newest created file in career_data_exports
-1. add 4 things to the file
-    a. 是不是要经常出差
-    b. 是不是要经常走动
-    c. 是不是要经常表达自己
-    d. 
+[x] 1. add 3 functions to the file
+    a. 是不是要经常出差 (Done: Business Travel Frequency)
+    b. 是不是要经常走动 (Done: Physical Mobility Level)
+    c. 是不是要经常表达自己 (Done: Creative Self-Expression)
 
-translate these into better english wording
+[x] translate these into better english wording
 
-must keep the original design intact
+[x] must keep the original design intact
 
-do not create new html file just edit it and renamed it with daytime and model used seperated by _
+[x] do not create new html file just edit it and renamed it with daytime and model used seperated by _
 
-go to log.md to save(if it is not existed yet, create it) the prompts i use, list the instruction i gave(if they are in a text file) and the file name generated or edited
+[x] go to log.md to save(if it is not existed yet, create it) the prompts i use, list the instruction i gave(if they are in a text file) and the file name generated or edited
 and the name before, tick back to the next.txt for the tasks that are done.
