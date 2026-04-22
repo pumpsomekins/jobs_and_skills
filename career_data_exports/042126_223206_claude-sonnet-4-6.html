@@ -648,11 +648,11 @@ html[data-theme="light"] .lang-name{color:#111}
     <div class="extended-grid" id="extraInsightsGrid"><!-- Rendered by JS --></div>
   </div>
   <div class="extended-section">
-    <div class="section-label">Access Points</div>
+    <div class="section-label">Pathways &amp; Access Points</div>
     <div class="link-grid-extended" id="accessGrid"><!-- Rendered by JS --></div>
   </div>
   <div class="extended-section">
-    <div class="section-label">School, Retirement, and Pivot Notes</div>
+    <div class="section-label">Education, Retirement &amp; Career Pivots</div>
     <div class="note-grid" id="careerNotesGrid"><!-- Rendered by JS --></div>
   </div>
   <div class="sec-divider"></div>
@@ -1064,12 +1064,12 @@ const EXTRA_META={
   CN:{budget:'¥1,800/mo',hnwi:'Luxury banquets · private rooms · club kitchens',startup:'61% readiness',mbti:'ISTJ · ESTP · ENTJ',uni:'Not required',uniMeta:'Brand-name university is much less important than apprenticeship pedigree, execution, and network.',privateSchool:'Mixed value',privateMeta:'Private culinary schools can speed placement, but live kitchen references usually outrank tuition branding.',schools:'Le Cordon Bleu Shanghai · SICA · Shanghai Business & Tourism',retire:'Best later-career exits: training manager, central kitchen leader, private chef, culinary lecturer. Includes potential for parental retirement support.',pivot:'Best pivot set: private household chef, SOP consultant, flavor/product R&D.'}
 };
 const ACCESS_LINKS=[
-  {title:'Training Links',desc:'Coursera, Rouxbe, Le Cordon Bleu, local culinary academies'},
-  {title:'Certification Links',desc:'Food safety, HACCP, Red Seal, license and employer-specific cert paths'},
-  {title:'Job Search Links',desc:'LinkedIn, Culinary Agents, hotel careers pages, premium hospitality boards'},
-  {title:'Part-Time Links',desc:'Banquet staffing, private events, pop-ups, seasonal resort work'},
-  {title:'User Portfolio & Referrals',desc:'External link to your portfolio, tasting menu decks, and direct referral pipelines'},
-  {title:'Finding Sifu',desc:'Find a master mentor, culinary guide, or senior sifu who can accelerate your craft, discipline, and network access'}
+  {title:'Training & Courses',desc:'Online platforms and culinary schools — Coursera, Rouxbe, Le Cordon Bleu, and local academies'},
+  {title:'Certifications & Credentials',desc:'Professional credentials: food safety, HACCP, Red Seal, and role-specific licensing paths'},
+  {title:'Job Search & Placement',desc:'Top hiring channels: LinkedIn, Culinary Agents, hotel career pages, and premium hospitality boards'},
+  {title:'Freelance & Side Work',desc:'Supplemental income opportunities: banquet staffing, private events, pop-ups, and seasonal resort roles'},
+  {title:'Your Portfolio & Referrals',desc:'Link to your own portfolio, tasting menu decks, and personal referral network'},
+  {title:'Find a Mentor',desc:'Connect with a master chef, culinary guide, or senior sifu to grow your craft and expand your network'}
 ];
 const COUNTRY_NAMES={US:'USA',UK:'United Kingdom',AU:'Australia',DE:'Germany',JP:'Japan',SG:'Singapore',TW:'Taiwan',CN:'China'};
 
@@ -1383,24 +1383,24 @@ function renderRequirementExtensions(country){
         <div class="note-meta">${meta.uniMeta}</div>
       </div>
       <div class="note-card">
-        <div class="note-title">Private School Issue</div>
+        <div class="note-title">Private Schooling Considerations</div>
         <div class="note-value">${meta.privateSchool}</div>
-        <div class="note-meta">${meta.privateMeta} <br><br> <strong>Beneficial for me?</strong> Login to analyze ROI. <br> <strong>Affordability for kids?</strong> Depends on career level.</div>
+        <div class="note-meta">${meta.privateMeta} <br><br> <strong>Is it worth it for me?</strong> Login for a personalized ROI analysis. <br> <strong>Can my income cover my child's tuition?</strong> Estimated by career level.</div>
       </div>
       <div class="note-card">
         <div class="note-title">Recommended Schools</div>
         <div class="note-value" style="font-size:13px">${meta.schools}</div>
-        <div class="note-meta">Login to find school better for you, otherwise these are the most famous ones.</div>
+        <div class="note-meta">Login for a personalized school match based on your goals — or browse the most recognized programs listed above.</div>
       </div>
       <div class="note-card">
-        <div class="note-title">Retirement Issue</div>
+        <div class="note-title">Retirement Planning</div>
         <div class="note-value" style="font-size:13px">${meta.retire}</div>
-        <div class="note-meta">Plans for self-retirement and parent support potential (custom-dependent).</div>
+        <div class="note-meta">Your late-career exit options and personal retirement outlook. Parental support potential is shown where culturally applicable.</div>
       </div>
       <div class="note-card">
         <div class="note-title">Skill Pivot</div>
         <div class="note-value" style="font-size:13px">${meta.pivot.toUpperCase()}</div>
-        <div class="note-meta">Login to find job better suit your skillset and past experience.</div>
+        <div class="note-meta">Login to discover roles that better match your skillset and career background.</div>
       </div>
     `;
   }
