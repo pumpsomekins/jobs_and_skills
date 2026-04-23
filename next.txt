@@ -1,11 +1,9 @@
-for the newest created file in career_data_exports
-1. [x] make better wording for Access Points and School, Retirement, and Pivot Notes sections
+Target file: The most recently generated file inside the career_data_exports directory.
+Complete all pre-checked tasks strictly:
 
-[x] rearrange log.md to make newest log being see first
 
-[x] must keep the original design intact
-
-[x] do not create new html file just edit it and renamed it with daytime(MMDDYY_TIMERN) and model used seperated by _
-
-[x] go to log.md to save(if it is not existed yet, create it) the prompts i use, list the instruction i gave(if they are in a text file) and the file name generated or edited
-and the name before, tick back to the next.txt for the tasks that are done.
+I. Reorder log.md to display the latest log content at the top.
+II. Preserve all original design completely with no modifications.
+III. Do not generate new HTML files. Only perform in-place edits, then rename the file as MMDDYY_TIMERN_model_used (date + timer number separated from model name by underscore).
+IV. Create/update log.md (generate if missing): record all used prompts, external instructions, original filename and new filename.
+V. Once finished, update completion checkmarks for corresponding tasks in next.txt.
