@@ -6,7 +6,12 @@
 # ==============================================================================
 # 你的提问内容
 read -r -d '' CONTENT << 'EOF'
-base on the prototype, imagine the homepage and write the full code where (all jobs would be in this site along with news about job market) and give the full code to me here:
+批判性系统性客观地根据给出的文档分析一下以下内容：
+1. Skill Pivot section跟 Career Recommendations (Based on Skill Set)是不是重合了怎么整合好？
+2. Stretch Majors什么意思
+3. 在这个就业环境下，专门为就业者服务还有意义吗
+4. 能不能给职业评级？就是一个跟黑珍珠，米其林那样还有债券那样，有用吗？
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -1535,7 +1540,6 @@ setTimeout(()=>{
 </script>
 </body>
 </html>
-
 
 EOF
 

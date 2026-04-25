@@ -1,6 +1,11 @@
 Target file: The most recently generated file inside the career_data_exports directory.
 Complete all pre-checked tasks strictly:
 
+1. "Dynamically calculate the 'Startup Readiness' score so that it scales positively with the user's selected career level. Instead of using a static percentage from the country data, set a baseline (e.g., Line Cook = base score) and programmatically add a progressive multiplier (e.g., +5% for CDP, +15% for Sous Chef, up to max for Exec Chef). Update the UI element accordingly when the level tab is clicked."
+2. "In the 'Career Economics and Fit' section, inject 2-3 actionable, country-specific external HTML links (e.g., local small business grants, cloud kitchen incubators, or government registries) specifically under the 'Startup Readiness' card. Ensure these links are conditionally rendered and ONLY appear when the user interacts with the startup-related insights, keeping other sections clean."
+3. "Enhance the 'Retirement Planning' data logic to evaluate the selected country's cultural context regarding filial piety (e.g., highly relevant for CN, TW, SG, JP). If the selected country strongly supports this custom, automatically append a specific note about 'Financial and strategic planning for parental care' into the retirement recommendation text."
+4. "Modify the 'Key Connections' note card. Truncate the detailed list of networking targets and replace it with a compelling Call-To-Action (CTA) UI pattern. The text should read: 'Login to unlock your personalized key connection plan and step-by-step outreach strategy'. Make the text visually distinct to encourage conversion."
+5. "Update the 'Hall of Fame' section to be country-aware. Programmatically inject famous chefs relevant to the currently active country tab (e.g., Gordon Ramsay for UK, Alan Wong for US/Global, Nobu Matsuhisa for JP). For each chef, display their estimated net worth (e.g., '$220M' or '$1.1B') next to their name to illustrate the financial ceiling of the profession."
 
 I. Reorder log.md to display the latest log content at the top.
 II. Preserve all original design completely with no modifications.
