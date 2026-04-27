@@ -1,5 +1,33 @@
 # Skills & Jobs Log
 
+## Log Entry: 2026-04-27 06:47:29
+
+**Prompt Used:** `do the next.txt`
+
+### Instructions (from `next.txt`)
+1. Dynamically calculate 'Startup Readiness' score scaling with user level.
+2. Change 'Career Level' wording to include 'peak LTV'.
+3. Update bar under 'CAREER LTV' to represent percentage to peak LTV.
+4. Fix 'CAREER END' label positioning in Annual Income Curve.
+5. Project Current ANNUAL INCOME for specific job level in the chart.
+6. Use descriptive levels for Language Requirements instead of scores.
+7. Add matching skills to Career Recommendations.
+
+### Changes Made
+- Added `renderRequirementExtensions(currentCountry)` to level tab click listener and updated Startup Readiness logic to use `currentLevel`.
+- Updated `updateLevelPcts` to use "Peak LTV" and "% of peak LTV" wording.
+- Updated `renderLevelLTV` to dynamically calculate and set `bar-ltv` width based on peak LTV.
+- Adjusted `renderIncomeChart` to use `text-anchor="end"` and offset the 'CAREER END' label to keep it within chart bounds.
+- Injected a red dashed projection line in `renderIncomeChart` from the current level's start year to year 30.
+- Implemented `LANG_SCORES` mapping in `renderLang` to replace numeric scores with descriptive proficiency levels.
+- Appended "Matching Skills" section to each card in the Career Recommendations HTML section.
+
+### File Transformation
+- **Original:** `042526_051819_gemini-2-0-flash.html`
+- **Updated:** `042726_064729_gemini-2-0-flash.html`
+
+---
+
 ## Log Entry: 2026-04-25 05:18:19
 
 **Prompt Used:** `perform next.txt`
@@ -44,7 +72,7 @@ For the newest created file in `career_data_exports`:
 - **Note meta** for "Skill Pivot" grammar fixed: "find job better suit" → "discover roles that better match"
 
 ### File Transformation
-- **Original:** `career_data_exports/042126_221341_gemini-2-0-flash-thinking.html`
+- **Original:** `042126_223206_claude-sonnet-4-6.html`
 - **Updated:** `career_data_exports/042126_223206_claude-sonnet-4-6.html`
 
 ---

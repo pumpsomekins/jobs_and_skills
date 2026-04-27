@@ -687,17 +687,17 @@ html[data-theme="light"] .lang-name{color:#111}
       <div class="note-card">
         <div class="note-title">Food Technologist (R&D)</div>
         <div class="note-value" style="font-size:14px; color:var(--accent)">88% Match</div>
-        <div class="note-meta">Focus on sensory evaluation, recipe scaling, and food chemistry. High growth, lower physical strain.</div>
+        <div class="note-meta">Focus on sensory evaluation, recipe scaling, and food chemistry. High growth, lower physical strain. <br><br> <strong>Matching Skills:</strong> Sensory Analysis, Recipe Formulation, Quality Assurance.</div>
       </div>
       <div class="note-card">
         <div class="note-title">Event Operations Manager</div>
         <div class="note-value" style="font-size:14px; color:var(--green)">82% Match</div>
-        <div class="note-meta">Leverages high-pressure coordination, vendor management, and timing logistics.</div>
+        <div class="note-meta">Leverages high-pressure coordination, vendor management, and timing logistics. <br><br> <strong>Matching Skills:</strong> Crisis Management, Team Leadership, Logistic Planning.</div>
       </div>
       <div class="note-card">
         <div class="note-title">F&B Procurement Specialist</div>
         <div class="note-value" style="font-size:14px; color:var(--yellow)">79% Match</div>
-        <div class="note-meta">Utilizes knowledge of ingredient quality, yield management, and supplier networks.</div>
+        <div class="note-meta">Utilizes knowledge of ingredient quality, yield management, and supplier networks. <br><br> <strong>Matching Skills:</strong> Supply Chain Knowledge, Inventory Control, Negotiation.</div>
       </div>
     </div>
   </div>
@@ -1097,6 +1097,7 @@ function renderIncomeChart(country){
   const svg=document.getElementById('incomeSVG');
   if(!svg)return;
   const pts=buildIncomePoints(country);
+  const salaries=LEVEL_USD[country]||LEVEL_USD.US;
   const TOTAL_YRS=30;
   const W=900,H=240,padL=55,padR=30,padT=24,padB=38;
   svg.setAttribute('height',H);svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
@@ -1120,14 +1121,22 @@ function renderIncomeChart(country){
     html+=`<text x="${xOf(yr)}" y="${H-5}" text-anchor="middle" fill="#555" font-size="10">${lbl}</text>`;
   });
 
-  // Career end divider at yr 30
+  // Career end divider at yr 30 (Task 4 fix)
   html+=`<line x1="${xOf(30)}" y1="${padT}" x2="${xOf(30)}" y2="${H-padB}" stroke="#555" stroke-width="1.5" stroke-dasharray="4,3"/>`;
-  html+=`<text x="${xOf(30)+4}" y="${padT+12}" fill="#666" font-size="9" font-weight="600">CAREER END</text>`;
+  html+=`<text x="${xOf(30)-4}" y="${padT+12}" text-anchor="end" fill="#666" font-size="9" font-weight="600">CAREER END</text>`;
 
   // Career path (yr 0-30)
   let d='';
   pts.forEach((p,i)=>{d+=(i===0?'M':'L')+xOf(p.yr).toFixed(1)+','+yOf(p.sal).toFixed(1);});
   html+=`<path d="${d}" fill="none" stroke="url(#careerGrad)" stroke-width="2.5"/>`;
+
+  // Current salary projection (Task 5)
+  const lvlStart=LEVELS[currentLevel].yearsFrom;
+  const currentSal = pts.find(p => p.yr === lvlStart)?.sal || salaries[currentLevel];
+  const projX1 = xOf(lvlStart);
+  const projX2 = xOf(30);
+  const projY = yOf(currentSal);
+  html += `<line x1="${projX1}" y1="${projY}" x2="${projX2}" y2="${projY}" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,3" opacity="0.8"/>`;
 
   // Dots at career transitions
   const transYears=[0,2,5,8,16,30];
@@ -1141,7 +1150,6 @@ function renderIncomeChart(country){
 
   // Current level band highlight
   const lvlColor=LEVELS[currentLevel].color;
-  const lvlStart=LEVELS[currentLevel].yearsFrom;
   const lvlEnd=currentLevel<4?LEVELS[currentLevel+1].yearsFrom:30;
   const rx1=xOf(lvlStart),rx2=xOf(lvlEnd);
   html=`<defs><linearGradient id="careerGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#4f98a3"/><stop offset="60%" stop-color="#eab308"/><stop offset="100%" stop-color="#22c55e"/></linearGradient></defs><rect x="${rx1}" y="${padT}" width="${rx2-rx1}" height="${cH}" fill="${lvlColor}" opacity="0.07" rx="2"/>`+html;
@@ -1258,6 +1266,13 @@ function renderLang(country){
     'Essential':'llp-essential','Helpful':'llp-helpful','Optional':'llp-optional',
     'Senior Only':'llp-senior','High-end Only':'llp-senior','Regional':'llp-helpful'
   };
+  const LANG_SCORES = {
+    1: 'Elementary',
+    2: 'Limited Working',
+    3: 'Professional Working',
+    4: 'Full Professional',
+    5: 'Native / Bilingual'
+  };
   list.innerHTML=langs.map(l=>`
     <div class="lang-row">
       <div class="lang-name">${l.lang}</div>
@@ -1265,7 +1280,7 @@ function renderLang(country){
       <div class="lang-bar-wrap">
         <div class="lang-bar-track"><div class="lang-bar-fill" style="width:${l.score*20}%"></div></div>
       </div>
-      <div style="font-size:10px;color:var(--text-faint);min-width:30px">${l.score}/5</div>
+      <div style="font-size:10px;color:var(--text-faint);min-width:120px">${LANG_SCORES[l.score] || l.score + '/5'}</div>
     </div>
   `).join('');
 }
@@ -1478,6 +1493,10 @@ function renderLevelLTV(level, country){
   const annualUSD=salaries[level];
   const careerYrs=30;
   const ltv=annualUSD*careerYrs;
+  const maxUSD=salaries[LEVELS.length-1];
+  const peakLTV=maxUSD*careerYrs;
+  const ltvPct=Math.round((ltv/peakLTV)*100);
+
   const safe=Math.round(ltv*(1-c.automationIdx/100));
   const risk=ltv-safe;
   const safePct=Math.round((safe/ltv)*100);
@@ -1490,6 +1509,13 @@ function renderLevelLTV(level, country){
   animNum(document.getElementById('kpi-safe'),0,safe,c.symbol,'');
   animNum(document.getElementById('kpi-risk'),0,risk,c.symbol,'');
   document.getElementById('kpi-ltv-meta').textContent=`${careerYrs} yrs · ${salariesLocal[level]}/yr at ${lvlName}`;
+  
+  // Task 3: Bar under CAREER LTV
+  const barLtv = document.getElementById('bar-ltv');
+  if(barLtv) {
+    barLtv.style.width = ltvPct + '%';
+  }
+
   const segSafe=document.getElementById('seg-safe');
   const segRisk=document.getElementById('seg-risk');
   segSafe.style.width=safePct+'%';
@@ -1516,6 +1542,7 @@ document.getElementById('levelTabs')?.addEventListener('click',e=>{
   renderIncomeChart(currentCountry);
   renderLevelLTV(currentLevel,currentCountry);
   updateLevelPcts(currentCountry);
+  renderRequirementExtensions(currentCountry);
 });
 
 // ── Income % badges on level tabs ─────────────────────────────────────────────
@@ -1525,9 +1552,9 @@ function updateLevelPcts(country){
   LEVELS.forEach((_,i)=>{
     const el=document.getElementById('lpct-'+i);
     if(!el)return;
-    if(i===LEVELS.length-1){el.textContent='Peak';return;}
+    if(i===LEVELS.length-1){el.textContent='Peak LTV';return;}
     const pct=Math.round(salaries[i]/maxSal*100);
-    el.textContent=pct+'% of peak';
+    el.textContent=pct+'% of peak LTV';
   });
 }
 
