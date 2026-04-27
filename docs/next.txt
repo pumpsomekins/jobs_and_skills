@@ -1,14 +1,24 @@
 Target file: The most recently generated file inside the career_data_exports directory.
 Complete all pre-checked tasks strictly:
 
-1. "Dynamically calculate the 'Startup Readiness' score so that it scales positively with the user's selected career level. Instead of using a static percentage from the country data, set a baseline (e.g., Line Cook = base score) and programmatically add a progressive multiplier (e.g., +5% for CDP, +15% for Sous Chef, up to max for Exec Chef). Update the UI element accordingly when the level tab is clicked."
-2. "In the 'Career Economics and Fit' section, inject 2-3 actionable, country-specific external HTML links (e.g., local small business grants, cloud kitchen incubators, or government registries) specifically under the 'Startup Readiness' card. Ensure these links are conditionally rendered and ONLY appear when the user interacts with the startup-related insights, keeping other sections clean."
-3. "Enhance the 'Retirement Planning' data logic to evaluate the selected country's cultural context regarding filial piety (e.g., highly relevant for CN, TW, SG, JP). If the selected country strongly supports this custom, automatically append a specific note about 'Financial and strategic planning for parental care' into the retirement recommendation text."
-4. "Modify the 'Key Connections' note card. Truncate the detailed list of networking targets and replace it with a compelling Call-To-Action (CTA) UI pattern. The text should read: 'Login to unlock your personalized key connection plan and step-by-step outreach strategy'. Make the text visually distinct to encourage conversion."
-5. "Update the 'Hall of Fame' section to be country-aware. Programmatically inject famous chefs relevant to the currently active country tab (e.g., Gordon Ramsay for UK, Alan Wong for US/Global, Nobu Matsuhisa for JP). For each chef, display their estimated net worth (e.g., '$220M' or '$1.1B') next to their name to illustrate the financial ceiling of the profession."
+1. [] "Dynamically calculate the 'Startup Readiness' score so that it scales positively with the user's selected career level. Instead of using a static percentage from the country data, set a baseline (e.g., Line Cook = base score) and programmatically add a progressive multiplier (e.g., +5% for CDP, +15% for Sous Chef, up to max for Exec Chef). Update the UI element accordingly when the level tab is clicked."
+bug: Startup Readiness score does not update when Career Level changes — it only refreshes after toggling the Country selector, causing stale scores to persist.
+2. Career Level — Click to compare salary, LTV & insights the wording change to peak LTV for the number below or the user dont know what peak
+
+3. the bar under the CAREER LTV needs to represent the percentage to peak LTV 
+
+4. the career end of the ANNUAL INCOME CURVE is out of the Chart
+
+5. need to project the Current ANNUAL INCOME for the spefic job level for the rest of the carreer year
+
+6. The 5/5, 3/5, 2/5, etc. under Language Requirements is vague, i dont know what it means, find a way around this
+
+7. Career Recommendations (Based on Skill Set), match on what exactly, the description only says what the potentially
+matching job do
 
 I. Reorder log.md to display the latest log content at the top.
 II. Preserve all original design completely with no modifications.
 III. Do not generate new HTML files. Only perform in-place edits, then rename the file as MMDDYY_TIMERN_model_used (date + timer number separated from model name by underscore).
 IV. Create/update log.md (generate if missing): record all used prompts, external instructions, original filename and new filename.
-V. Once finished, update completion checkmarks for corresponding tasks in next.txt.
+V. Once finished, update completion checkmarks for corresponding tasks in next.txt. DO NOT PLACE CHECKMARKS ON ROMAN NUMBERED ITEMS.
+

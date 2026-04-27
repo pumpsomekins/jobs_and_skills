@@ -15,7 +15,7 @@ curl -s $BASE_URL \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $API_KEY" \
   -d "{
-        \"model\": \"deepseek-chat\",
+        \"model\": \"deepseek-v4-flash\",
         \"messages\": [
           {\"role\": \"user\", \"content\": \"$1\"}
         ],
