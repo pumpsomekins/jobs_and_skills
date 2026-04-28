@@ -1,5 +1,25 @@
 # Skills & Jobs Log
 
+## Log Entry: 2026-04-28 08:25:30
+
+**Prompt Used:** `perform next.txt`
+
+### Instructions (from `next.txt`)
+1. Consistent Color Scaling: Standardize the color palette used to represent data gradients or varying degrees of intensity across the entire site. Ensure that the same semantic color logic (e.g., consistent hues for low/medium/high values) is applied uniformly.
+2. Global Hover States: Identify the CSS transition and hover effects that give the 'Pathways & Access Points' cards their tactile feel. Apply these exact interactive hover styles to all clickable cards globally across the website.
+3. Dynamic MBTI Fit Section: Update the 'MBTI FIT' section to dynamically display a randomly selected MBTI personality type. Include a concise, engaging explanation of why this specific MBTI type aligns well with the featured job. Add login prompt: "Log in to see how your own MBTI type fits this role".
+
+### Changes Made
+- Standardized color scaling across the site. Specifically, updated `CAREER_RECS` data to use a consistent Green (High Match) -> Yellow (Mid Match) -> Orange (Low Match) progression.
+- Applied global hover states to all interactive elements, including `.note-card`, `.insight-card`, `.ltv-card`, `.summary-card`, `.ctab`, `.ltab`, `.filter-pill`, `.industry-pill`, and `.modal-tag`. Unified the transition, transform (translateY), and box-shadow effects to match the tactile feel of the 'Pathways & Access Points' cards.
+- Refactored the MBTI section in `renderRequirementExtensions` to dynamically pick a random MBTI type from a predefined set (ESTP, ISTJ, ENTJ, ISFP, ESFJ, INTJ) with relevant career-fit descriptions. Added a clear call-to-action for users to log in for personalized fit analysis.
+
+### File Transformation
+- **Original:** `042726_071534_claude-sonnet-4-6.html`
+- **Updated:** `042826_082530_gemini-2-0-flash.html`
+
+---
+
 ## Log Entry: 2026-04-27 07:15:34
 
 **Prompt Used:** `do next.txt`

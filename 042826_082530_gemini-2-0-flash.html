@@ -313,14 +313,22 @@ tbody tr.hidden-row{display:none}
 .link-grid-extended{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 @media(max-width:900px){.link-grid-extended{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.link-grid-extended{grid-template-columns:1fr}}
-.link-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;transition:border-color .2s,transform .15s var(--ease)}
-.link-card:hover{border-color:var(--border-hi);transform:translateY(-1px)}
+.link-card, .note-card, .insight-card, .ltv-card, .summary-card, .ctab, .ltab, .filter-pill, .industry-pill, .modal-tag {
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease), box-shadow 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+.link-card:hover, .note-card:hover, .insight-card:hover, .ltv-card:hover, .summary-card:hover, .ctab:hover, .ltab:hover, .filter-pill:hover:not(.active), .industry-pill:hover:not(.active), .modal-tag:hover:not(.sel) {
+  border-color: var(--border-hi);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.link-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px}
 .link-card-title{font-size:12px;font-weight:700;color:#fff;margin-bottom:4px}
 .link-card-desc{font-size:10px;color:var(--text-muted);line-height:1.5}
 .note-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
 @media(max-width:900px){.note-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.note-grid{grid-template-columns:1fr}}
-.note-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px}
+.note-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;position:relative;overflow:hidden}
 .note-title{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
 .note-value{font-family:var(--font-display);font-size:16px;font-weight:800;color:#fff;line-height:1.2;margin-bottom:6px}
 .note-meta{font-size:11px;color:var(--text-muted);line-height:1.55}
@@ -1533,11 +1541,21 @@ function renderRequirementExtensions(country){
       retireMeta += " Parental support potential is shown where culturally applicable.";
     }
 
+    const MBTI_DATA = [
+      { type: 'ESTP', desc: 'The Dynamo. Thrives in fast-paced, high-pressure environments. Excellent at hands-on execution and real-time problem solving on the line.' },
+      { type: 'ISTJ', desc: 'The Inspector. Reliable and meticulous. Ensures absolute consistency in recipes and maintains the highest standards of food safety.' },
+      { type: 'ENTJ', desc: 'The Commander. Natural leaders who can efficiently manage a complex kitchen brigade and drive the restaurant towards strategic goals.' },
+      { type: 'ISFP', desc: 'The Artist. Passionate about culinary aesthetics. Brings creativity and a unique sensory flair to menu development and plating.' },
+      { type: 'ESFJ', desc: 'The Provider. Excellent team players who foster a collaborative kitchen culture and ensure guest satisfaction through service excellence.' },
+      { type: 'INTJ', desc: 'The Architect. Strategic thinkers who excel at kitchen optimization, cost control, and designing efficient operational systems.' }
+    ];
+    const randomMBTI = MBTI_DATA[Math.floor(Math.random() * MBTI_DATA.length)];
+
     notes.innerHTML=`
       <div class="note-card">
-        <div class="note-title">MBTI fit</div>
-        <div class="note-value">Login to see</div>
-        <div class="note-meta">These personality types tend to thrive in kitchen pressure, creative execution, and culinary leadership roles.</div>
+        <div class="note-title">MBTI fit: ${randomMBTI.type}</div>
+        <div class="note-value" style="font-size:14px;color:var(--accent)">Highly Compatible</div>
+        <div class="note-meta">${randomMBTI.desc}<br><br><strong>Log in to see how your own MBTI type fits this role.</strong></div>
       </div>
       <div class="note-card">
         <div class="note-title">Prestige University</div>
@@ -1617,33 +1635,33 @@ function renderLevelLTV(level, country){
 const CAREER_RECS = [
   // Level 0: Line Cook
   [
-    { title:'Kitchen Quality Monitor', match:'76%', color:'var(--accent)', desc:'Inspect food prep standards, portion accuracy, and safety compliance on the line.', skills:['Food Safety Awareness','Temperature Control'] },
-    { title:'Catering Production Staff', match:'71%', color:'var(--green)', desc:'Execute large-batch food production; leverages station discipline and consistency.', skills:['Station Management','Speed & Consistency'] },
-    { title:'Food Prep Trainer', match:'65%', color:'var(--yellow)', desc:'Onboard new kitchen staff on safe food handling, basic knife skills, and prep routines.', skills:['Knife Skills','Ingredient Handling'] }
+    { title:'Kitchen Quality Monitor', match:'76%', color:'var(--green)', desc:'Inspect food prep standards, portion accuracy, and safety compliance on the line.', skills:['Food Safety Awareness','Temperature Control'] },
+    { title:'Catering Production Staff', match:'71%', color:'var(--yellow)', desc:'Execute large-batch food production; leverages station discipline and consistency.', skills:['Station Management','Speed & Consistency'] },
+    { title:'Food Prep Trainer', match:'65%', color:'var(--orange)', desc:'Onboard new kitchen staff on safe food handling, basic knife skills, and prep routines.', skills:['Knife Skills','Ingredient Handling'] }
   ],
   // Level 1: Chef de Partie
   [
-    { title:'Recipe Testing Technician', match:'83%', color:'var(--accent)', desc:'Support R&D teams testing and refining dishes; leverages sensory sharpness and station mastery.', skills:['Sensory Evaluation','Mise en Place Mastery'] },
-    { title:'Catering Supervisor', match:'78%', color:'var(--green)', desc:'Lead a team for events and large service operations; leverages coordination and quality awareness.', skills:['Team Coordination','Quality Awareness'] },
-    { title:'Production Kitchen Lead', match:'72%', color:'var(--yellow)', desc:'Oversee batch production for central kitchens; leverages timing and station leadership.', skills:['Station Leadership','Time Management'] }
+    { title:'Recipe Testing Technician', match:'83%', color:'var(--green)', desc:'Support R&D teams testing and refining dishes; leverages sensory sharpness and station mastery.', skills:['Sensory Evaluation','Mise en Place Mastery'] },
+    { title:'Catering Supervisor', match:'78%', color:'var(--yellow)', desc:'Lead a team for events and large service operations; leverages coordination and quality awareness.', skills:['Team Coordination','Quality Awareness'] },
+    { title:'Production Kitchen Lead', match:'72%', color:'var(--orange)', desc:'Oversee batch production for central kitchens; leverages timing and station leadership.', skills:['Station Leadership','Time Management'] }
   ],
   // Level 2: Sous Chef
   [
-    { title:'Food Technologist (R&D)', match:'88%', color:'var(--accent)', desc:'Focus on sensory evaluation, recipe scaling, and food chemistry. High growth, lower physical strain.', skills:['Recipe Development','Quality Control'] },
-    { title:'Event Operations Manager', match:'82%', color:'var(--green)', desc:'Leverages high-pressure coordination, vendor management, and timing logistics.', skills:['Staff Supervision','Cost Management'] },
-    { title:'F&B Procurement Analyst', match:'76%', color:'var(--yellow)', desc:'Utilizes knowledge of ingredient quality, yield management, and supplier networks.', skills:['Inventory Control','Supplier Knowledge'] }
+    { title:'Food Technologist (R&D)', match:'88%', color:'var(--green)', desc:'Focus on sensory evaluation, recipe scaling, and food chemistry. High growth, lower physical strain.', skills:['Recipe Development','Quality Control'] },
+    { title:'Event Operations Manager', match:'82%', color:'var(--yellow)', desc:'Leverages high-pressure coordination, vendor management, and timing logistics.', skills:['Staff Supervision','Cost Management'] },
+    { title:'F&B Procurement Analyst', match:'76%', color:'var(--orange)', desc:'Utilizes knowledge of ingredient quality, yield management, and supplier networks.', skills:['Inventory Control','Supplier Knowledge'] }
   ],
   // Level 3: Head Chef
   [
-    { title:'F&B Operations Manager', match:'90%', color:'var(--accent)', desc:'Oversee multi-venue food and beverage operations; leverages budget, team, and menu mastery.', skills:['Budget Control','Team Management'] },
-    { title:'Event Operations Manager', match:'85%', color:'var(--green)', desc:'Leverages crisis management, vendor coordination, and large-scale event logistics.', skills:['Crisis Management','Logistics Planning'] },
-    { title:'F&B Procurement Specialist', match:'80%', color:'var(--yellow)', desc:'Utilizes deep knowledge of suppliers, ingredient quality, and yield optimisation.', skills:['Supply Chain Knowledge','Negotiation'] }
+    { title:'F&B Operations Manager', match:'90%', color:'var(--green)', desc:'Oversee multi-venue food and beverage operations; leverages budget, team, and menu mastery.', skills:['Budget Control','Team Management'] },
+    { title:'Event Operations Manager', match:'85%', color:'var(--yellow)', desc:'Leverages crisis management, vendor coordination, and large-scale event logistics.', skills:['Crisis Management','Logistics Planning'] },
+    { title:'F&B Procurement Specialist', match:'80%', color:'var(--orange)', desc:'Utilizes deep knowledge of suppliers, ingredient quality, and yield optimisation.', skills:['Supply Chain Knowledge','Negotiation'] }
   ],
   // Level 4: Executive Chef
   [
-    { title:'F&B Director', match:'93%', color:'var(--accent)', desc:'Lead entire food and beverage strategy for multi-outlet properties; highest executive transition.', skills:['Strategic Planning','Brand Building'] },
-    { title:'Food Innovation Consultant', match:'88%', color:'var(--green)', desc:'Advise food companies on menu trends, product development, and culinary innovation.', skills:['Culinary Expertise','Market Analysis'] },
-    { title:'Culinary Program Director', match:'82%', color:'var(--yellow)', desc:'Lead culinary school or corporate training program; leverages expertise depth and leadership.', skills:['Training Design','Leadership'] }
+    { title:'F&B Director', match:'93%', color:'var(--green)', desc:'Lead entire food and beverage strategy for multi-outlet properties; highest executive transition.', skills:['Strategic Planning','Brand Building'] },
+    { title:'Food Innovation Consultant', match:'88%', color:'var(--yellow)', desc:'Advise food companies on menu trends, product development, and culinary innovation.', skills:['Culinary Expertise','Market Analysis'] },
+    { title:'Culinary Program Director', match:'82%', color:'var(--orange)', desc:'Lead culinary school or corporate training program; leverages expertise depth and leadership.', skills:['Training Design','Leadership'] }
   ]
 ];
 
