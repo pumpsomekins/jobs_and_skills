@@ -1030,7 +1030,7 @@ const CITY_DATA={
   CN:[{city:'Shanghai',region:'East',salary:30000,cost:105},{city:'Beijing',region:'North',salary:28000,cost:100},{city:'Shenzhen',region:'South',salary:28000,cost:98},{city:'Guangzhou',region:'South',salary:24000,cost:85},{city:'Chengdu',region:'Southwest',salary:18000,cost:65},{city:'Chongqing',region:'Southwest',salary:17000,cost:60},{city:'Wuhan',region:'Central',salary:16000,cost:58},{city:"Xi'an",region:'Northwest',salary:14000,cost:52}]
 };
 const COUNTRY_META={
-  US:{difficulty:8,restDays:10,hoursPerDay:10.5,splitShift:true,bestLearnAge:'17–22',bestEntryAge:'19–25',cert:'ServSafe · CIA degree optional',travel:'Low',mobility:'High',expression:'High'},
+  US:{difficulty:8,restDays:10,hoursPerDay:10.5,splitShift:true,bestLearnAge:'17–22',bestEntryAge:'19–25',cert:'ServSafe · CIA Degree Optional',travel:'Low',mobility:'High',expression:'High'},
   UK:{difficulty:8,restDays:15,hoursPerDay:10,splitShift:true,bestLearnAge:'16–21',bestEntryAge:'18–24',cert:'Level 2/3 Food Safety · NVQ',travel:'Low',mobility:'High',expression:'High'},
   AU:{difficulty:7,restDays:20,hoursPerDay:9.5,splitShift:false,bestLearnAge:'17–22',bestEntryAge:'19–25',cert:'SITXFSA006 · Certificate III Hospitality',travel:'Low',mobility:'High',expression:'High'},
   DE:{difficulty:7,restDays:25,hoursPerDay:9,splitShift:false,bestLearnAge:'16–20',bestEntryAge:'18–23',cert:'Ausbildung Koch (3 yrs IHK apprentice)',travel:'Low',mobility:'High',expression:'Moderate'},
@@ -1039,15 +1039,111 @@ const COUNTRY_META={
   TW:{difficulty:8,restDays:12,hoursPerDay:10,splitShift:true,bestLearnAge:'17–22',bestEntryAge:'19–25',cert:'廚師證照 Level 1–3 · 餐飲管理學位',travel:'Low',mobility:'High',expression:'Moderate'},
   CN:{difficulty:9,restDays:7,hoursPerDay:11.5,splitShift:true,bestLearnAge:'16–21',bestEntryAge:'18–24',cert:'中式烹飪師 (初/中/高級) · 廚師職業資格証',travel:'Low',mobility:'High',expression:'High'}
 };
-const EXTRA_META={
-  US:{budget:'$450/mo',hnwi:'Private clubs · resort dining · estate chef ladder',startup:'68% readiness',mbti:'ESTP · ISTJ · ENTJ',uni:'Not required',uniMeta:'Prestige helps less than Michelin-grade references and consistency under service pressure.',privateSchool:'Useful but debt-sensitive',privateMeta:'Private culinary school helps with network and polish, but line experience still wins in many kitchens.',schools:'CIA · Johnson & Wales · Kendall',retire:'Best later-career exits: corporate dining leadership, instructor roles, private chef work, product R&D.',pivot:'Best pivot set: estate chef, kitchen ops consultant, content/demo chef.'},
-  UK:{budget:'£260/mo',hnwi:'Hotels · members clubs · private events',startup:'54% readiness',mbti:'ISTJ · ESTJ · ENTJ',uni:'Optional',uniMeta:'Hospitality pedigree matters in some London groups, but references and practical output dominate.',privateSchool:'Helpful for placement',privateMeta:'Private schools can speed early placement, but apprenticeship kitchens still carry more weight long term.',schools:'Westminster Kingsway · Le Cordon Bleu London · University College Birmingham',retire:'Best later-career exits: hotel training, F&B management, consultancy, premium catering.',pivot:'Best pivot set: members-club chef, luxury catering lead, compliance trainer.'},
-  AU:{budget:'A$420/mo',hnwi:'Resorts · wine regions · premium tourism',startup:'72% readiness',mbti:'ESTP · ENTJ · ISTJ',uni:'Optional',uniMeta:'TAFE and real kitchen output usually matter more than elite university branding.',privateSchool:'Often practical',privateMeta:'Private programs can be useful when tied to placement, but should not replace live service volume.',schools:'Le Cordon Bleu Melbourne · William Angliss · TAFE NSW Hospitality',retire:'Best later-career exits: catering operator, venue manager, hospitality trainer, food business owner.',pivot:'Best pivot set: private dining operator, venue consultant, regional culinary trainer.'},
-  DE:{budget:'€220/mo',hnwi:'Luxury hotels · old-money dining · cruise / resort paths',startup:'49% readiness',mbti:'ISTJ · INTJ · ESTJ',uni:'Usually not required',uniMeta:'Formal training structure matters more than prestige university signaling.',privateSchool:'Apprenticeship usually stronger',privateMeta:'The apprenticeship route is often more trusted than expensive private alternatives.',schools:'Culinary schools tied to IHK tracks · Hotelfachschule Heidelberg · DHBW hospitality routes',retire:'Best later-career exits: training kitchens, hotel operations, procurement and food safety roles.',pivot:'Best pivot set: food safety lead, hotel trainer, procurement specialist.'},
-  JP:{budget:'¥45,000/mo',hnwi:'Omakase · ryokan · private invitation dining',startup:'46% readiness',mbti:'ISTJ · INTJ · ISFJ',uni:'Not required',uniMeta:'Lineage, discipline, and master-apprentice credibility matter more than elite university names.',privateSchool:'Can help, lineage stronger',privateMeta:'School can open doors, but hierarchy and apprenticeship quality remain the stronger signal.',schools:'Tsuji Culinary Institute · Hattori Nutrition College · Tokyo Seika',retire:'Best later-career exits: teaching, quality control, supplier advisory, small-format premium dining. Includes potential for parental retirement support.',pivot:'Best pivot set: luxury counter chef, QA/standards lead, craft instructor.'},
-  SG:{budget:'S$420/mo',hnwi:'Luxury hotels · expat clients · regional affluent events',startup:'76% readiness',mbti:'ENTJ · ESTJ · ESTP',uni:'Useful but optional',uniMeta:'Prestige helps in hotel groups, but multilingual polish and operational discipline matter more.',privateSchool:'Useful if placement-led',privateMeta:'Private training is most useful when tied to brand-name hotel placement and language advantage.',schools:'At-Sunrice · SHATEC · Temasek hospitality tracks',retire:'Best later-career exits: consulting, regional training, private dining, multi-outlet oversight. Includes potential for parental retirement support.',pivot:'Best pivot set: cloud-kitchen founder, private dining operator, regional trainer.'},
-  TW:{budget:'NT$8,000/mo',hnwi:'Private banquets · boutique hospitality · luxury clubs',startup:'57% readiness',mbti:'ISTJ · ESTP · ENTJ',uni:'Optional',uniMeta:'Prestige matters less than bilingual service quality and steady kitchen reputation.',privateSchool:'Selective value',privateMeta:'Private school can help with early access, but consistent kitchen output remains the strongest signal.',schools:'國立高雄餐旅大學 · 景文科大餐飲系 · 實踐大學 hospitality tracks',retire:'Best later-career exits: banquet operations, culinary teaching, central kitchen roles. Includes potential for parental retirement support.',pivot:'Best pivot set: banquet lead, product testing, kitchen standards consultant.'},
-  CN:{budget:'¥1,800/mo',hnwi:'Luxury banquets · private rooms · club kitchens',startup:'61% readiness',mbti:'ISTJ · ESTP · ENTJ',uni:'Not required',uniMeta:'Brand-name university is much less important than apprenticeship pedigree, execution, and network.',privateSchool:'Mixed value',privateMeta:'Private culinary schools can speed placement, but live kitchen references usually outrank tuition branding.',schools:'Le Cordon Bleu Shanghai · SICA · Shanghai Business & Tourism',retire:'Best later-career exits: training manager, central kitchen leader, private chef, culinary lecturer. Includes potential for parental retirement support.',pivot:'Best pivot set: private household chef, SOP consultant, flavor/product R&D.'}
+const EXTRA_META = {
+  US: {
+    budget: '$450/mo',
+    hnwi: 'Private Clubs · Resort Dining · Estate Chef Ladder',
+    startup: '68% readiness',
+    mbti: 'ESTP · ISTJ · ENTJ',
+    uni: 'Not required',
+    uniMeta: 'Prestige helps less than Michelin-grade references and consistency under service pressure.',
+    privateSchool: 'Useful but debt-sensitive',
+    privateMeta: 'Private culinary school helps with network and polish, but line experience still wins in many kitchens.',
+    schools: 'CIA · Johnson & Wales · Kendall',
+    retire: 'Best Later-Career Exits: corporate Dining Leadership, Instructor Roles, private Chef Work, Product R&D.',
+    pivot: 'Best Pivot Set: Estate Chef, Kitchen Ops Consultant, Content/Demo Chef.'
+  },
+  UK: {
+    budget: '£260/mo',
+    hnwi: 'Hotels · Members Clubs · Private Events',
+    startup: '54% readiness',
+    mbti: 'ISTJ · ESTJ · ENTJ',
+    uni: 'Optional',
+    uniMeta: 'Hospitality pedigree matters in some London groups, but references and practical output dominate.',
+    privateSchool: 'Helpful for placement',
+    privateMeta: 'Private schools can speed early placement, but apprenticeship kitchens still carry more weight long term.',
+    schools: 'Westminster Kingsway · Le Cordon Bleu London · University College Birmingham',
+    retire: 'Best Later-Career Exits: Hotel Training, F&B Management, Consultancy, premium Catering.',
+    pivot: 'Best Pivot Set: Members-Club Chef, Luxury Catering Lead, Compliance Trainer.'
+  },
+  AU: {
+    budget: 'A$420/mo',
+    hnwi: 'Resorts · Wine Regions · Premium Tourism',
+    startup: '72% readiness',
+    mbti: 'ESTP · ENTJ · ISTJ',
+    uni: 'Optional',
+    uniMeta: 'TAFE and real kitchen output usually matter more than elite university branding.',
+    privateSchool: 'Often practical',
+    privateMeta: 'Private programs can be useful when tied to placement, but should not replace live service volume.',
+    schools: 'Le Cordon Bleu Melbourne · William Angliss · TAFE NSW Hospitality',
+    retire: 'Best Later-Career Exits: Catering Operator, Venue Manager, Hospitality Trainer, Food Business Owner.',
+    pivot: 'Best Pivot Set: private Dining Operator, Venue Consultant, regional culinary Trainer.'
+  },
+  DE: {
+    budget: '€220/mo',
+    hnwi: 'Luxury Hotels · Old-money Dining · Cruise / Resort Paths',
+    startup: '49% readiness',
+    mbti: 'ISTJ · INTJ · ESTJ',
+    uni: 'Usually not required',
+    uniMeta: 'Formal training structure matters more than prestige university signaling.',
+    privateSchool: 'Apprenticeship usually stronger',
+    privateMeta: 'The apprenticeship route is often more trusted than expensive private alternatives.',
+    schools: 'Culinary schools tied to IHK tracks · Hotelfachschule Heidelberg · DHBW hospitality routes',
+    retire: 'Best Later-Career Exits: Training Kitchens, Hotel Operations, Procurement and Food Safety Roles.',
+    pivot: 'Best Pivot Set: Food Safety Lead, Hotel Trainer, Procurement Specialist.'
+  },
+  JP: {
+    budget: '¥45,000/mo',
+    hnwi: 'Omakase · Ryokan · Private Invitation Dining',
+    startup: '46% readiness',
+    mbti: 'ISTJ · INTJ · ISFJ',
+    uni: 'Not required',
+    uniMeta: 'Lineage, discipline, and master-apprentice credibility matter more than elite university names.',
+    privateSchool: 'Can help, lineage stronger',
+    privateMeta: 'School can open doors, but hierarchy and apprenticeship quality remain the stronger signal.',
+    schools: 'Tsuji Culinary Institute · Hattori Nutrition College · Tokyo Seika',
+    retire: 'Best Later-Career Exits: Teaching, Quality Control, Supplier Advisory, Small-Format premium Dining. Includes Potential for parental Retirement Support.',
+    pivot: 'Best Pivot Set: Luxury Counter Chef, QA/Standards Lead, Craft Instructor.'
+  },
+  SG: {
+    budget: 'S$420/mo',
+    hnwi: 'Luxury Hotels · Expat Clients · Regional Affluent Events',
+    startup: '76% readiness',
+    mbti: 'ENTJ · ESTJ · ESTP',
+    uni: 'Useful but optional',
+    uniMeta: 'Prestige helps in hotel groups, but multilingual polish and operational discipline matter more.',
+    privateSchool: 'Useful if placement-led',
+    privateMeta: 'Private training is most useful when tied to brand-name hotel placement and language advantage.',
+    schools: 'At-Sunrice · SHATEC · Temasek hospitality tracks',
+    retire: 'Best Later-Career Exits: Consulting, regional Training, private Dining, Multi-Outlet Oversight. Includes Potential for parental Retirement Support.',
+    pivot: 'Best Pivot Set: Cloud-Kitchen Founder, private Dining Operator, regional Trainer.'
+  },
+  TW: {
+    budget: 'NT$8,000/mo',
+    hnwi: 'Private Banquets · Boutique Hospitality · Luxury Clubs',
+    startup: '57% readiness',
+    mbti: 'ISTJ · ESTP · ENTJ',
+    uni: 'Optional',
+    uniMeta: 'Prestige matters less than bilingual service quality and steady kitchen reputation.',
+    privateSchool: 'Selective value',
+    privateMeta: 'Private school can help with early access, but consistent kitchen output remains the strongest signal.',
+    schools: '國立高雄餐旅大學 · 景文科大餐飲系 · 實踐大學 hospitality tracks',
+    retire: 'Best Later-Career Exits: Banquet Operations, culinary Teaching, central Kitchen Roles. Includes Potential for parental Retirement Support.',
+    pivot: 'Best Pivot Set: Banquet Lead, Product Testing, Kitchen Standards Consultant.'
+  },
+  CN: {
+    budget: '¥1,800/mo',
+    hnwi: 'Luxury Banquets · Private Rooms · Club Kitchens',
+    startup: '61% readiness',
+    mbti: 'ISTJ · ESTP · ENTJ',
+    uni: 'Not required',
+    uniMeta: 'Brand-name university is much less important than apprenticeship pedigree, execution, and network.',
+    privateSchool: 'Mixed value',
+    privateMeta: 'Private culinary schools can speed placement, but live kitchen references usually outrank tuition branding.',
+    schools: 'Le Cordon Bleu Shanghai · SICA · Shanghai Business & Tourism',
+    retire: 'Best Later-Career Exits: Training Manager, central Kitchen Leader, private Chef, culinary Lecturer. Includes Potential for parental Retirement Support.',
+    pivot: 'Best Pivot Set: private Household Chef, SOP Consultant, Flavor/Product R&D.'
+  }
 };
 const ACCESS_LINKS=[
   {title:'Training & Courses',desc:'Online platforms and culinary schools — Coursera, Rouxbe, Le Cordon Bleu, and local academies'},

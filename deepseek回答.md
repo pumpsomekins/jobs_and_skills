@@ -1,10 +1,3362 @@
-1. 命中缓存(AI API USING CACHE HIT)
-2. COZE
-3. 大模型生成成本对比
-4. 中转站
-5. DeepSeek V4 CLI
-6. Hermes
-7. SKILL（AI SKILL)
-8. 龙虾(OPENCLAW)
-9. 我的世界AI
-10. 美国工作流
+Here's the fully edited HTML code with Title Case applied to all primary headings, hero text, and main visual titles, while secondary text remains in sentence case.
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Career Intelligence Hub – Chef</title>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=cabinet-grotesk@800&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+        :root {
+            --bg: #0e0e0e;
+            --surface: #161616;
+            --surface-2: #1c1c1c;
+            --surface-3: #222;
+            --border: #2a2a2a;
+            --border-hi: #363636;
+            --text: #e2e2e2;
+            --text-muted: #888;
+            --text-faint: #444;
+            --green: #22c55e;
+            --yellow: #eab308;
+            --orange: #f97316;
+            --red: #ef4444;
+            --accent: #4f98a3;
+            --accent-hover: #60b8c4;
+            --font-body: 'Satoshi', 'Inter', sans-serif;
+            --font-display: 'Cabinet Grotesk', 'Satoshi', sans-serif;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+        }
+        html {
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.6;
+            min-height: 100dvh
+        }
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font: inherit
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, .05) 2px, rgba(0, 0, 0, .05) 4px);
+            pointer-events: none;
+            z-index: 0
+        }
+
+        /* Layout */
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 36px 24px 80px
+        }
+        @media(max-width:768px) {
+            .page {
+                padding: 20px 14px 60px
+            }
+        }
+
+        /* ── Industry Tags ── */
+        .industry-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 14px
+        }
+        .industry-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .04em;
+            border: 1px solid var(--border-hi);
+            color: var(--text-faint);
+            cursor: pointer;
+            transition: all .18s var(--ease);
+            white-space: nowrap
+        }
+        .industry-pill:hover {
+            color: var(--text-muted);
+            border-color: var(--text-faint)
+        }
+        .industry-pill.active {
+            color: #fff;
+            border-color: transparent;
+            background: var(--surface-3)
+        }
+        .industry-pill .ind-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: currentColor;
+            flex-shrink: 0;
+            opacity: .7
+        }
+
+        /* ── Header ── */
+        .header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 28px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid var(--border)
+        }
+        .header-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: color-mix(in oklch, var(--accent) 12%, transparent);
+            border: 1px solid color-mix(in oklch, var(--accent) 30%, transparent);
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-bottom: 10px
+        }
+        .header-tag .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse 2s ease-in-out infinite
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1
+            }
+            50% {
+                opacity: .35
+            }
+        }
+        .page-title {
+            font-family: var(--font-display);
+            font-size: clamp(22px, 4vw, 32px);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 6px;
+            letter-spacing: -.01em
+        }
+        .page-subtitle {
+            font-size: 12px;
+            color: var(--text-muted)
+        }
+        .page-subtitle span {
+            color: var(--accent);
+            font-size: 11px;
+            font-family: monospace
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            padding-top: 2px
+        }
+        .btn-subscribe {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .02em;
+            background: var(--accent);
+            color: #fff;
+            transition: background .18s var(--ease), transform .15s, box-shadow .18s var(--ease)
+        }
+        .btn-subscribe:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px color-mix(in oklch, var(--accent) 35%, transparent)
+        }
+        .btn-subscribe svg {
+            width: 14px;
+            height: 14px
+        }
+
+        /* ── Country Tabs ── */
+        .country-section {
+            margin-bottom: 20px
+        }
+        .country-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 10px
+        }
+        .country-tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+        .ctab {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 13px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-hi);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all .18s var(--ease);
+            white-space: nowrap;
+            position: relative
+        }
+        .ctab:hover {
+            border-color: var(--text-faint);
+            color: var(--text)
+        }
+        .ctab.active {
+            background: var(--surface-2);
+            border-color: var(--accent);
+            color: #fff
+        }
+        .ctab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--accent)
+        }
+        .ctab .flag {
+            font-size: 14px;
+            line-height: 1
+        }
+        .ctab .cname {
+            font-size: 11px
+        }
+        .ctab .crisk {
+            font-size: 10px;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-weight: 700;
+            margin-left: 2px
+        }
+        .crisk.fast {
+            background: color-mix(in oklch, var(--red) 18%, transparent);
+            color: var(--red);
+            border: 1px solid color-mix(in oklch, var(--red) 30%, transparent)
+        }
+        .crisk.mid {
+            background: color-mix(in oklch, var(--yellow) 14%, transparent);
+            color: var(--yellow);
+            border: 1px solid color-mix(in oklch, var(--yellow) 25%, transparent)
+        }
+        .crisk.slow {
+            background: color-mix(in oklch, var(--green) 14%, transparent);
+            color: var(--green);
+            border: 1px solid color-mix(in oklch, var(--green) 25%, transparent)
+        }
+
+        /* ── LTV Section ── */
+        .ltv-section {
+            margin-bottom: 28px
+        }
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 14px
+        }
+        .ltv-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 12px
+        }
+        @media(max-width:1000px) {
+            .ltv-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+        }
+        @media(max-width:600px) {
+            .ltv-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        .ltv-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px 18px 14px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color .2s, box-shadow .2s var(--ease)
+        }
+        .ltv-card:hover {
+            border-color: var(--border-hi);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .35)
+        }
+        .ltv-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, var(--glow, transparent) 0%, transparent 70%);
+            pointer-events: none;
+            opacity: .5
+        }
+        .ltv-card.c-total {
+            --glow: color-mix(in oklch, var(--accent) 15%, transparent)
+        }
+        .ltv-card.c-safe {
+            --glow: color-mix(in oklch, var(--green) 12%, transparent)
+        }
+        .ltv-card.c-risk {
+            --glow: color-mix(in oklch, var(--red) 12%, transparent)
+        }
+        .ltv-card.c-idx {
+            --glow: color-mix(in oklch, var(--yellow) 12%, transparent)
+        }
+        .ltv-card.c-age {
+            --glow: color-mix(in oklch, var(--orange) 12%, transparent)
+        }
+        .ltv-lbl {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px
+        }
+        .ltv-val {
+            font-family: var(--font-display);
+            font-size: clamp(20px, 2.5vw, 28px);
+            font-weight: 800;
+            letter-spacing: -.02em;
+            line-height: 1;
+            margin-bottom: 4px
+        }
+        .cl-total {
+            color: #fff
+        }
+        .cl-safe {
+            color: var(--green)
+        }
+        .cl-risk {
+            color: var(--red)
+        }
+        .cl-idx {
+            color: var(--yellow)
+        }
+        .cl-age {
+            color: var(--orange)
+        }
+        .ltv-meta {
+            font-size: 10px;
+            color: var(--text-faint);
+            line-height: 1.4
+        }
+        .ltv-bar {
+            height: 3px;
+            background: var(--border);
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden
+        }
+        .ltv-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 1.4s var(--ease)
+        }
+
+        /* age timeline */
+        .age-timeline {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px
+        }
+        .age-seg {
+            height: 4px;
+            border-radius: 2px;
+            transition: width .8s var(--ease)
+        }
+        .age-seg.safe-seg {
+            background: var(--green);
+            flex: 1
+        }
+        .age-seg.risk-seg {
+            background: var(--orange);
+            flex-shrink: 0
+        }
+        .age-pins {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3px
+        }
+        .age-pin {
+            font-size: 9px;
+            color: var(--text-faint)
+        }
+        .age-pin.risk-pin {
+            color: var(--orange);
+            font-weight: 700
+        }
+
+        /* ── LTV Breakdown bar ── */
+        .ltv-chart-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px 22px;
+            margin-bottom: 12px
+        }
+        .ltv-chart-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            margin-bottom: 12px
+        }
+        .ltv-breakdown {
+            display: flex;
+            gap: 0;
+            height: 24px;
+            border-radius: 4px;
+            overflow: hidden
+        }
+        .ltv-seg {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .04em;
+            transition: width 1.2s var(--ease);
+            white-space: nowrap;
+            overflow: hidden
+        }
+        .ltv-seg.seg-safe {
+            background: color-mix(in oklch, var(--green) 28%, transparent);
+            border: 1px solid var(--green);
+            color: var(--green)
+        }
+        .ltv-seg.seg-risk {
+            background: color-mix(in oklch, var(--red) 18%, transparent);
+            border: 1px solid var(--red);
+            border-left: none;
+            color: var(--red)
+        }
+        .ltv-legend {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+            flex-wrap: wrap
+        }
+        .ltv-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            color: var(--text-muted)
+        }
+        .ltv-legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            flex-shrink: 0
+        }
+
+        /* ── Car Visualization ── */
+        .car-viz {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px 22px
+        }
+        .car-viz-header {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 4px;
+            flex-wrap: wrap
+        }
+        .car-viz-eq {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--text-faint)
+        }
+        .car-viz-val {
+            font-family: var(--font-display);
+            font-size: clamp(18px, 3vw, 26px);
+            font-weight: 800;
+            color: #fff;
+            transition: all .3s var(--ease)
+        }
+        .car-viz-val span {
+            color: var(--accent)
+        }
+        .car-viz-sub {
+            font-size: 11px;
+            color: var(--text-faint);
+            margin-bottom: 16px
+        }
+        .car-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 10px;
+            min-height: 60px
+        }
+        .car-icon {
+            width: 38px;
+            height: 22px;
+            flex-shrink: 0;
+            transition: opacity .3s var(--ease), transform .3s var(--ease)
+        }
+        .car-icon.safe-car {
+            color: var(--green);
+            opacity: .85
+        }
+        .car-icon.risk-car {
+            color: var(--red);
+            opacity: .55
+        }
+        .car-legend {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap
+        }
+        .car-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            color: var(--text-muted)
+        }
+        .car-legend-swatch {
+            width: 24px;
+            height: 10px;
+            border-radius: 2px
+        }
+        .car-legend-swatch.safe {
+            background: color-mix(in oklch, var(--green) 35%, transparent);
+            border: 1px solid var(--green)
+        }
+        .car-legend-swatch.risk {
+            background: color-mix(in oklch, var(--red) 25%, transparent);
+            border: 1px solid var(--red)
+        }
+
+        /* ── Filters ── */
+        .filters-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+            flex-wrap: wrap
+        }
+        .filters-left {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            flex-wrap: wrap
+        }
+        .filter-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 11px;
+            border-radius: 4px;
+            border: 1px solid var(--border-hi);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .04em;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all .15s var(--ease)
+        }
+        .filter-pill.active,
+        .filter-pill:hover {
+            color: #fff;
+            border-color: transparent
+        }
+        .filter-pill.all.active {
+            background: #fff2;
+            color: #fff
+        }
+        .filter-pill.gf.active {
+            background: color-mix(in oklch, var(--green) 22%, transparent);
+            border-color: var(--green);
+            color: var(--green)
+        }
+        .filter-pill.yf.active {
+            background: color-mix(in oklch, var(--yellow) 18%, transparent);
+            border-color: var(--yellow);
+            color: var(--yellow)
+        }
+        .filter-pill.of.active {
+            background: color-mix(in oklch, var(--orange) 18%, transparent);
+            border-color: var(--orange);
+            color: var(--orange)
+        }
+        .filter-pill.rf.active {
+            background: color-mix(in oklch, var(--red) 16%, transparent);
+            border-color: var(--red);
+            color: var(--red)
+        }
+        .filter-pill .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: currentColor
+        }
+
+        /* ── Table ── */
+        .table-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden
+        }
+        .table-scroll {
+            overflow-x: auto
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 780px
+        }
+        thead {
+            background: var(--surface-2)
+        }
+        th {
+            padding: 11px 16px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap
+        }
+        th:not(:last-child) {
+            border-right: 1px solid var(--border)
+        }
+        td {
+            padding: 13px 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle
+        }
+        td:not(:last-child) {
+            border-right: 1px solid var(--border)
+        }
+        tr:last-child td {
+            border-bottom: none
+        }
+        tbody tr {
+            transition: background .15s var(--ease)
+        }
+        tbody tr:hover {
+            background: var(--surface-2)
+        }
+        tbody tr.hidden-row {
+            display: none
+        }
+        .col-action {
+            font-weight: 600;
+            font-size: 14px;
+            color: #fff;
+            white-space: nowrap
+        }
+        .col-human,
+        .col-ai {
+            font-size: 12px;
+            max-width: 200px
+        }
+        .col-human {
+            color: var(--text-muted)
+        }
+        .col-ai {
+            color: #7fb3d3
+        }
+        .bar-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 130px
+        }
+        .bar-track {
+            width: 100%;
+            background: var(--border);
+            border-radius: 2px;
+            height: 5px;
+            overflow: hidden
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 1.2s var(--ease)
+        }
+        .bar-lbl {
+            font-size: 10px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between
+        }
+        .bar-lbl span:last-child {
+            font-weight: 700;
+            color: var(--text)
+        }
+        .ltv-chip {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 7px;
+            border-radius: 3px;
+            letter-spacing: .03em;
+            white-space: nowrap
+        }
+        .ltv-chip.safe {
+            background: color-mix(in oklch, var(--green) 14%, transparent);
+            color: var(--green);
+            border: 1px solid color-mix(in oklch, var(--green) 28%, transparent)
+        }
+        .ltv-chip.partial {
+            background: color-mix(in oklch, var(--yellow) 12%, transparent);
+            color: var(--yellow);
+            border: 1px solid color-mix(in oklch, var(--yellow) 22%, transparent)
+        }
+        .ltv-chip.risk {
+            background: color-mix(in oklch, var(--red) 12%, transparent);
+            color: var(--red);
+            border: 1px solid color-mix(in oklch, var(--red) 22%, transparent)
+        }
+        .eta-badge {
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap
+        }
+        .eta-soon {
+            color: var(--orange)
+        }
+        .eta-mid {
+            color: var(--yellow)
+        }
+        .eta-far {
+            color: var(--green)
+        }
+        .eta-prot {
+            color: var(--accent)
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 9px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            white-space: nowrap
+        }
+        .status-badge .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: currentColor;
+            flex-shrink: 0
+        }
+        .b-play {
+            background: color-mix(in oklch, var(--green) 16%, transparent);
+            color: var(--green);
+            border: 1px solid color-mix(in oklch, var(--green) 30%, transparent)
+        }
+        .b-ing {
+            background: color-mix(in oklch, var(--yellow) 13%, transparent);
+            color: var(--yellow);
+            border: 1px solid color-mix(in oklch, var(--yellow) 25%, transparent)
+        }
+        .b-intro {
+            background: color-mix(in oklch, var(--orange) 14%, transparent);
+            color: var(--orange);
+            border: 1px solid color-mix(in oklch, var(--orange) 28%, transparent)
+        }
+        .b-none {
+            background: color-mix(in oklch, var(--red) 13%, transparent);
+            color: var(--red);
+            border: 1px solid color-mix(in oklch, var(--red) 25%, transparent)
+        }
+
+        /* Summary */
+        .summary-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 12px
+        }
+        @media(max-width:640px) {
+            .summary-row {
+                grid-template-columns: 1fr
+            }
+        }
+        .summary-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            font-size: 12px;
+            color: var(--text-muted)
+        }
+        .summary-card strong {
+            color: var(--text);
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 3px
+        }
+        .footnote {
+            margin-top: 12px;
+            font-size: 10px;
+            color: var(--text-faint);
+            text-align: right
+        }
+
+        /* ── Modal ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .75);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s var(--ease)
+        }
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: all
+        }
+        .modal {
+            background: var(--surface-2);
+            border: 1px solid var(--border-hi);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            max-width: 420px;
+            width: 100%;
+            transform: translateY(14px) scale(.97);
+            transition: transform .28s var(--ease);
+            position: relative
+        }
+        .modal-overlay.open .modal {
+            transform: none
+        }
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: background .15s, color .15s
+        }
+        .modal-close:hover {
+            background: var(--border);
+            color: var(--text)
+        }
+        .modal-icon {
+            width: 42px;
+            height: 42px;
+            background: color-mix(in oklch, var(--accent) 16%, transparent);
+            border: 1px solid color-mix(in oklch, var(--accent) 32%, transparent);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            margin-bottom: 14px
+        }
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 19px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 5px;
+            letter-spacing: -.01em
+        }
+        .modal-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+            line-height: 1.6
+        }
+        .modal-desc strong {
+            color: var(--text)
+        }
+        .input-group {
+            display: flex;
+            gap: 7px;
+            margin-bottom: 12px
+        }
+        .modal-input {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border-hi);
+            border-radius: var(--radius-md);
+            padding: 9px 13px;
+            color: var(--text);
+            font: inherit;
+            font-size: 13px;
+            outline: none;
+            transition: border-color .18s
+        }
+        .modal-input::placeholder {
+            color: var(--text-faint)
+        }
+        .modal-input:focus {
+            border-color: var(--accent)
+        }
+        .btn-confirm {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 9px 16px;
+            border-radius: var(--radius-md);
+            background: var(--accent);
+            color: #fff;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            white-space: nowrap;
+            transition: background .18s var(--ease), transform .15s
+        }
+        .btn-confirm:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px)
+        }
+        .modal-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 4px
+        }
+        .modal-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 9px;
+            border: 1px solid var(--border-hi);
+            border-radius: 4px;
+            font-size: 11px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all .15s
+        }
+        .modal-tag:hover,
+        .modal-tag.sel {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: color-mix(in oklch, var(--accent) 10%, transparent)
+        }
+        .modal-success {
+            text-align: center;
+            padding: 14px 0;
+            display: none
+        }
+        .modal-success .check {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: color-mix(in oklch, var(--green) 16%, transparent);
+            border: 1px solid var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green);
+            margin: 0 auto 12px;
+            font-size: 22px
+        }
+        .modal-success h3 {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 5px
+        }
+        .modal-success p {
+            font-size: 12px;
+            color: var(--text-muted)
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            background: var(--surface-2);
+            border: 1px solid var(--border-hi);
+            border-radius: var(--radius-md);
+            padding: 11px 15px;
+            font-size: 12px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            z-index: 200;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .5);
+            transform: translateY(18px);
+            opacity: 0;
+            transition: all .28s var(--ease)
+        }
+        .toast.show {
+            transform: none;
+            opacity: 1
+        }
+        .toast-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            flex-shrink: 0;
+            animation: pulse 2s infinite
+        }
+
+        /* Fade for LTV updates */
+        .ltv-fade {
+            animation: fadeIn .4s var(--ease)
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: .2;
+                transform: translateY(4px)
+            }
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        /* ── Level Tabs ── */
+        .level-section {
+            margin-bottom: 20px
+        }
+        .level-tabs {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            flex-wrap: wrap
+        }
+        .ltab {
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 9px 16px;
+            border: 1px solid var(--border-hi);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all .18s var(--ease);
+            background: var(--surface);
+            white-space: nowrap;
+            margin-right: -1px
+        }
+        .ltab:first-child {
+            border-radius: var(--radius-md) 0 0 var(--radius-md)
+        }
+        .ltab:last-child {
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin-right: 0
+        }
+        .ltab:hover {
+            color: var(--text);
+            background: var(--surface-2);
+            z-index: 1
+        }
+        .ltab.active {
+            background: var(--surface-2);
+            border-color: var(--accent);
+            color: #fff;
+            z-index: 2
+        }
+        .ltab .lyears {
+            font-size: 9px;
+            font-weight: 500;
+            color: var(--text-faint);
+            letter-spacing: .04em
+        }
+        .ltab.active .lyears {
+            color: var(--accent)
+        }
+        .ltab .lpct {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: .03em;
+            background: color-mix(in oklch, var(--accent) 12%, transparent);
+            border: 1px solid color-mix(in oklch, var(--accent) 25%, transparent);
+            padding: 1px 5px;
+            border-radius: 3px;
+            margin-top: 1px
+        }
+        .ltab.active .lpct {
+            background: color-mix(in oklch, var(--accent) 20%, transparent)
+        }
+        .ltab .lcolor-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--ldot, var(--text-faint));
+            margin-bottom: 2px
+        }
+
+        /* ── Income Curve Chart ── */
+        .income-chart-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px 22px;
+            margin-bottom: 12px
+        }
+        .income-chart-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 8px
+        }
+        .income-chart-title {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--text-faint)
+        }
+        .income-chart-note {
+            font-size: 10px;
+            color: var(--text-faint)
+        }
+        #incomeSVG {
+            width: 100%;
+            overflow: visible;
+            display: block
+        }
+        .level-legend {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 10px
+        }
+        .level-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            color: var(--text-muted)
+        }
+        .level-legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0
+        }
+
+        /* ── Promotion Ladder ── */
+        .promo-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px 22px;
+            margin-bottom: 12px
+        }
+        .promo-flow {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            overflow-x: auto;
+            padding: 4px 0
+        }
+        .promo-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 100px;
+            gap: 5px
+        }
+        .promo-circle {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .02em;
+            text-align: center;
+            border: 2px solid;
+            line-height: 1.2
+        }
+        .promo-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-align: center;
+            max-width: 90px;
+            line-height: 1.3
+        }
+        .promo-salary {
+            font-size: 10px;
+            color: var(--text-faint);
+            text-align: center;
+            font-weight: 700
+        }
+        .promo-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 0 4px;
+            min-width: 52px
+        }
+        .promo-arrow-line {
+            width: 100%;
+            height: 1px;
+            background: var(--border-hi);
+            position: relative
+        }
+        .promo-arrow-line::after {
+            content: '▶';
+            position: absolute;
+            right: -5px;
+            top: -5px;
+            font-size: 10px;
+            color: var(--text-faint)
+        }
+        .promo-arrow-years {
+            font-size: 9px;
+            color: var(--accent);
+            font-weight: 700;
+            white-space: nowrap;
+            text-align: center
+        }
+        .promo-arrow-sub {
+            font-size: 8px;
+            color: var(--text-faint);
+            white-space: nowrap
+        }
+
+        /* ── Career Insights ── */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 12px
+        }
+        @media(max-width:768px) {
+            .insights-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+        @media(max-width:480px) {
+            .insights-grid {
+                grid-template-columns: 1fr
+            }
+        }
+        .insight-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px 18px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color .2s
+        }
+        .insight-card:hover {
+            border-color: var(--border-hi)
+        }
+        .insight-icon {
+            font-size: 22px;
+            margin-bottom: 8px;
+            display: block
+        }
+        .insight-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px
+        }
+        .insight-value {
+            font-family: var(--font-display);
+            font-size: clamp(16px, 2vw, 22px);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 4px
+        }
+        .insight-meta {
+            font-size: 10px;
+            color: var(--text-faint);
+            line-height: 1.4
+        }
+        .difficulty-bar {
+            display: flex;
+            gap: 3px;
+            margin-top: 8px
+        }
+        .diff-pip {
+            width: 14px;
+            height: 6px;
+            border-radius: 2px;
+            background: var(--border)
+        }
+        .diff-pip.filled-low {
+            background: var(--green)
+        }
+        .diff-pip.filled-mid {
+            background: var(--yellow)
+        }
+        .diff-pip.filled-high {
+            background: var(--orange)
+        }
+        .diff-pip.filled-max {
+            background: var(--red)
+        }
+
+        /* ── Hazards ── */
+        .hazards-section {
+            margin-bottom: 12px
+        }
+        .hazards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px
+        }
+        @media(max-width:600px) {
+            .hazards-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+        .hazard-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+        .hazard-icon {
+            font-size: 20px;
+            flex-shrink: 0
+        }
+        .hazard-info {
+            flex: 1;
+            min-width: 0
+        }
+        .hazard-name {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px
+        }
+        .hazard-bar-track {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden
+        }
+        .hazard-bar-fill {
+            height: 100%;
+            border-radius: 2px
+        }
+        .hazard-level {
+            font-size: 9px;
+            color: var(--text-faint);
+            margin-top: 3px
+        }
+        .haz-1 {
+            background: var(--green)
+        }
+        .haz-2 {
+            background: color-mix(in oklch, var(--green) 60%, var(--yellow))
+        }
+        .haz-3 {
+            background: var(--yellow)
+        }
+        .haz-4 {
+            background: var(--orange)
+        }
+        .haz-5 {
+            background: var(--red)
+        }
+
+        /* ── Language Requirements ── */
+        .lang-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px 22px;
+            margin-bottom: 12px
+        }
+        .lang-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+        .lang-row {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+        .lang-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            min-width: 90px
+        }
+        .lang-level-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 9px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .05em;
+            white-space: nowrap
+        }
+        .llp-essential {
+            background: color-mix(in oklch, var(--red) 14%, transparent);
+            color: var(--red);
+            border: 1px solid color-mix(in oklch, var(--red) 28%, transparent)
+        }
+        .llp-helpful {
+            background: color-mix(in oklch, var(--yellow) 12%, transparent);
+            color: var(--yellow);
+            border: 1px solid color-mix(in oklch, var(--yellow) 22%, transparent)
+        }
+        .llp-optional {
+            background: color-mix(in oklch, var(--green) 12%, transparent);
+            color: var(--green);
+            border: 1px solid color-mix(in oklch, var(--green) 22%, transparent)
+        }
+        .llp-senior {
+            background: color-mix(in oklch, var(--accent) 12%, transparent);
+            color: var(--accent);
+            border: 1px solid color-mix(in oklch, var(--accent) 22%, transparent)
+        }
+        .lang-bar-wrap {
+            flex: 1;
+            max-width: 180px
+        }
+        .lang-bar-track {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden
+        }
+        .lang-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: var(--accent)
+        }
+
+        /* ── City Heatmap ── */
+        .heatmap-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px 22px;
+            margin-bottom: 12px
+        }
+        .heatmap-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 8px
+        }
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 8px
+        }
+        .city-card {
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+            transition: transform .15s var(--ease), box-shadow .15s
+        }
+        .city-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .4)
+        }
+        .city-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2px
+        }
+        .city-region {
+            font-size: 9px;
+            color: rgba(255, 255, 255, .5);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: .06em
+        }
+        .city-salary {
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            font-family: var(--font-display)
+        }
+        .city-cost {
+            font-size: 9px;
+            color: rgba(255, 255, 255, .55);
+            margin-top: 2px
+        }
+        .heatmap-scale {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap
+        }
+        .heatmap-scale-bar {
+            display: flex;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            flex: 1;
+            max-width: 200px
+        }
+        .hs-low {
+            background: var(--red);
+            flex: 1
+        }
+        .hs-mid {
+            background: var(--yellow);
+            flex: 1
+        }
+        .hs-high {
+            background: var(--green);
+            flex: 1
+        }
+        .heatmap-scale-labels {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 200px;
+            font-size: 9px;
+            color: var(--text-faint)
+        }
+
+        /* ── Requirement Extension ── */
+        .extended-section {
+            margin-bottom: 12px
+        }
+        .extended-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 12px
+        }
+        @media(max-width:768px) {
+            .extended-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+        @media(max-width:480px) {
+            .extended-grid {
+                grid-template-columns: 1fr
+            }
+        }
+        .link-grid-extended {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px
+        }
+        @media(max-width:900px) {
+            .link-grid-extended {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+        @media(max-width:560px) {
+            .link-grid-extended {
+                grid-template-columns: 1fr
+            }
+        }
+        .link-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 14px 16px;
+            transition: border-color .2s, transform .15s var(--ease)
+        }
+        .link-card:hover {
+            border-color: var(--border-hi);
+            transform: translateY(-1px)
+        }
+        .link-card-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px
+        }
+        .link-card-desc {
+            font-size: 10px;
+            color: var(--text-muted);
+            line-height: 1.5
+        }
+        .note-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 12px
+        }
+        @media(max-width:900px) {
+            .note-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+        @media(max-width:560px) {
+            .note-grid {
+                grid-template-columns: 1fr
+            }
+        }
+        .note-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px 18px
+        }
+        .note-title {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px
+        }
+        .note-value {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.2;
+            margin-bottom: 6px
+        }
+        .note-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.55
+        }
+
+        /* ── Section divider ── */
+        .sec-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 20px 0
+        }
+
+        /* ── Light / Dark Toggle ── */
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-hi);
+            background: var(--surface);
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .18s var(--ease);
+            letter-spacing: .04em
+        }
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            color: var(--text)
+        }
+        .theme-toggle .th-icon {
+            font-size: 15px;
+            line-height: 1
+        }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-hi);
+            background: var(--surface);
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .18s var(--ease);
+            letter-spacing: .04em
+        }
+        .btn-ghost:hover {
+            border-color: var(--accent);
+            color: var(--text)
+        }
+        .btn-login {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .02em;
+            background: var(--surface-3);
+            color: #fff;
+            border: 1px solid var(--border-hi);
+            transition: all .18s var(--ease);
+            cursor: pointer
+        }
+        .btn-login:hover {
+            background: var(--surface-2);
+            border-color: var(--text-muted)
+        }
+
+        /* ── Light Mode Variables ── */
+        html[data-theme="light"] {
+            --bg: #f4f4f5;
+            --surface: #ffffff;
+            --surface-2: #f0f0f0;
+            --surface-3: #e8e8e8;
+            --border: #e0e0e0;
+            --border-hi: #cccccc;
+            --text: #111111;
+            --text-muted: #555555;
+            --text-faint: #999999;
+            --green: #16a34a;
+            --yellow: #ca8a04;
+            --orange: #ea580c;
+            --red: #dc2626;
+            --accent: #2a7b8a;
+            --accent-hover: #1e6474;
+        }
+        html[data-theme="light"] body {
+            color: var(--text)
+        }
+        html[data-theme="light"] body::before {
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, .02) 2px, rgba(0, 0, 0, .02) 4px)
+        }
+        html[data-theme="light"] .page-title {
+            color: #111
+        }
+        html[data-theme="light"] .col-action {
+            color: #111
+        }
+        html[data-theme="light"] thead {
+            background: var(--surface-2)
+        }
+        html[data-theme="light"] .modal {
+            background: var(--surface)
+        }
+        html[data-theme="light"] .modal-title {
+            color: #111
+        }
+        html[data-theme="light"] .car-viz-val {
+            color: #111
+        }
+        html[data-theme="light"] .insight-value {
+            color: #111
+        }
+        html[data-theme="light"] .note-value {
+            color: #111
+        }
+        html[data-theme="light"] .ltv-val.cl-total {
+            color: #111
+        }
+        html[data-theme="light"] .city-name {
+            color: #111
+        }
+        html[data-theme="light"] .city-salary {
+            color: #111
+        }
+        html[data-theme="light"] .promo-label {
+            color: var(--text-muted)
+        }
+        html[data-theme="light"] .table-wrap {
+            background: var(--surface)
+        }
+        html[data-theme="light"] tbody tr:hover {
+            background: var(--surface-2)
+        }
+        html[data-theme="light"] .summary-card strong {
+            color: #111
+        }
+        html[data-theme="light"] .modal-input {
+            background: var(--surface-2);
+            color: #111
+        }
+        html[data-theme="light"] .lang-name {
+            color: #111
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SVG Car Symbol (hidden) -->
+    <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="car" viewBox="0 0 38 22">
+            <rect x="1" y="8" width="36" height="9" rx="2" fill="currentColor" opacity=".9"/>
+            <path d="M8 8 L13 3 H25 L30 8 Z" fill="currentColor"/>
+            <circle cx="10" cy="19" r="3" fill="currentColor"/>
+            <circle cx="28" cy="19" r="3" fill="currentColor"/>
+            <rect x="13.5" y="3.5" width="4" height="4" rx=".7" fill="rgba(0,0,0,.35)"/>
+            <rect x="18.5" y="3.5" width="4" height="4" rx=".7" fill="rgba(0,0,0,.35)"/>
+        </symbol>
+    </svg>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+        <div class="modal">
+            <button class="modal-close" id="modalClose" aria-label="Close">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+            <div id="modalForm">
+                <div class="modal-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </div>
+                <div class="modal-title">Subscribe to AI Threat Alerts</div>
+                <div class="modal-desc">Get notified when automation risk changes for <strong>Chef / Cook</strong> roles. Updates sourced from Miso Robotics, BLS, and JobForesight.</div>
+                <div class="input-group">
+                    <input class="modal-input" id="emailInput" type="email" placeholder="your@email.com" autocomplete="email">
+                    <button class="btn-confirm" id="confirmBtn">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        Subscribe
+                    </button>
+                </div>
+                <div style="font-size:10px;color:var(--text-faint);margin-bottom:12px">Select alert types:</div>
+                <div class="modal-tags" id="modalTags">
+                    <span class="modal-tag sel" data-val="status">📊 Status Changes</span>
+                    <span class="modal-tag sel" data-val="ltv">💰 LTV Updates</span>
+                    <span class="modal-tag" data-val="weekly">📅 Weekly Digest</span>
+                    <span class="modal-tag" data-val="break">⚡ Tech Breakthroughs</span>
+                </div>
+            </div>
+            <div class="modal-success" id="modalSuccess">
+                <div class="check">✓</div>
+                <h3>You're Subscribed!</h3>
+                <p>We'll alert you when Chef/Cook automation landscape changes. Confirm via email.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span class="toast-dot"></span>
+        <span id="toastMsg">Subscribed successfully</span>
+    </div>
+
+    <!-- Page -->
+    <div class="page">
+
+        <!-- Industry Tags -->
+        <div class="industry-row" role="group" aria-label="Industry segments">
+            <span class="industry-pill active" data-ind="fb"><span class="ind-dot"></span>Food &amp; Beverage</span>
+            <span class="industry-pill" data-ind="hosp"><span class="ind-dot"></span>Hospitality</span>
+            <span class="industry-pill" data-ind="qsr"><span class="ind-dot"></span>QSR / Fast Food</span>
+            <span class="industry-pill" data-ind="fine"><span class="ind-dot"></span>Fine Dining</span>
+            <span class="industry-pill" data-ind="cat"><span class="ind-dot"></span>Catering</span>
+            <span class="industry-pill" data-ind="inst"><span class="ind-dot"></span>Institutional</span>
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <div>
+                <div class="header-tag"><span class="live-dot"></span> Live Tracking</div>
+                <h1 class="page-title">AI Career<br>Intelligence Hub</h1>
+                <p class="page-subtitle">Target Occupation: <span>CHEF / COOK (ID: OCC-2026-C)</span></p>
+            </div>
+            <div class="header-right">
+                <button class="btn-ghost">Upload Resume</button>
+                <button class="btn-ghost">Enter MBTI</button>
+                <button class="btn-login">Login</button>
+                <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">
+                    <span class="th-icon">☀️</span><span id="themeLabel">Light</span>
+                </button>
+                <button class="btn-subscribe" id="openModal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    Subscribe
+                </button>
+            </div>
+        </header>
+
+        <!-- Country Selector -->
+        <div class="country-section">
+            <div class="country-label">Select Region — LTV &amp; Risk Age by Country</div>
+            <div class="country-tabs" role="tablist" id="countryTabs">
+                <button class="ctab active" role="tab" data-country="US">
+                    <span class="flag">🇺🇸</span><span class="cname">USA</span><span class="crisk mid">MID</span>
+                </button>
+                <button class="ctab" role="tab" data-country="UK">
+                    <span class="flag">🇬🇧</span><span class="cname">UK</span><span class="crisk mid">MID</span>
+                </button>
+                <button class="ctab" role="tab" data-country="AU">
+                    <span class="flag">🇦🇺</span><span class="cname">Australia</span><span class="crisk mid">MID</span>
+                </button>
+                <button class="ctab" role="tab" data-country="DE">
+                    <span class="flag">🇩🇪</span><span class="cname">Germany</span><span class="crisk slow">SLOW</span>
+                </button>
+                <button class="ctab" role="tab" data-country="JP">
+                    <span class="flag">🇯🇵</span><span class="cname">Japan</span><span class="crisk slow">SLOW</span>
+                </button>
+                <button class="ctab" role="tab" data-country="SG">
+                    <span class="flag">🇸🇬</span><span class="cname">Singapore</span><span class="crisk fast">FAST</span>
+                </button>
+                <button class="ctab" role="tab" data-country="TW">
+                    <span class="flag">🇹🇼</span><span class="cname">Taiwan</span><span class="crisk fast">FAST</span>
+                </button>
+                <button class="ctab" role="tab" data-country="CN">
+                    <span class="flag">🇨🇳</span><span class="cname">China</span><span class="crisk fast">FAST</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ── Career Level Selector ── -->
+        <div class="level-section">
+            <div class="section-label">Career Level — Click to Compare Salary, LTV &amp; Insights</div>
+            <div class="level-tabs" id="levelTabs">
+                <button class="ltab active" data-level="0" style="--ldot:#888"><span class="lcolor-dot"></span>Line Cook<span class="lyears">Entry · Yr 0</span><span class="lpct" id="lpct-0"></span></button>
+                <button class="ltab" data-level="1" style="--ldot:#4f98a3"><span class="lcolor-dot"></span>Chef de Partie<span class="lyears">≈ 2–3 yrs</span><span class="lpct" id="lpct-1"></span></button>
+                <button class="ltab" data-level="2" style="--ldot:#eab308"><span class="lcolor-dot"></span>Sous Chef<span class="lyears">≈ 5–6 yrs</span><span class="lpct" id="lpct-2"></span></button>
+                <button class="ltab" data-level="3" style="--ldot:#f97316"><span class="lcolor-dot"></span>Head Chef<span class="lyears">≈ 8–11 yrs</span><span class="lpct" id="lpct-3"></span></button>
+                <button class="ltab" data-level="4" style="--ldot:#22c55e"><span class="lcolor-dot"></span>Executive Chef<span class="lyears">≈ 16–19 yrs</span><span class="lpct" id="lpct-4"></span></button>
+            </div>
+        </div>
+
+        <!-- LTV Section -->
+        <section class="ltv-section">
+            <div class="section-label">Job Lifetime Value Analysis</div>
+
+            <!-- 5 KPI Cards -->
+            <div class="ltv-grid">
+                <div class="ltv-card c-total">
+                    <div class="ltv-lbl">Career LTV</div>
+                    <div class="ltv-val cl-total" id="kpi-ltv">$1,680,000</div>
+                    <div class="ltv-meta" id="kpi-ltv-meta">30 yrs · $56K/yr median</div>
+                    <div class="ltv-bar"><div class="ltv-bar-fill" style="width:100%;background:var(--accent)" id="bar-ltv"></div></div>
+                </div>
+                <div class="ltv-card c-safe">
+                    <div class="ltv-lbl">Human-Safe LTV</div>
+                    <div class="ltv-val cl-safe" id="kpi-safe">$1,058,400</div>
+                    <div class="ltv-meta">AI cannot replicate (63%)</div>
+                    <div class="ltv-bar"><div class="ltv-bar-fill" style="width:63%;background:var(--green)" id="bar-safe"></div></div>
+                </div>
+                <div class="ltv-card c-risk">
+                    <div class="ltv-lbl">At-Risk LTV</div>
+                    <div class="ltv-val cl-risk" id="kpi-risk">$621,600</div>
+                    <div class="ltv-meta">Threatened by AI (37%)</div>
+                    <div class="ltv-bar"><div class="ltv-bar-fill" style="width:37%;background:var(--red)" id="bar-risk"></div></div>
+                </div>
+                <div class="ltv-card c-idx">
+                    <div class="ltv-lbl">Automation Index</div>
+                    <div class="ltv-val cl-idx" id="kpi-idx">37%</div>
+                    <div class="ltv-meta">Weighted across task nodes</div>
+                    <div class="ltv-bar"><div class="ltv-bar-fill" style="width:37%;background:var(--yellow)" id="bar-idx"></div></div>
+                </div>
+                <!-- Peak Risk Age -->
+                <div class="ltv-card c-age">
+                    <div class="ltv-lbl">Peak Risk Age</div>
+                    <div class="ltv-val cl-age" id="kpi-age">47</div>
+                    <div class="ltv-meta" id="kpi-age-meta">Safe window: 25 → 47 (22 yrs)</div>
+                    <div class="age-timeline">
+                        <div class="age-seg safe-seg" id="age-safe-seg" style="flex:22"></div>
+                        <div class="age-seg risk-seg" id="age-risk-seg" style="flex:8"></div>
+                    </div>
+                    <div class="age-pins">
+                        <span class="age-pin">25</span>
+                        <span class="age-pin risk-pin" id="age-pin-risk">47 ⚠</span>
+                        <span class="age-pin">55</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breakdown Bar -->
+            <div class="ltv-chart-wrap">
+                <div class="ltv-chart-title">Career Value Distribution</div>
+                <div class="ltv-breakdown">
+                    <div class="ltv-seg seg-safe" style="width:63%" id="seg-safe">$1,058,400 Safe (63%)</div>
+                    <div class="ltv-seg seg-risk" style="width:37%" id="seg-risk">$621,600 At Risk (37%)</div>
+                </div>
+                <div class="ltv-legend">
+                    <div class="ltv-legend-item"><div class="ltv-legend-dot" style="background:var(--green)"></div>Human-Safe — physical judgment, creativity, subjective taste</div>
+                    <div class="ltv-legend-item"><div class="ltv-legend-dot" style="background:var(--red)"></div>At-Risk — existing or emerging AI / robotics coverage</div>
+                </div>
+            </div>
+
+            <!-- Car Visualization -->
+            <div class="car-viz">
+                <div class="car-viz-header">
+                    <span class="car-viz-eq">Career LTV Equals</span>
+                    <span class="car-viz-val"><span id="car-count">60</span> <span id="car-name" style="color:var(--text-muted)">Toyota Camrys</span></span>
+                </div>
+                <div class="car-viz-sub" id="car-sub">Based on $28,000/unit reference price · 🟢 Safe earnings · 🔴 At-risk earnings</div>
+                <div class="car-grid" id="carGrid" aria-label="Car visualization"></div>
+                <div class="car-legend">
+                    <div class="car-legend-item"><div class="car-legend-swatch safe"></div><span id="car-safe-label">38 cars = Human-Safe LTV ($1,058,400)</span></div>
+                    <div class="car-legend-item"><div class="car-legend-swatch risk"></div><span id="car-risk-label">22 cars = At-Risk LTV ($621,600)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Income Curve Chart ── -->
+        <div class="income-chart-wrap">
+            <div class="income-chart-header">
+                <span class="income-chart-title">Annual Income Curve — Full Career (<span id="chartCountryLabel">USA</span>)</span>
+                <span class="income-chart-note">Colored dots mark level transitions · hover for value</span>
+            </div>
+            <svg id="incomeSVG" height="220" viewBox="0 0 900 220" preserveAspectRatio="none"></svg>
+            <div class="level-legend" id="levelLegend">
+                <div class="level-legend-item"><div class="level-legend-dot" style="background:#888"></div>Line Cook</div>
+                <div class="level-legend-item"><div class="level-legend-dot" style="background:#4f98a3"></div>Chef de Partie</div>
+                <div class="level-legend-item"><div class="level-legend-dot" style="background:#eab308"></div>Sous Chef</div>
+                <div class="level-legend-item"><div class="level-legend-dot" style="background:#f97316"></div>Head Chef</div>
+                <div class="level-legend-item"><div class="level-legend-dot" style="background:#22c55e"></div>Executive Chef</div>
+                <div class="level-legend-item" style="margin-left:10px;border-left:1px solid #333;padding-left:10px">
+                    <svg width="18" height="8" viewBox="0 0 18 8" style="flex-shrink:0"><line x1="0" y1="4" x2="18" y2="4" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,3"/></svg>
+                    <span style="color:var(--red)">Current Level → Career End (~Yr 30)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Promotion Ladder ── -->
+        <div class="promo-section" style="margin-bottom:12px">
+            <div class="section-label" style="margin-bottom:16px">Typical Promotion Timeline — Years in Role Before Advancement</div>
+            <div class="promo-flow" id="promoFlow">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+
+        <!-- ── Career Insights ── -->
+        <div class="sec-divider"></div>
+        <div class="section-label">Career Profile Insights</div>
+        <div class="insights-grid" id="insightsGrid">
+            <!-- Rendered by JS -->
+        </div>
+
+        <!-- ── Occupational Hazards ── -->
+        <div class="hazards-section">
+            <div class="section-label">Occupational Hazards</div>
+            <div class="hazards-grid">
+                <div class="hazard-card"><span class="hazard-icon">🔥</span><div class="hazard-info"><div class="hazard-name">Burns &amp; Scalds</div><div class="hazard-bar-track"><div class="hazard-bar-fill haz-5" style="width:100%"></div></div><div class="hazard-level">Critical · open flame, hot oil</div></div></div>
+                <div class="hazard-card"><span class="hazard-icon">🌡️</span><div class="hazard-info"><div class="hazard-name">Heat Exhaustion</div><div class="hazard-bar-track"><div class="hazard-bar-fill haz-5" style="width:100%"></div></div><div class="hazard-level">Critical · 38–50°C kitchens</div></div></div>
+                <div class="hazard-card"><span class="hazard-icon">🔪</span><div class="hazard-info"><div class="hazard-name">Cuts &amp; Lacerations</div><div class="hazard-bar-track"><div class="hazard-bar-fill haz-4" style="width:80%"></div></div><div class="hazard-level">High · daily knife work</div></div></div>
+                <div class="hazard-card"><span class="hazard-icon">💪</span><div class="hazard-info"><div class="hazard-name">Musculoskeletal Strain</div><div class="hazard-bar-track"><div class="hazard-bar-fill haz-4" style="width:80%"></div></div><div class="hazard-level">High · 8–12 hrs standing daily</div></div></div>
+                <div class="hazard-card"><span class="hazard-icon">🧠</span><div class="hazard-info"><div class="hazard-name">Mental Fatigue &amp; Stress</div><div class="hazard-bar-track"><div class="hazard-bar-fill haz-4" style="width:75%"></div></div><div class="hazard-level">High · burnout rate 40–60%</div></div></div>
+                <div class="hazard-card"><span class="hazard-icon">🚿</span><div class="hazard-info"><div class="hazard-name">Slip &amp; Fall</div><div class="hazard-bar-track"><div class="hazard-bar-fill haz-3" style="width:55%"></div></div><div class="hazard-level">Medium · wet floor surfaces</div></div></div>
+                <div class="hazard-card"><span class="hazard-icon">⚗️</span><div class="hazard-info"><div class="hazard-name">Chemical Exposure</div><div class="hazard-bar-track"><div class="hazard-bar-fill haz-3" style="width:50%"></div></div><div class="hazard-level">Medium · cleaning agents</div></div></div>
+                <div class="hazard-card"><span class="hazard-icon">👂</span><div class="hazard-info"><div class="hazard-name">Noise Exposure</div><div class="hazard-bar-track"><div class="hazard-bar-fill haz-2" style="width:35%"></div></div><div class="hazard-level">Low-Med · extraction fans</div></div></div>
+                <div class="hazard-card"><span class="hazard-icon">🫁</span><div class="hazard-info"><div class="hazard-name">Smoke &amp; Fumes</div><div class="hazard-bar-track"><div class="hazard-bar-fill haz-3" style="width:45%"></div></div><div class="hazard-level">Medium · inadequate vent. risk</div></div></div>
+            </div>
+        </div>
+
+        <!-- ── Language Requirements ── -->
+        <div class="lang-section" id="langSection">
+            <div class="section-label" style="margin-bottom:12px">Language Requirements — <span id="langCountryLabel">USA</span></div>
+            <div class="lang-list" id="langList"><!-- Rendered by JS --></div>
+        </div>
+
+        <!-- ── City Income Heatmap ── -->
+        <div class="heatmap-section">
+            <div class="heatmap-header">
+                <span class="section-label" style="margin-bottom:0">City Income Heatmap — <span id="heatmapCountryLabel">USA</span></span>
+                <span style="font-size:10px;color:var(--text-faint)">Avg. cook salary (local equiv. USD) · <span style="color:var(--text-muted)">cost index</span></span>
+            </div>
+            <div class="heatmap-grid" id="heatmapGrid"><!-- Rendered by JS --></div>
+            <div class="heatmap-scale">
+                <div class="heatmap-scale-bar"><div class="hs-low"></div><div class="hs-mid"></div><div class="hs-high"></div></div>
+                <span style="font-size:9px;color:var(--text-faint)">Low → High income</span>
+            </div>
+        </div>
+        <div class="extended-section">
+            <div class="section-label">Career Economics and Fit</div>
+            <div class="extended-grid" id="extraInsightsGrid"><!-- Rendered by JS --></div>
+        </div>
+        <div class="extended-section">
+            <div class="section-label">Pathways &amp; Access Points</div>
+            <div class="link-grid-extended" id="accessGrid"><!-- Rendered by JS --></div>
+        </div>
+        <div class="extended-section">
+            <div class="section-label">Education, Retirement &amp; Career Pivots</div>
+            <div class="note-grid" id="careerNotesGrid"><!-- Rendered by JS --></div>
+        </div>
+        <div class="sec-divider"></div>
+
+
+        <!-- ── Resume Tracker ── -->
+        <div class="extended-section" style="display:none">
+            <div class="section-label">Job Application Tracker (User Uploads)</div>
+            <div class="note-grid">
+                <div class="note-card" style="border-left:3px solid var(--accent)">
+                    <div class="note-title">Four Seasons - Senior Sous Chef</div>
+                    <div class="note-value" style="font-size:14px">Interview Scheduled</div>
+                    <div class="note-meta">Applied: 2 days ago · Match: 92%</div>
+                </div>
+                <div class="note-card" style="border-left:3px solid var(--green)">
+                    <div class="note-title">Local Bistro - Executive Chef</div>
+                    <div class="note-value" style="font-size:14px">Offer Received</div>
+                    <div class="note-meta">Applied: 14 days ago · Match: 88%</div>
+                </div>
+                <div class="note-card" style="border-left:3px solid var(--yellow)">
+                    <div class="note-title">Ritz-Carlton - Chef de Partie</div>
+                    <div class="note-value" style="font-size:14px">Under Review</div>
+                    <div class="note-meta">Applied: 5 days ago · Match: 85%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Career Recommendations ── -->
+        <div class="extended-section">
+            <div class="section-label">Career Recommendations (Based on Skill Set)</div>
+            <div class="note-grid" id="careerRecsGrid">
+                <!-- Populated by JS based on current level -->
+            </div>
+        </div>
+
+        <!-- ── Study & Network Recommendations ── -->
+        <div class="extended-section">
+            <div class="section-label">Academic &amp; Networking Strategy</div>
+            <div class="note-grid" id="networkGrid">
+                <!-- Will be populated by JS -->
+            </div>
+        </div>
+
+        <!-- Filters + Table -->
+        <div class="filters-row">
+            <div class="filters-left" role="group">
+                <button class="filter-pill all active" data-filter="all">All <span style="opacity:.5;font-size:10px">4</span></button>
+                <button class="filter-pill gf" data-filter="playable"><span class="dot"></span> Playable</button>
+                <button class="filter-pill yf" data-filter="ingame"><span class="dot"></span> In-Game</button>
+                <button class="filter-pill of" data-filter="intro"><span class="dot"></span> Intro</button>
+                <button class="filter-pill rf" data-filter="nothing"><span class="dot"></span> Nothing</button>
+            </div>
+            <div style="font-size:10px;color:var(--text-faint)">v2.2 · Apr 2026</div>
+        </div>
+
+        <div class="table-wrap">
+            <div class="table-scroll">
+                <table aria-label="Job automation compatibility">
+                    <thead>
+                        <tr>
+                            <th>Action</th><th>Human Workflow</th><th>AI / Bot Workflow</th>
+                            <th>Replace Ratio</th><th style="text-align:center">Node LTV</th>
+                            <th style="text-align:center">ETA</th><th style="text-align:center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-status="playable">
+                            <td class="col-action">Inventory &amp; Ordering</td>
+                            <td class="col-human">Manually count fridge inventory, estimate usage, and call suppliers for orders</td>
+                            <td class="col-ai">MarketMan / BlueCart AI predictive analytics for automated ordering</td>
+                            <td><div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:85%;background:var(--green)"></div></div><div class="bar-lbl"><span>Automated</span><span>85%</span></div></div></td>
+                            <td style="text-align:center"><span class="ltv-chip risk">~10% at risk</span></td>
+                            <td style="text-align:center"><span class="eta-badge eta-soon">~2 yrs</span></td>
+                            <td style="text-align:center"><span class="status-badge b-play"><span class="dot"></span>Playable</span></td>
+                        </tr>
+                        <tr data-status="ingame">
+                            <td class="col-action">Frying &amp; Grilling</td>
+                            <td class="col-human">Stand over hot oil, monitor temperature, manually flip and drain food</td>
+                            <td class="col-ai">Miso Robotics (Flippy) robotic arm with computer vision for automated flipping</td>
+                            <td><div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:65%;background:var(--yellow)"></div></div><div class="bar-lbl"><span>Automated</span><span>65%</span></div></div></td>
+                            <td style="text-align:center"><span class="ltv-chip partial">~30% partial</span></td>
+                            <td style="text-align:center"><span class="eta-badge eta-mid">3–5 yrs</span></td>
+                            <td style="text-align:center"><span class="status-badge b-ing"><span class="dot"></span>In-Game</span></td>
+                        </tr>
+                        <tr data-status="intro">
+                            <td class="col-action">Recipe Creation</td>
+                            <td class="col-human">Draw on sensory experience and intuition to pair new ingredients</td>
+                            <td class="col-ai">Generative AI analyzes molecular flavor profiles and outputs recipes</td>
+                            <td><div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:30%;background:var(--orange)"></div></div><div class="bar-lbl"><span>Automated</span><span>30%</span></div></div></td>
+                            <td style="text-align:center"><span class="ltv-chip partial">~20% partial</span></td>
+                            <td style="text-align:center"><span class="eta-badge eta-far">7–10 yrs</span></td>
+                            <td style="text-align:center"><span class="status-badge b-intro"><span class="dot"></span>Intro</span></td>
+                        </tr>
+                        <tr data-status="nothing">
+                            <td class="col-action">Plating &amp; Tasting</td>
+                            <td class="col-human">Artistically plate dishes, taste for seasoning balance, and fine-tune flavor</td>
+                            <td class="col-ai">No viable AI solution yet; sensors cannot fully replicate human subjective taste</td>
+                            <td><div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--red)"></div></div><div class="bar-lbl"><span>Automated</span><span>8%</span></div></div></td>
+                            <td style="text-align:center"><span class="ltv-chip safe">~40% protected</span></td>
+                            <td style="text-align:center"><span class="eta-badge eta-prot">10+ yrs</span></td>
+                            <td style="text-align:center"><span class="status-badge b-none"><span class="dot"></span>Nothing</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary-row">
+            <div class="summary-card" id="survivalStratCard"><strong>Survival Strategy</strong> <!-- Populated by JS --></div>
+            <div class="summary-card"><strong>Highest Threat</strong>Inventory &amp; Ordering is the most vulnerable node (85%), yet accounts for only ~10% of role value. True leverage lies in the sensory execution layer.</div>
+            <div class="summary-card"><strong>LTV Methodology</strong>BLS 2025 median salary × 30-year career horizon. AI Risk weighted: automation rate per task node × estimated time share. Local reference vehicle used per country.</div>
+        </div>
+        <div class="footnote">* Data: Miso Robotics deployments · BLS Occupational Outlook 2025 · JobForesight 2026 · ILO salary benchmarks</div>
+    </div>
+
+    <script>
+        // ── Country Data ──────────────────────────────────
+        const COUNTRIES = {
+            US: { name: 'United States', symbol: '$', annualUSD: 56000, annualLocal: 56000, career: 30, automationIdx: 37, carName: 'Toyota Camry', carPriceUSD: 28000, riskAge: 47, startAge: 25, localDisplay: '$56,000/yr (USD)' },
+            UK: { name: 'United Kingdom', symbol: '£', annualUSD: 44000, annualLocal: 35000, career: 30, automationIdx: 37, carName: 'Ford Focus', carPriceUSD: 26000, riskAge: 49, startAge: 25, localDisplay: '~£35K/yr (~$44K)' },
+            AU: { name: 'Australia', symbol: 'A$', annualUSD: 42000, annualLocal: 65000, career: 30, automationIdx: 37, carName: 'Toyota RAV4', carPriceUSD: 28000, riskAge: 48, startAge: 25, localDisplay: '~A$65K/yr (~$42K)' },
+            DE: { name: 'Germany', symbol: '€', annualUSD: 41000, annualLocal: 38000, career: 30, automationIdx: 37, carName: 'VW Golf', carPriceUSD: 30000, riskAge: 50, startAge: 25, localDisplay: '~€38K/yr (~$41K)' },
+            JP: { name: 'Japan', symbol: '¥', annualUSD: 28000, annualLocal: 4200000, career: 30, automationIdx: 37, carName: 'Toyota Corolla', carPriceUSD: 18000, riskAge: 52, startAge: 25, localDisplay: '~¥4.2M/yr (~$28K)' },
+            SG: { name: 'Singapore', symbol: 'S$', annualUSD: 31000, annualLocal: 42000, career: 30, automationIdx: 37, carName: 'Toyota Corolla*', carPriceUSD: 88000, riskAge: 46, startAge: 25, localDisplay: '~S$42K/yr (~$31K)' },
+            TW: { name: 'Taiwan', symbol: 'NT$', annualUSD: 15000, annualLocal: 480000, career: 30, automationIdx: 37, carName: 'Toyota Corolla', carPriceUSD: 22000, riskAge: 45, startAge: 25, localDisplay: '~NT$480K/yr (~$15K)' },
+            CN: { name: 'China', symbol: '¥', annualUSD: 12000, annualLocal: 86000, career: 30, automationIdx: 37, carName: 'BYD Seagull', carPriceUSD: 12000, riskAge: 44, startAge: 25, localDisplay: '~¥86K/yr (~$12K)' },
+        };
+
+        let currentCountry = 'US';
+
+        function calcLTV(c) {
+            const ltv = c.annualUSD * c.career;
+            const ltvLocal = c.annualLocal * c.career;
+            const safeLocal = Math.round(ltvLocal * (1 - c.automationIdx / 100));
+            const riskLocal = ltvLocal - safeLocal;
+            const safe = Math.round(ltv * (1 - c.automationIdx / 100));
+            const risk = ltv - safe;
+            const carCount = Math.round(ltv / c.carPriceUSD);
+            const safeCarCount = Math.round(safe / c.carPriceUSD);
+            const riskCarCount = carCount - safeCarCount;
+            const safeYears = c.riskAge - c.startAge;
+            const totalWorkYears = 55 - c.startAge;
+            return { ltv, safe, risk, carCount, safeCarCount, riskCarCount, safeYears, totalWorkYears };
+        }
+
+        function fmt(n, c = 'US') { const sym = COUNTRIES[c].symbol || '$'; return sym + n.toLocaleString('en-US'); }
+
+        function fmtK(n, c = 'US') { const sym = COUNTRIES[c].symbol || '$'; return n >= 1000000 ? sym + (n / 1000000).toFixed(2) + 'M' : fmt(n, c); }
+
+        // ── Counter animation ─────────────────────────────
+        function animNum(el, from, to, prefix = '', suffix = '', duration = 700) {
+            const start = performance.now();
+
+            function tick(now) {
+                const p = Math.min((now - start) / duration, 1);
+                const ease = 1 - Math.pow(1 - p, 3);
+                const val = Math.round(from + ease * (to - from));
+                el.textContent = prefix + (val >= 1000 ? val.toLocaleString('en-US') : val) + suffix;
+                if (p < 1) requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+        }
+
+        // ── Build car grid ─────────────────────────────────
+        function buildCarGrid(safeCount, riskCount) {
+            const grid = document.getElementById('carGrid');
+            const total = safeCount + riskCount;
+            grid.innerHTML = '';
+            for (let i = 0; i < total; i++) {
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.setAttribute('width', '38');
+                svg.setAttribute('height', '22');
+                svg.setAttribute('viewBox', '0 0 38 22');
+                svg.setAttribute('role', 'img');
+                svg.setAttribute('aria-label', i < safeCount ? 'Safe earnings car' : 'At-risk earnings car');
+                svg.classList.add('car-icon', i < safeCount ? 'safe-car' : 'risk-car');
+                svg.style.opacity = '0';
+                svg.style.transform = 'scale(.7)';
+                const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+                use.setAttribute('href', '#car');
+                svg.appendChild(use);
+                grid.appendChild(svg);
+                const delay = i * 28;
+                setTimeout(() => { svg.style.transition = `opacity .25s ${delay}ms, transform .3s ${delay}ms`;
+                    svg.style.opacity = '';
+                    svg.style.transform = ''; }, 60);
+            }
+        }
+
+        // ── Render country data ───────────────────────────
+        function renderCountry(code, animate = true) {
+            const c = COUNTRIES[code];
+            const d = calcLTV(c);
+            const prevLTV = parseInt((document.getElementById('kpi-ltv').textContent || '0').replace(/[^0-9]/g, '')) || 0;
+
+            animNum(document.getElementById('kpi-ltv'), prevLTV, d.ltv, c.symbol, '');
+            animNum(document.getElementById('kpi-safe'), 0, d.safe, c.symbol, '');
+            animNum(document.getElementById('kpi-risk'), 0, d.risk, c.symbol, '');
+            animNum(document.getElementById('kpi-idx'), 0, c.automationIdx, '', '%');
+            animNum(document.getElementById('kpi-age'), 0, c.riskAge, '', '');
+
+            document.getElementById('kpi-ltv-meta').textContent = `${c.career} yrs · ${c.localDisplay}`;
+            document.getElementById('kpi-age-meta').textContent = `Safe window: ${c.startAge} → ${c.riskAge} (${d.safeYears} yrs)`;
+            document.getElementById('age-pin-risk').textContent = c.riskAge + ' ⚠';
+
+            const totalSpan = 55 - c.startAge;
+            const safeSpan = d.safeYears;
+            const riskSpan = totalSpan - safeSpan;
+            document.getElementById('age-safe-seg').style.flex = safeSpan;
+            document.getElementById('age-risk-seg').style.flex = riskSpan;
+
+            const safePct = Math.round((d.safe / d.ltv) * 100);
+            const riskPct = 100 - safePct;
+            const segSafe = document.getElementById('seg-safe');
+            const segRisk = document.getElementById('seg-risk');
+            segSafe.style.width = safePct + '%';
+            segSafe.textContent = `${fmt(d.safe, code)} Safe (${safePct}%)`;
+            segRisk.style.width = riskPct + '%';
+            segRisk.textContent = `${fmt(d.risk, code)} At Risk (${riskPct}%)`;
+
+            document.getElementById('car-count').textContent = d.carCount;
+            const carNameEl = document.getElementById('car-name');
+            carNameEl.textContent = c.carName + (d.carCount === 1 ? '' : 's');
+            const carSub = document.getElementById('car-sub');
+            const sgNote = code === 'SG' ? ' *COE-inclusive price applies' : '';
+            carSub.textContent =
+                `Based on $${c.carPriceUSD.toLocaleString('en-US')} (USD)/unit reference price${sgNote} · 🟢 Safe earnings · 🔴 At-risk earnings`;
+
+            document.getElementById('car-safe-label').textContent =
+                `${d.safeCarCount} cars = Human-Safe LTV (${fmt(d.safe, code)})`;
+            document.getElementById('car-risk-label').textContent =
+                `${d.riskCarCount} cars = At-Risk LTV (${fmt(d.risk, code)})`;
+
+            buildCarGrid(d.safeCarCount, d.riskCarCount);
+
+            if (animate) {
+                document.querySelector('.ltv-section').classList.remove('ltv-fade');
+                void document.querySelector('.ltv-section').offsetWidth;
+                document.querySelector('.ltv-section').classList.add('ltv-fade');
+            }
+        }
+
+        // ── Country tab click ─────────────────────────────
+        document.getElementById('countryTabs').addEventListener('click', e => {
+            const tab = e.target.closest('.ctab');
+            if (!tab) return;
+            document.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentCountry = tab.dataset.country;
+            renderCountry(currentCountry);
+        });
+
+        // ── Filter pills ──────────────────────────────────
+        document.querySelectorAll('.filter-pill').forEach(pill => {
+            pill.addEventListener('click', () => {
+                document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                const f = pill.dataset.filter;
+                document.querySelectorAll('tbody tr').forEach(r => {
+                    r.classList.toggle('hidden-row', f !== 'all' && r.dataset.status !== f);
+                });
+            });
+        });
+
+        // ── Industry pills ────────────────────────────────
+        document.querySelectorAll('.industry-pill').forEach(pill => {
+            pill.addEventListener('click', () => {
+                document.querySelectorAll('.industry-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+            });
+        });
+
+        // ── Modal ─────────────────────────────────────────
+        const overlay = document.getElementById('modalOverlay');
+        document.getElementById('openModal').addEventListener('click', () => overlay.classList.add('open'));
+        document.getElementById('modalClose').addEventListener('click', () => overlay.classList.remove('open'));
+        overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.classList.remove('open'); });
+        document.querySelectorAll('.modal-tag').forEach(t => t.addEventListener('click', () => t.classList.toggle(
+        'sel')));
+        document.getElementById('confirmBtn').addEventListener('click', () => {
+            const email = document.getElementById('emailInput').value.trim();
+            if (!email || !email.includes('@')) {
+                const inp = document.getElementById('emailInput');
+                inp.style.borderColor = 'var(--red)';
+                inp.focus();
+                setTimeout(() => inp.style.borderColor = '', 1200);
+                return;
+            }
+            document.getElementById('modalForm').style.display = 'none';
+            document.getElementById('modalSuccess').style.display = 'block';
+            setTimeout(() => overlay.classList.remove('open'), 2200);
+            setTimeout(() => {
+                document.getElementById('modalForm').style.display = 'block';
+                document.getElementById('modalSuccess').style.display = 'none';
+                document.getElementById('emailInput').value = '';
+            }, 2800);
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = 'Subscribed · alerts enabled for Chef role';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3200);
+        });
+
+        // ── Init ──────────────────────────────────────────
+        const obs = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) { renderCountry('US', false);
+                obs.disconnect(); }
+        }, { threshold: 0.1 });
+        obs.observe(document.querySelector('.ltv-section'));
+    </script>
+
+    <script>
+        // ── NEW DATA ──────────────────────────────────────────────────────────────────
+        const LEVELS = [
+            { id: 0, name: 'Line Cook', short: 'Line', yearsFrom: 0, color: '#888888' },
+            { id: 1, name: 'Chef de Partie', short: 'CDP', yearsFrom: 2, color: '#4f98a3' },
+            { id: 2, name: 'Sous Chef', short: 'Sous', yearsFrom: 5, color: '#eab308' },
+            { id: 3, name: 'Head Chef', short: 'Head', yearsFrom: 8, color: '#f97316' },
+            { id: 4, name: 'Executive Chef', short: 'Exec', yearsFrom: 16, color: '#22c55e' }
+        ];
+        const PROMO_TRANSITIONS = [
+            { from: 'Line Cook', to: 'Chef de Partie', years: '2–3 yrs', tip: 'Station mastery required' },
+            { from: 'Chef de Partie', to: 'Sous Chef', years: '2–3 yrs', tip: 'Performance + kitchen leadership' },
+            { from: 'Sous Chef', to: 'Head Chef', years: '3–5 yrs', tip: 'Menu creation + team management' },
+            { from: 'Head Chef', to: 'Executive Chef', years: '5–8 yrs', tip: 'Business acumen + reputation' }
+        ];
+        const LEVEL_USD = {
+            US: [32000, 48000, 55000, 72000, 95000],
+            UK: [28000, 42000, 48000, 65000, 88000],
+            AU: [33000, 45000, 50000, 68000, 90000],
+            DE: [26000, 38000, 42000, 58000, 78000],
+            JP: [25000, 35000, 40000, 55000, 73000],
+            SG: [22000, 36000, 41000, 58000, 78000],
+            TW: [13000, 18000, 20000, 28000, 37000],
+            CN: [8000, 12000, 14000, 20000, 30000]
+        };
+        const LEVEL_LOCAL = {
+            US: ['$32K', '$48K', '$55K', '$72K', '$95K'],
+            UK: ['£22K', '£32K', '£37K', '£50K', '£68K'],
+            AU: ['A$45K', 'A$62K', 'A$70K', 'A$95K', 'A$125K'],
+            DE: ['€24K', '€35K', '€39K', '€54K', '€72K'],
+            JP: ['¥3.2M', '¥4.5M', '¥5.1M', '¥7.0M', '¥9.3M'],
+            SG: ['S$30K', 'S$48K', 'S$55K', 'S$78K', 'S$105K'],
+            TW: ['NT$380K', 'NT$520K', 'NT$580K', 'NT$820K', 'NT$1.1M'],
+            CN: ['¥50K', '¥72K', '¥85K', '¥120K', '¥180K']
+        };
+        const LANG_DATA = {
+            US: [{ lang: 'English', level: 'Essential', score: 5 }, { lang: 'Spanish', level: 'Helpful', score: 2 }],
+            UK: [{ lang: 'English', level: 'Essential', score: 5 }],
+            AU: [{ lang: 'English', level: 'Essential', score: 5 }],
+            DE: [{ lang: 'German', level: 'Essential', score: 5 }, { lang: 'English', level: 'Helpful', score: 2 }],
+            JP: [{ lang: 'Japanese', level: 'Essential', score: 5 }, { lang: 'English', level: 'Senior Only',
+                score: 3 }],
+            SG: [{ lang: 'English', level: 'Essential', score: 5 }, { lang: 'Mandarin', level: 'Helpful', score: 2 },
+                { lang: 'Malay', level: 'Optional', score: 1 }
+            ],
+            TW: [{ lang: 'Mandarin', level: 'Essential', score: 5 }, { lang: 'Taiwanese', level: 'Helpful',
+                score: 2 }, { lang: 'English', level: 'Senior Only', score: 3 }
+            ],
+            CN: [{ lang: 'Mandarin', level: 'Essential', score: 5 }, { lang: 'Dialect', level: 'Regional',
+                score: 2 }, { lang: 'English', level: 'High-end Only', score: 3 }
+            ]
+        };
+        const CITY_DATA = {
+            US: [{ city: 'San Francisco', region: 'West', salary: 72000, cost: 105 }, { city: 'New York', region: 'Northeast',
+                    salary: 68000, cost: 103 }, { city: 'Boston', region: 'Northeast', salary: 64000, cost: 90 },
+                { city: 'Seattle', region: 'West', salary: 62000, cost: 88 }, { city: 'Los Angeles', region: 'West',
+                    salary: 65000, cost: 95 }, { city: 'Chicago', region: 'Midwest', salary: 58000, cost: 80 },
+                { city: 'Denver', region: 'Mountain', salary: 55000, cost: 78 }, { city: 'Miami', region: 'South',
+                    salary: 52000, cost: 75 }, { city: 'Dallas', region: 'South', salary: 50000, cost: 65 },
+                { city: 'Phoenix', region: 'Southwest', salary: 48000, cost: 60 }
+            ],
+            UK: [{ city: 'London', region: 'England', salary: 55000, cost: 100 }, { city: 'Edinburgh', region: 'Scotland',
+                    salary: 44000, cost: 75 }, { city: 'Bristol', region: 'England', salary: 43000, cost: 73 },
+                { city: 'Manchester', region: 'England', salary: 42000, cost: 72 }, { city: 'Birmingham',
+                    region: 'England', salary: 40000, cost: 70 }, { city: 'Leeds', region: 'England', salary: 39000,
+                    cost: 68 }
+            ],
+            AU: [{ city: 'Sydney', region: 'NSW', salary: 88000, cost: 100 }, { city: 'Melbourne', region: 'VIC',
+                    salary: 82000, cost: 92 }, { city: 'Canberra', region: 'ACT', salary: 80000, cost: 85 },
+                { city: 'Perth', region: 'WA', salary: 78000, cost: 82 }, { city: 'Brisbane', region: 'QLD',
+                    salary: 75000, cost: 80 }, { city: 'Gold Coast', region: 'QLD', salary: 70000, cost: 75 },
+                { city: 'Adelaide', region: 'SA', salary: 68000, cost: 72 }
+            ],
+            DE: [{ city: 'Munich', region: 'Bavaria', salary: 72000, cost: 100 }, { city: 'Frankfurt', region: 'Hesse',
+                    salary: 68000, cost: 95 }, { city: 'Stuttgart', region: 'Baden-W.', salary: 66000, cost: 88 },
+                { city: 'Hamburg', region: 'Hamburg', salary: 65000, cost: 88 }, { city: 'Düsseldorf', region: 'NRW',
+                    salary: 60000, cost: 82 }, { city: 'Berlin', region: 'Berlin', salary: 60000, cost: 80 },
+                { city: 'Cologne', region: 'NRW', salary: 58000, cost: 78 }
+            ],
+            JP: [{ city: 'Tokyo', region: 'Kanto', salary: 68000, cost: 100 }, { city: 'Yokohama', region: 'Kanto',
+                    salary: 62000, cost: 90 }, { city: 'Osaka', region: 'Kansai', salary: 58000, cost: 85 },
+                { city: 'Kyoto', region: 'Kansai', salary: 55000, cost: 82 }, { city: 'Nagoya', region: 'Chubu',
+                    salary: 52000, cost: 75 }, { city: 'Fukuoka', region: 'Kyushu', salary: 47000, cost: 70 },
+                { city: 'Sapporo', region: 'Hokkaido', salary: 45000, cost: 68 }
+            ],
+            SG: [{ city: 'Orchard', region: 'Central', salary: 82000, cost: 103 }, { city: 'CBD / Marina',
+                    region: 'Central', salary: 80000, cost: 100 }, { city: 'Tampines', region: 'East', salary: 64000,
+                    cost: 80 }, { city: 'Jurong', region: 'West', salary: 62000, cost: 78 }, { city: 'Woodlands',
+                    region: 'North', salary: 60000, cost: 72 }
+            ],
+            TW: [{ city: 'Taipei', region: 'Northern', salary: 30000, cost: 100 }, { city: 'Hsinchu', region: 'Northern',
+                    salary: 28000, cost: 82 }, { city: 'New Taipei', region: 'Northern', salary: 27000, cost: 88 },
+                { city: 'Taichung', region: 'Central', salary: 24000, cost: 72 }, { city: 'Kaohsiung',
+                    region: 'Southern', salary: 23000, cost: 68 }, { city: 'Tainan', region: 'Southern', salary: 22000,
+                    cost: 65 }, { city: 'Taitung', region: 'Eastern', salary: 18000, cost: 55 }, { city: 'Hualien',
+                    region: 'Eastern', salary: 17000, cost: 52 }
+            ],
+            CN: [{ city: 'Shanghai', region: 'East', salary: 30000, cost: 105 }, { city: 'Beijing', region: 'North',
+                    salary: 28000, cost: 100 }, { city: 'Shenzhen', region: 'South', salary: 28000, cost: 98 },
+                { city: 'Guangzhou', region: 'South', salary: 24000, cost: 85 }, { city: 'Chengdu', region: 'Southwest',
+                    salary: 18000, cost: 65 }, { city: 'Chongqing', region: 'Southwest', salary: 17000, cost: 60 },
+                { city: 'Wuhan', region: 'Central', salary: 16000, cost: 58 }, { city: "Xi'an", region: 'Northwest',
+                    salary: 14000, cost: 52 }
+            ]
+        };
+        const COUNTRY_META = {
+            US: { difficulty: 8, restDays: 10, hoursPerDay: 10.5, splitShift: true, bestLearnAge: '17–22',
+                bestEntryAge: '19–25', cert: 'ServSafe · CIA degree optional', travel: 'Low', mobility: 'High',
+                expression: 'High' },
+            UK: { difficulty: 8, restDays: 15, hoursPerDay: 10, splitShift: true, bestLearnAge: '16–21',
+                bestEntryAge: '18–24', cert: 'Level 2/3 Food Safety · NVQ', travel: 'Low', mobility: 'High',
+                expression: 'High' },
+            AU: { difficulty: 7, restDays: 20, hoursPerDay: 9.5, splitShift: false, bestLearnAge: '17–22',
+                bestEntryAge: '19–25', cert: 'SITXFSA006 · Certificate III Hospitality', travel: 'Low',
+                mobility: 'High', expression: 'High' },
+            DE: { difficulty: 7, restDays: 25, hoursPerDay: 9, splitShift: false, bestLearnAge: '16–20',
+                bestEntryAge: '18–23', cert: 'Ausbildung Koch (3 yrs IHK apprentice)', travel: 'Low', mobility: 'High',
+                expression: 'Moderate' },
+            JP: { difficulty: 9, restDays: 8, hoursPerDay: 11, splitShift: true, bestLearnAge: '18–23',
+                bestEntryAge: '20–26', cert: '調理師免許 (National Cook License)', travel: 'Very Low',
+                mobility: 'Extreme', expression: 'Moderate' },
+            SG: { difficulty: 8, restDays: 14, hoursPerDay: 10.5, splitShift: true, bestLearnAge: '17–22',
+                bestEntryAge: '19–25', cert: 'WSQ Food Safety · ITE Pastry/Culinary', travel: 'Low', mobility: 'High',
+                expression: 'High' },
+            TW: { difficulty: 8, restDays: 12, hoursPerDay: 10, splitShift: true, bestLearnAge: '17–22',
+                bestEntryAge: '19–25', cert: '廚師證照 Level 1–3 · 餐飲管理學位', travel: 'Low', mobility: 'High',
+                expression: 'Moderate' },
+            CN: { difficulty: 9, restDays: 7, hoursPerDay: 11.5, splitShift: true, bestLearnAge: '16–21',
+                bestEntryAge: '18–24', cert: '中式烹飪師 (初/中/高級) · 廚師職業資格証', travel: 'Low', mobility: 'High',
+                expression: 'High' }
+        };
+        const EXTRA_META = {
+            US: { budget: '$450/mo', hnwi: 'Private clubs · resort dining · estate chef ladder', startup: '68% readiness',
+                mbti: 'ESTP · ISTJ · ENTJ', uni: 'Not required',
+                uniMeta: 'Prestige helps less than Michelin-grade references and consistency under service pressure.',
+                privateSchool: 'Useful but debt-sensitive',
+                privateMeta: 'Private culinary school helps with network and polish, but line experience still wins in many kitchens.',
+                schools: 'CIA · Johnson & Wales · Kendall',
+                retire: 'Best later-career exits: corporate dining leadership, instructor roles, private chef work, product R&D.',
+                pivot: 'Best pivot set: estate chef, kitchen ops consultant, content/demo chef.' },
+            UK: { budget: '£260/mo', hnwi: 'Hotels · members clubs · private events', startup: '54% readiness',
+                mbti: 'ISTJ · ESTJ · ENTJ', uni: 'Optional',
+                uniMeta: 'Hospitality pedigree matters in some London groups, but references and practical output dominate.',
+                privateSchool: 'Helpful for placement',
+                privateMeta: 'Private schools can speed early placement, but apprenticeship kitchens still carry more weight long term.',
+                schools: 'Westminster Kingsway · Le Cordon Bleu London · University College Birmingham',
+                retire: 'Best later-career exits: hotel training, F&B management, consultancy, premium catering.',
+                pivot: 'Best pivot set: members-club chef, luxury catering lead, compliance trainer.' },
+            AU: { budget: 'A$420/mo', hnwi: 'Resorts · wine regions · premium tourism', startup: '72% readiness',
+                mbti: 'ESTP · ENTJ · ISTJ', uni: 'Optional',
+                uniMeta: 'TAFE and real kitchen output usually matter more than elite university branding.',
+                privateSchool: 'Often practical',
+                privateMeta: 'Private programs can be useful when tied to placement, but should not replace live service volume.',
+                schools: 'Le Cordon Bleu Melbourne · William Angliss · TAFE NSW Hospitality',
+                retire: 'Best later-career exits: catering operator, venue manager, hospitality trainer, food business owner.',
+                pivot: 'Best pivot set: private dining operator, venue consultant, regional culinary trainer.' },
+            DE: { budget: '€220/mo', hnwi: 'Luxury hotels · old-money dining · cruise / resort paths',
+                startup: '49% readiness', mbti: 'ISTJ · INTJ · ESTJ', uni: 'Usually not required',
+                uniMeta: 'Formal training structure matters more than prestige university signaling.',
+                privateSchool: 'Apprenticeship usually stronger',
+                privateMeta: 'The apprenticeship route is often more trusted than expensive private alternatives.',
+                schools: 'Culinary schools tied to IHK tracks · Hotelfachschule Heidelberg · DHBW hospitality routes',
+                retire: 'Best later-career exits: training kitchens, hotel operations, procurement and food safety roles.',
+                pivot: 'Best pivot set: food safety lead, hotel trainer, procurement specialist.' },
+            JP: { budget: '¥45,000/mo', hnwi: 'Omakase · ryokan · private invitation dining', startup: '46% readiness',
+                mbti: 'ISTJ · INTJ · ISFJ', uni: 'Not required',
+                uniMeta: 'Lineage, discipline, and master-apprentice credibility matter more than elite university names.',
+                privateSchool: 'Can help, lineage stronger',
+                privateMeta: 'School can open doors, but hierarchy and apprenticeship quality remain the stronger signal.',
+                schools: 'Tsuji Culinary Institute · Hattori Nutrition College · Tokyo Seika',
+                retire: 'Best later-career exits: teaching, quality control, supplier advisory, small-format premium dining. Includes potential for parental retirement support.',
+                pivot: 'Best pivot set: luxury counter chef, QA/standards lead, craft instructor.' },
+            SG: { budget: 'S$420/mo', hnwi: 'Luxury hotels · expat clients · regional affluent events',
+                startup: '76% readiness', mbti: 'ENTJ · ESTJ · ESTP', uni: 'Useful but optional',
+                uniMeta: 'Prestige helps in hotel groups, but multilingual polish and operational discipline matter more.',
+                privateSchool: 'Useful if placement-led',
+                privateMeta: 'Private training is most useful when tied to brand-name hotel placement and language advantage.',
+                schools: 'At-Sunrice · SHATEC · Temasek hospitality tracks',
+                retire: 'Best later-career exits: consulting, regional training, private dining, multi-outlet oversight. Includes potential for parental retirement support.',
+                pivot: 'Best pivot set: cloud-kitchen founder, private dining operator, regional trainer.' },
+            TW: { budget: 'NT$8,000/mo', hnwi: 'Private banquets · boutique hospitality · luxury clubs',
+                startup: '57% readiness', mbti: 'ISTJ · ESTP · ENTJ', uni: 'Optional',
+                uniMeta: 'Prestige matters less than bilingual service quality and steady kitchen reputation.',
+                privateSchool: 'Selective value',
+                privateMeta: 'Private school can help with early access, but consistent kitchen output remains the strongest signal.',
+                schools: '國立高雄餐旅大學 · 景文科大餐飲系 · 實踐大學 hospitality tracks',
+                retire: 'Best later-career exits: banquet operations, culinary teaching, central kitchen roles. Includes potential for parental retirement support.',
+                pivot: 'Best pivot set: banquet lead, product testing, kitchen standards consultant.' },
+            CN: { budget: '¥1,800/mo', hnwi: 'Luxury banquets · private rooms · club kitchens', startup: '61% readiness',
+                mbti: 'ISTJ · ESTP · ENTJ', uni: 'Not required',
+                uniMeta: 'Brand-name university is much less important than apprenticeship pedigree, execution, and network.',
+                privateSchool: 'Mixed value',
+                privateMeta: 'Private culinary schools can speed placement, but live kitchen references usually outrank tuition branding.',
+                schools: 'Le Cordon Bleu Shanghai · SICA · Shanghai Business & Tourism',
+                retire: 'Best later-career exits: training manager, central kitchen leader, private chef, culinary lecturer. Includes potential for parental retirement support.',
+                pivot: 'Best pivot set: private household chef, SOP consultant, flavor/product R&D.' }
+        };
+        const ACCESS_LINKS = [
+            { title: 'Training & Courses', desc: 'Online platforms and culinary schools — Coursera, Rouxbe, Le Cordon Bleu, and local academies' },
+            { title: 'Certifications & Credentials', desc: 'Professional credentials: food safety, HACCP, Red Seal, and role-specific licensing paths' },
+            { title: 'Job Search & Placement', desc: 'Top hiring channels: LinkedIn, Culinary Agents, hotel career pages, and premium hospitality boards' },
+            { title: 'Freelance & Side Work', desc: 'Supplemental income opportunities: banquet staffing, private events, pop-ups, and seasonal resort roles' },
+            { title: 'Your Portfolio & Referrals', desc: 'Link to your own portfolio, tasting menu decks, and personal referral network' },
+            { title: 'Find a Mentor', desc: 'Connect with a master chef, culinary guide, or senior sifu to grow your craft and expand your network' }
+        ];
+        const COUNTRY_NAMES = { US: 'USA', UK: 'United Kingdom', AU: 'Australia', DE: 'Germany', JP: 'Japan', SG: 'Singapore',
+            TW: 'Taiwan', CN: 'China' };
+
+        let currentLevel = 0;
+
+        // ── INCOME CURVE CHART ──────────────────────────────────────────────────────
+        function buildIncomePoints(country) {
+            const salaries = LEVEL_USD[country] || LEVEL_USD.US;
+            const transitions = [0, 2, 5, 8, 16];
+            const pts = [];
+            for (let yr = 0; yr <= 30; yr++) {
+                let lvl = 0;
+                for (let i = transitions.length - 1; i >= 0; i--) { if (yr >= transitions[i]) { lvl = i; break; } }
+                const nextTrans = transitions[lvl + 1] || 30;
+                const frac = lvl < 4 ? (yr - transitions[lvl]) / (nextTrans - transitions[lvl]) : 1;
+                const baseSal = salaries[lvl];
+                const nextSal = lvl < 4 ? salaries[lvl + 1] : salaries[4] * 1.15;
+                const sal = baseSal + (nextSal - baseSal) * frac * 0.4;
+                pts.push({ yr, sal, lvl });
+            }
+            return pts;
+        }
+
+        function renderIncomeChart(country) {
+            const svg = document.getElementById('incomeSVG');
+            if (!svg) return;
+            const pts = buildIncomePoints(country);
+            const salaries = LEVEL_USD[country] || LEVEL_USD.US;
+            const TOTAL_YRS = 30;
+            const W = 900,
+                H = 240,
+                padL = 55,
+                padR = 30,
+                padT = 24,
+                padB = 38;
+            svg.setAttribute('height', H);
+            svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+            const cW = W - padL - padR,
+                cH = H - padT - padB;
+            const maxSal = Math.max(...pts.map(p => p.sal)) * 1.12;
+            const minSal = pts[0].sal * 0.75;
+            const xOf = yr => padL + (yr / TOTAL_YRS) * cW;
+            const yOf = sal => padT + cH - ((sal - minSal) / (maxSal - minSal)) * cH;
+            let html = '';
+
+            for (let g = 0; g <= 4; g++) {
+                const y = padT + (g / 4) * cH;
+                const val = Math.round(maxSal - (g / 4) * (maxSal - minSal));
+                html += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#222" stroke-width="1"/>`;
+                html +=
+                    `<text x="${padL-5}" y="${y+4}" text-anchor="end" fill="#555" font-size="10">${val>=1000?'$'+(val/1000).toFixed(0)+'K':val}</text>`;
+            }
+            [0, 5, 10, 15, 20, 25, 30].forEach(yr => {
+                const lbl = `Yr ${yr}`;
+                html += `<text x="${xOf(yr)}" y="${H-5}" text-anchor="middle" fill="#555" font-size="10">${lbl}</text>`;
+            });
+
+            html +=
+                `<line x1="${xOf(30)}" y1="${padT}" x2="${xOf(30)}" y2="${H-padB}" stroke="#555" stroke-width="1.5" stroke-dasharray="4,3"/>`;
+            html +=
+                `<text x="${xOf(30)-4}" y="${padT+12}" text-anchor="end" fill="#666" font-size="9" font-weight="600">CAREER END</text>`;
+
+            let d = '';
+            pts.forEach((p, i) => { d += (i === 0 ? 'M' : 'L') + xOf(p.yr).toFixed(1) + ',' + yOf(p.sal).toFixed(1); });
+            html += `<path d="${d}" fill="none" stroke="url(#careerGrad)" stroke-width="2.5"/>`;
+
+            const lvlStart = LEVELS[currentLevel].yearsFrom;
+            const currentSal = pts.find(p => p.yr === lvlStart)?.sal || salaries[currentLevel];
+            const projX1 = xOf(lvlStart);
+            const projX2 = xOf(30);
+            const projY = yOf(currentSal);
+            html +=
+                `<line x1="${projX1}" y1="${projY}" x2="${projX2}" y2="${projY}" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,3" opacity="0.8"/>`;
+
+            const transYears = [0, 2, 5, 8, 16, 30];
+            transYears.forEach(yr => {
+                const p = pts.find(pp => pp.yr === yr);
+                if (!p) return;
+                const col = LEVELS[p.lvl].color;
+                html +=
+                    `<circle cx="${xOf(p.yr)}" cy="${yOf(p.sal)}" r="5" fill="${col}" stroke="#0e0e0e" stroke-width="2"/>`;
+                html +=
+                    `<line x1="${xOf(p.yr)}" y1="${yOf(p.sal)}" x2="${xOf(p.yr)}" y2="${H-padB+4}" stroke="${col}" stroke-width="1" stroke-dasharray="3,3" opacity="0.35"/>`;
+            });
+
+            const lvlColor = LEVELS[currentLevel].color;
+            const lvlEnd = currentLevel < 4 ? LEVELS[currentLevel + 1].yearsFrom : 30;
+            const rx1 = xOf(lvlStart),
+                rx2 = xOf(lvlEnd);
+            html =
+                `<defs><linearGradient id="careerGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#4f98a3"/><stop offset="60%" stop-color="#eab308"/><stop offset="100%" stop-color="#22c55e"/></linearGradient></defs><rect x="${rx1}" y="${padT}" width="${rx2-rx1}" height="${cH}" fill="${lvlColor}" opacity="0.07" rx="2"/>` +
+                html;
+
+            svg.innerHTML = html;
+            document.getElementById('chartCountryLabel').textContent = COUNTRY_NAMES[country] || country;
+        }
+
+        // ── PROMO LADDER ──────────────────────────────────────────────────────────────
+        function renderPromoFlow(country) {
+            const salaries = LEVEL_LOCAL[country] || LEVEL_LOCAL.US;
+            const flow = document.getElementById('promoFlow');
+            if (!flow) return;
+            let html = '';
+            LEVELS.forEach((lvl, i) => {
+                const isActive = i === currentLevel;
+                html += `<div class="promo-node">
+          <div class="promo-circle" style="border-color:${lvl.color};background:${isActive?lvl.color+'22':'transparent'};color:${lvl.color}">
+            <span style="font-size:9px;text-align:center;padding:2px">${lvl.short}</span>
+          </div>
+          <div class="promo-label" style="color:${isActive?lvl.color:'var(--text-muted)'}">${lvl.name}</div>
+          <div class="promo-salary" style="color:${isActive?'#fff':'var(--text-faint)'}">${salaries[i]}</div>
+        </div>`;
+                if (i < LEVELS.length - 1) {
+                    const tr = PROMO_TRANSITIONS[i];
+                    html += `<div class="promo-arrow">
+            <div class="promo-arrow-line"></div>
+            <div class="promo-arrow-years">${tr.years}</div>
+            <div class="promo-arrow-sub">${tr.tip}</div>
+          </div>`;
+                }
+            });
+            flow.innerHTML = html;
+        }
+
+        // ── CAREER INSIGHTS ───────────────────────────────────────────────────────────
+        function renderInsights(country) {
+            const m = COUNTRY_META[country] || COUNTRY_META.US;
+            const salaries = LEVEL_LOCAL[country] || LEVEL_LOCAL.US;
+            const grid = document.getElementById('insightsGrid');
+            if (!grid) return;
+            const difPips = Array.from({ length: 10 }, (_, i) => {
+                let cls = 'diff-pip';
+                if (i < m.difficulty) {
+                    if (m.difficulty <= 3) cls += ' filled-low';
+                    else if (m.difficulty <= 6) cls += ' filled-mid';
+                    else if (m.difficulty <= 8) cls += ' filled-high';
+                    else cls += ' filled-max';
+                }
+                return `<div class="${cls}"></div>`;
+            }).join('');
+            const difLabel = ['', '', 'Very Easy', 'Easy', 'Below Avg', 'Average', 'Above Avg', 'Hard', 'Very Hard', 'Brutal',
+                'Extreme'
+            ][m.difficulty] || 'Hard';
+            grid.innerHTML = `
+            <div class="insight-card" style="--glow:color-mix(in oklch,var(--red) 12%,transparent)">
+              <span class="insight-icon">💪</span>
+              <div class="insight-label">Job Hardship</div>
+              <div class="insight-value" style="color:var(--orange)">${m.difficulty}/10</div>
+              <div class="insight-meta">${difLabel} · physically &amp; mentally demanding</div>
+              <div class="difficulty-bar">${difPips}</div>
+            </div>
+            <div class="insight-card">
+              <span class="insight-icon">🏖️</span>
+              <div class="insight-label">Annual Leave</div>
+              <div class="insight-value" style="color:var(--accent)">${m.restDays} days</div>
+              <div class="insight-meta">${m.hoursPerDay}h avg work day · ${m.splitShift?'Split shifts common':'Continuous shifts'}</div>
+            </div>
+            <div class="insight-card">
+              <span class="insight-icon">🎓</span>
+              <div class="insight-label">Best Learning Age</div>
+              <div class="insight-value" style="color:var(--yellow)">${m.bestLearnAge}</div>
+              <div class="insight-meta">Culinary school or apprenticeship entry window</div>
+            </div>
+            <div class="insight-card">
+              <span class="insight-icon">🚀</span>
+              <div class="insight-label">Best Entry Age</div>
+              <div class="insight-value" style="color:var(--green)">${m.bestEntryAge}</div>
+              <div class="insight-meta">Peak energy &amp; fastest skill absorption period</div>
+            </div>
+            <div class="insight-card">
+              <span class="insight-icon">✈️</span>
+              <div class="insight-label">Business Travel</div>
+              <div class="insight-value" style="color:var(--accent)">${m.travel}</div>
+              <div class="insight-meta">Frequency of travel for events, sourcing, or multi-site management.</div>
+            </div>
+            <div class="insight-card">
+              <span class="insight-icon">🏃</span>
+              <div class="insight-label">Physical Mobility</div>
+              <div class="insight-value" style="color:var(--orange)">${m.mobility}</div>
+              <div class="insight-meta">Level of constant movement, standing, and station transitions.</div>
+            </div>
+            <div class="insight-card">
+              <span class="insight-icon">🗣️</span>
+              <div class="insight-label">Creative Self-Expression</div>
+              <div class="insight-value" style="color:var(--yellow)">${m.expression}</div>
+              <div class="insight-meta">Requirement to communicate vision, lead teams, and express creativity.</div>
+            </div>
+            <div class="insight-card" style="grid-column:span 2">
+              <span class="insight-icon">📜</span>
+              <div class="insight-label">Certifications Required</div>
+              <div class="insight-value" style="font-size:13px;color:var(--text)">${m.cert}</div>
+              <div class="insight-meta">Varies by employer tier &amp; establishment type</div>
+            </div>
+          `;
+        }
+
+        // ── LANGUAGE SECTION ──────────────────────────────────────────────────────────
+        function renderLang(country) {
+            const langs = LANG_DATA[country] || [];
+            const list = document.getElementById('langList');
+            const label = document.getElementById('langCountryLabel');
+            if (!list) return;
+            if (label) label.textContent = COUNTRY_NAMES[country] || country;
+            const levelPillClass = {
+                'Essential': 'llp-essential',
+                'Helpful': 'llp-helpful',
+                'Optional': 'llp-optional',
+                'Senior Only': 'llp-senior',
+                'High-end Only': 'llp-senior',
+                'Regional': 'llp-helpful'
+            };
+            const LANG_SCORES = {
+                1: 'Elementary',
+                2: 'Limited Working',
+                3: 'Professional Working',
+                4: 'Full Professional',
+                5: 'Native / Bilingual'
+            };
+            list.innerHTML = langs.map(l => `
+            <div class="lang-row">
+              <div class="lang-name">${l.lang}</div>
+              <span class="lang-level-pill ${levelPillClass[l.level]||'llp-optional'}">${l.level}</span>
+              <div class="lang-bar-wrap">
+                <div class="lang-bar-track"><div class="lang-bar-fill" style="width:${l.score*20}%"></div></div>
+              </div>
+              <div style="font-size:10px;color:var(--text-faint);min-width:120px">${LANG_SCORES[l.score] || l.score + '/5'}</div>
+            </div>
+          `).join('');
+        }
+
+        // ── CITY HEATMAP ──────────────────────────────────────────────────────────────
+        function renderHeatmap(country) {
+            const cities = CITY_DATA[country] || [];
+            const grid = document.getElementById('heatmapGrid');
+            const label = document.getElementById('heatmapCountryLabel');
+            if (!grid) return;
+            if (label) label.textContent = COUNTRY_NAMES[country] || country;
+            if (!cities.length) { grid.innerHTML =
+                    '<div style="font-size:12px;color:var(--text-faint)">No city data available</div>'; return; }
+            const sorted = [...cities].sort((a, b) => b.salary - a.salary);
+            const maxS = sorted[0].salary,
+                minS = sorted[sorted.length - 1].salary;
+            grid.innerHTML = sorted.map(c => {
+                const pct = (c.salary - minS) / (maxS - minS || 1);
+                let bg;
+                if (pct < 0.5) {
+                    const t = pct * 2;
+                    const r = Math.round(239 + (234 - 239) * t),
+                        g = Math.round(68 + (179 - 68) * t),
+                        b = Math.round(68 + (8 - 68) * t);
+                    bg = `rgba(${r},${g},${b},0.25)`;
+                } else {
+                    const t = (pct - 0.5) * 2;
+                    const r = Math.round(234 + (34 - 234) * t),
+                        g = Math.round(179 + (197 - 179) * t),
+                        b = Math.round(8 + (94 - 8) * t);
+                    bg = `rgba(${r},${g},${b},0.25)`;
+                }
+                const brd = pct < 0.33 ? 'var(--red)' : pct < 0.66 ? 'var(--yellow)' : 'var(--green)';
+                const salK = c.salary >= 1000 ? (c.salary / 1000).toFixed(0) + 'K' : c.salary;
+                return `<div class="city-card" style="background:${bg};border:1px solid ${brd}">
+              <div class="city-name">${c.city}</div>
+              <div class="city-region">${c.region}</div>
+              <div class="city-salary">$${salK}</div>
+              <div class="city-cost">Cost Index: ${c.cost}</div>
+            </div>`;
+            }).join('');
+        }
+
+        function renderRequirementExtensions(country) {
+            const STARTUP_LINKS = {
+                US: [{ label: 'SBA Grants', url: 'https://www.sba.gov' }, { label: 'CloudKitchens',
+                        url: 'https://cloudkitchens.com' }, { label: 'Restaurant Owner Association',
+                        url: 'https://www.restaurantowner.com' }
+                ],
+                UK: [{ label: 'Gov Business Support', url: 'https://www.gov.uk/business-finance-support' },
+                    { label: 'Kitchen United', url: 'https://www.kitchenunited.com' },
+                    { label: 'British Hospitality Association', url: 'https://www.ukhospitality.org.uk' }
+                ],
+                AU: [{ label: 'Business.gov.au', url: 'https://business.gov.au' }, { label: 'FoodStars',
+                        url: 'https://foodstars.com.au' }, { label: 'Restaurant & Catering Australia',
+                        url: 'https://rca.asn.au' }
+                ],
+                DE: [{ label: 'KfW Start-ups', url: 'https://www.kfw.de' }, { label: 'KitchenTown Berlin',
+                        url: 'https://www.kitchentown.de' }, { label: 'DEHOGA',
+                        url: 'https://www.dehoga-bundesverband.de' }
+                ],
+                JP: [{ label: 'J-Net21', url: 'https://j-net21.smrj.go.jp' }, { label: 'Cloud Kitchen Japan',
+                        url: 'https://cloudkitchens.com/jp/' }, { label: 'Japan Foodservice Association',
+                        url: 'http://www.jfnet.or.jp' }
+                ],
+                SG: [{ label: 'Enterprise SG', url: 'https://www.enterprisesg.gov.sg' }, { label: 'Smart City Kitchens',
+                        url: 'https://smartcitykitchens.com' }, { label: 'Restaurant Association of SG',
+                        url: 'https://ras.org.sg' }
+                ],
+                TW: [{ label: 'SMEA Grants', url: 'https://www.smea.gov.tw' }, { label: 'Cloud Kitchen Taiwan',
+                        url: 'https://www.cloudkitchens.com.tw' }, { label: 'Taiwan Gourmet Association',
+                        url: 'http://www.tga.org.tw' }
+                ],
+                CN: [{ label: 'China Business Registry', url: 'http://www.gsxt.gov.cn' }, { label: 'Meituan Cloud Kitchen',
+                        url: 'https://kd.meituan.com' }, { label: 'China Hospitality Association',
+                        url: 'http://www.chinahotel.org.cn' }
+                ]
+            };
+
+            const FAMOUS_CHEFS = {
+                US: [{ name: 'Alan Wong', netWorth: '$1.1B' }, { name: 'Wolfgang Puck', netWorth: '$120M' }],
+                UK: [{ name: 'Gordon Ramsay', netWorth: '$220M' }, { name: 'Jamie Oliver', netWorth: '$200M' }],
+                AU: [{ name: 'Curtis Stone', netWorth: '$25M' }, { name: 'Neil Perry', netWorth: '$25M' }],
+                DE: [{ name: 'Tim Mälzer', netWorth: '$10M' }, { name: 'Eckart Witzigmann', netWorth: '$5M' }],
+                JP: [{ name: 'Nobu Matsuhisa', netWorth: '$200M' }, { name: 'Masaharu Morimoto', netWorth: '$18M' }],
+                SG: [{ name: 'Sam Leong', netWorth: '$5M' }, { name: 'Janice Wong', netWorth: '$3M' }],
+                TW: [{ name: 'André Chiang', netWorth: '$10M' }, { name: 'Lanshu Chen', netWorth: '$5M' }],
+                CN: [{ name: 'Da Dong', netWorth: '$50M' }, { name: 'Wang Gang', netWorth: '$2M' }]
+            };
+
+            const meta = EXTRA_META[country] || EXTRA_META.US;
+
+            const baseStartup = parseInt(meta.startup);
+            const multipliers = [0, 5, 15, 25, 40];
+            const dynamicStartup = Math.min(95, baseStartup + multipliers[currentLevel]);
+            const startupDisplay = dynamicStartup + '% readiness';
+
+            const chefs = FAMOUS_CHEFS[country] || FAMOUS_CHEFS.US;
+            const chefsHtml = chefs.map(c => `<strong>${c.name}</strong> (${c.netWorth})`).join(', ');
+
+            const network = document.getElementById('networkGrid');
+            if (network) {
+                network.innerHTML = `
+              <div class="note-card">
+                <div class="note-title">Recommended Majors</div>
+                <div class="note-value" style="font-size:14px">Culinary Arts & Hospitality Mgt</div>
+                <div class="note-meta">Secondary: Food Science, Nutrition, or Business Administration.</div>
+              </div>
+              <div class="note-card">
+                <div class="note-title">Target Courses</div>
+                <div class="note-value" style="font-size:14px">Kitchen Ops & Cost Control</div>
+                <div class="note-meta">Also highly recommended: Molecular Gastronomy, Sustainable Sourcing, and Staff Leadership.</div>
+              </div>
+              <div class="note-card">
+                <div class="note-title">Stretch Majors</div>
+                <div class="note-value" style="font-size:14px">F&B Tech & Innovation</div>
+                <div class="note-meta">To beat AI risk, transition into tech-enabled food systems or high-end molecular research.</div>
+              </div>
+              <div class="note-card">
+                <div class="note-title">Key Connections</div>
+                <div class="note-value" style="font-size:14px">Michelin Execs & F&B Directors</div>
+                <div class="note-meta">
+                  <div style="background:color-mix(in oklch,var(--accent) 10%,transparent);border:1px dashed var(--accent);padding:8px;border-radius:4px;margin-top:4px">
+                    <div style="color:var(--accent);font-weight:700;font-size:11px">Login to unlock your personalized key connection plan and step-by-step outreach strategy</div>
+                  </div>
+                </div>
+              </div>
+              <div class="note-card" style="grid-column:span 2">
+                <div class="note-title">Hall of Fame — ${COUNTRY_NAMES[country]||country}</div>
+                <div class="note-value" style="font-size:14px">${chefsHtml}</div>
+                <div class="note-meta">These chefs scaled by leveraging personal brand, media, and multi-venue empires rather than just line cooking.</div>
+              </div>
+            `;
+            }
+
+            const extra = document.getElementById('extraInsightsGrid');
+            const access = document.getElementById('accessGrid');
+            const notes = document.getElementById('careerNotesGrid');
+
+            if (extra) {
+                const links = STARTUP_LINKS[country] || [];
+                const linksListHtml = links.map(l =>
+                        `<a href="${l.url}" target="_blank" style="color:var(--accent);text-decoration:none;font-size:10px;display:block;margin-top:4px">→ ${l.label}</a>`
+                        )
+                    .join('');
+
+                extra.innerHTML = `
+              <div class="insight-card">
+                <span class="insight-icon">💸</span>
+                <div class="insight-label">Relationship Budget</div>
+                <div class="insight-value" style="color:var(--accent)">${meta.budget}</div>
+                <div class="insight-meta">Approximate monthly social / dating spend that usually stays manageable at this path level.</div>
+              </div>
+              <div class="insight-card">
+                <span class="insight-icon">🧑‍💼</span>
+                <div class="insight-label">HNWI Client Access</div>
+                <div class="insight-value" style="font-size:13px;color:var(--text)">${meta.hnwi}</div>
+                <div class="insight-meta">Best environments for reaching high-net-worth diners and private clients.</div>
+              </div>
+              <div class="insight-card" id="startupCard" style="cursor:pointer">
+                <span class="insight-icon">🚀</span>
+                <div class="insight-label">Startup Readiness</div>
+                <div class="insight-value" style="color:var(--green)">${startupDisplay}</div>
+                <div class="insight-meta">How naturally this market supports private dining, cloud kitchen, or consulting pivots.</div>
+                <div id="startupLinks" style="display:none;margin-top:8px;border-top:1px solid var(--border);padding-top:8px">
+                  ${linksListHtml}
+                </div>
+                <div id="startupToggle" style="font-size:9px;color:var(--accent);margin-top:8px;text-decoration:underline">Click to view local resources</div>
+              </div>
+            `;
+
+                document.getElementById('startupCard').addEventListener('click', function() {
+                    const l = document.getElementById('startupLinks');
+                    const t = document.getElementById('startupToggle');
+                    if (l.style.display === 'none') {
+                        l.style.display = 'block';
+                        t.textContent = 'Click to hide resources';
+                    } else {
+                        l.style.display = 'none';
+                        t.textContent = 'Click to view local resources';
+                    }
+                });
+            }
+            if (access) {
+                access.innerHTML = ACCESS_LINKS.map(item => `
+              <div class="link-card">
+                <div class="link-card-title">${item.title}</div>
+                <div class="link-card-desc">${item.desc}</div>
+              </div>
+            `).join('');
+            }
+            if (notes) {
+                let retireMeta = "Your late-career exit options and personal retirement outlook.";
+                if (['CN', 'TW', 'SG', 'JP'].includes(country)) {
+                    retireMeta += " Includes financial and strategic planning for parental care.";
+                } else {
+                    retireMeta += " Parental support potential is shown where culturally applicable.";
+                }
+
+                notes.innerHTML = `
+              <div class="note-card">
+                <div class="note-title">MBTI Fit</div>
+                <div class="note-value">Login to see</div>
+                <div class="note-meta">These personality types tend to thrive in kitchen pressure, creative execution, and culinary leadership roles.</div>
+              </div>
+              <div class="note-card">
+                <div class="note-title">Prestige University</div>
+                <div class="note-value">${meta.uni}</div>
+                <div class="note-meta">${meta.uniMeta}</div>
+              </div>
+              <div class="note-card">
+                <div class="note-title">Private Schooling Considerations</div>
+                <div class="note-value">${meta.privateSchool}</div>
+                <div class="note-meta">${meta.privateMeta} <br><br> <strong>Is it worth it for me?</strong> Login for a personalized ROI analysis. <br> <strong>Can my income cover my child's tuition?</strong> Estimated by career level.</div>
+              </div>
+              <div class="note-card">
+                <div class="note-title">Recommended Schools</div>
+                <div class="note-value" style="font-size:13px">${meta.schools}</div>
+                <div class="note-meta">Login for a personalized school match based on your goals — or browse the most recognized programs listed above.</div>
+              </div>
+              <div class="note-card">
+                <div class="note-title">Retirement Planning</div>
+                <div class="note-value" style="font-size:13px">${meta.retire}</div>
+                <div class="note-meta">${retireMeta}</div>
+              </div>
+              <div class="note-card">
+                <div class="note-title">Skill Pivot</div>
+                <div class="note-value" style="font-size:13px">${meta.pivot}</div>
+                <div class="note-meta">Login to discover roles that better match your skillset and career background.</div>
+              </div>
+            `;
+            }
+        }
+
+        function renderLevelLTV(level, country) {
+            const c = COUNTRIES[country] || COUNTRIES.US;
+            const salaries = LEVEL_USD[country] || LEVEL_USD.US;
+            const salariesLocal = LEVEL_LOCAL[country] || LEVEL_LOCAL.US;
+            const annualUSD = salaries[level];
+            const careerYrs = 30;
+            const ltv = annualUSD * careerYrs;
+            const maxUSD = salaries[LEVELS.length - 1];
+            const peakLTV = maxUSD * careerYrs;
+            const ltvPct = Math.round((ltv / peakLTV) * 100);
+
+            const safe = Math.round(ltv * (1 - c.automationIdx / 100));
+            const risk = ltv - safe;
+            const safePct = Math.round((safe / ltv) * 100);
+            const riskPct = 100 - safePct;
+            const carCount = Math.round(ltv / c.carPriceUSD);
+            const safeCarCount = Math.round(safe / c.carPriceUSD);
+            const riskCarCount = carCount - safeCarCount;
+            const lvlName = LEVELS[level].name;
+            animNum(document.getElementById('kpi-ltv'), 0, ltv, c.symbol, '');
+            animNum(document.getElementById('kpi-safe'), 0, safe, c.symbol, '');
+            animNum(document.getElementById('kpi-risk'), 0, risk, c.symbol, '');
+            document.getElementById('kpi-ltv-meta').textContent = `${careerYrs} yrs · ${salariesLocal[level]}/yr at ${lvlName}`;
+
+            const barLtv = document.getElementById('bar-ltv');
+            if (barLtv) {
+                barLtv.style.width = ltvPct + '%';
+            }
+
+            const segSafe = document.getElementById('seg-safe');
+            const segRisk = document.getElementById('seg-risk');
+            segSafe.style.width = safePct + '%';
+            segSafe.textContent = `${c.symbol}${safe.toLocaleString('en-US')} Safe (${safePct}%)`;
+            segRisk.style.width = riskPct + '%';
+            segRisk.textContent = `${c.symbol}${risk.toLocaleString('en-US')} At Risk (${riskPct}%)`;
+            document.getElementById('car-count').textContent = carCount;
+            document.getElementById('car-safe-label').textContent =
+                `${safeCarCount} cars = Human-Safe LTV (${c.symbol}${safe.toLocaleString('en-US')})`;
+            document.getElementById('car-risk-label').textContent =
+                `${riskCarCount} cars = At-Risk LTV (${c.symbol}${risk.toLocaleString('en-US')})`;
+            buildCarGrid(safeCarCount, riskCarCount);
+            document.querySelector('.ltv-section').classList.remove('ltv-fade');
+            void document.querySelector('.ltv-section').offsetWidth;
+            document.querySelector('.ltv-section').classList.add('ltv-fade');
+        }
+
+        // ── CAREER RECOMMENDATIONS DATA (per level) ──────────────────────────────────
+        const CAREER_RECS = [
+            [{ title: 'Kitchen Quality Monitor', match: '76%', color: 'var(--accent)',
+                    desc: 'Inspect food prep standards, portion accuracy, and safety compliance on the line.',
+                    skills: ['Food Safety Awareness', 'Temperature Control'] },
+                { title: 'Catering Production Staff', match: '71%', color: 'var(--green)',
+                    desc: 'Execute large-batch food production; leverages station discipline and consistency.',
+                    skills: ['Station Management', 'Speed & Consistency'] },
+                { title: 'Food Prep Trainer', match: '65%', color: 'var(--yellow)',
+                    desc: 'Onboard new kitchen staff on safe food handling, basic knife skills, and prep routines.',
+                    skills: ['Knife Skills', 'Ingredient Handling'] }
+            ],
+            [{ title: 'Recipe Testing Technician', match: '83%', color: 'var(--accent)',
+                    desc: 'Support R&D teams testing and refining dishes; leverages sensory sharpness and station mastery.',
+                    skills: ['Sensory Evaluation', 'Mise en Place Mastery'] },
+                { title: 'Catering Supervisor', match: '78%', color: 'var(--green)',
+                    desc: 'Lead a team for events and large service operations; leverages coordination and quality awareness.',
+                    skills: ['Team Coordination', 'Quality Awareness'] },
+                { title: 'Production Kitchen Lead', match: '72%', color: 'var(--yellow)',
+                    desc: 'Oversee batch production for central kitchens; leverages timing and station leadership.',
+                    skills: ['Station Leadership', 'Time Management'] }
+            ],
+            [{ title: 'Food Technologist (R&D)', match: '88%', color: 'var(--accent)',
+                    desc: 'Focus on sensory evaluation, recipe scaling, and food chemistry. High growth, lower physical strain.',
+                    skills: ['Recipe Development', 'Quality Control'] },
+                { title: 'Event Operations Manager', match: '82%', color: 'var(--green)',
+                    desc: 'Leverages high-pressure coordination, vendor management, and timing logistics.',
+                    skills: ['Staff Supervision', 'Cost Management'] },
+                { title: 'F&B Procurement Analyst', match: '76%', color: 'var(--yellow)',
+                    desc: 'Utilizes knowledge of ingredient quality, yield management, and supplier networks.',
+                    skills: ['Inventory Control', 'Supplier Knowledge'] }
+            ],
+            [{ title: 'F&B Operations Manager', match: '90%', color: 'var(--accent)',
+                    desc: 'Oversee multi-venue food and beverage operations; leverages budget, team, and menu mastery.',
+                    skills: ['Budget Control', 'Team Management'] },
+                { title: 'Event Operations Manager', match: '85%', color: 'var(--green)',
+                    desc: 'Leverages crisis management, vendor coordination, and large-scale event logistics.',
+                    skills: ['Crisis Management', 'Logistics Planning'] },
+                { title: 'F&B Procurement Specialist', match: '80%', color: 'var(--yellow)',
+                    desc: 'Utilizes deep knowledge of suppliers, ingredient quality, and yield optimisation.',
+                    skills: ['Supply Chain Knowledge', 'Negotiation'] }
+            ],
+            [{ title: 'F&B Director', match: '93%', color: 'var(--accent)',
+                    desc: 'Lead entire food and beverage strategy for multi-outlet properties; highest executive transition.',
+                    skills: ['Strategic Planning', 'Brand Building'] },
+                { title: 'Food Innovation Consultant', match: '88%', color: 'var(--green)',
+                    desc: 'Advise food companies on menu trends, product development, and culinary innovation.',
+                    skills: ['Culinary Expertise', 'Market Analysis'] },
+                { title: 'Culinary Program Director', match: '82%', color: 'var(--yellow)',
+                    desc: 'Lead culinary school or corporate training program; leverages expertise depth and leadership.',
+                    skills: ['Training Design', 'Leadership'] }
+            ]
+        ];
+
+        function renderCareerRecs(level) {
+            const grid = document.getElementById('careerRecsGrid');
+            if (!grid) return;
+            const recs = CAREER_RECS[level] || CAREER_RECS[0];
+            grid.innerHTML = recs.map(r => `
+            <div class="note-card">
+              <div class="note-title">${r.title}</div>
+              <div class="note-value" style="font-size:14px;color:${r.color}">${r.match} Match</div>
+              <div class="note-meta">${r.desc}<br><br><strong>Matching Skills:</strong> ${r.skills.join(', ')}.</div>
+            </div>
+          `).join('');
+        }
+
+        // ── SURVIVAL STRATEGY (per level) ────────────────────────────────────────────
+        const SURVIVAL_STRATEGY = [
+            'As a <strong>Line Cook</strong>, master speed, knife precision, and food safety — skills no robot fully replicates at your pace. Build sensory memory and station reliability to become indispensable.',
+            'As a <strong>Chef de Partie</strong>, double down on station mastery and specialty depth. Own a single domain (pastry, sauté, garde manger) so thoroughly that automation cannot displace your judgment.',
+            'As a <strong>Sous Chef</strong>, your recipe development and people management are your armor. Invest in costing menus and coaching staff — the operational intelligence AI cannot yet replicate.',
+            'As a <strong>Head Chef</strong>, focus on menu creation, brand identity, and team culture. These creative and relational assets are the highest-value nodes least penetrable by AI.',
+            'As an <strong>Executive Chef</strong>, your leverage is brand, vision, and business relationships. Transition into consultancy, multi-venue leadership, or content creation to build a career machines cannot replace.'
+        ];
+
+        function updateSurvivalStrategy(level) {
+            const card = document.getElementById('survivalStratCard');
+            if (!card) return;
+            card.innerHTML = `<strong>Survival Strategy</strong> ${SURVIVAL_STRATEGY[level]||SURVIVAL_STRATEGY[0]}`;
+        }
+
+        // ── LEVEL TAB CLICK ───────────────────────────────────────────────────────────
+        document.getElementById('levelTabs')?.addEventListener('click', e => {
+            const tab = e.target.closest('.ltab');
+            if (!tab) return;
+            document.querySelectorAll('.ltab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentLevel = parseInt(tab.dataset.level) || 0;
+            renderPromoFlow(currentCountry);
+            renderIncomeChart(currentCountry);
+            renderLevelLTV(currentLevel, currentCountry);
+            updateLevelPcts(currentCountry);
+            renderRequirementExtensions(currentCountry);
+            renderCareerRecs(currentLevel);
+            updateSurvivalStrategy(currentLevel);
+        });
+
+        // ── Income % badges on level tabs ─────────────────────────────────────────────
+        function updateLevelPcts(country) {
+            const salaries = LEVEL_USD[country] || LEVEL_USD.US;
+            const maxSal = salaries[LEVELS.length - 1];
+            LEVELS.forEach((_, i) => {
+                const el = document.getElementById('lpct-' + i);
+                if (!el) return;
+                if (i === LEVELS.length - 1) { el.textContent = 'Peak LTV'; return; }
+                const pct = Math.round(salaries[i] / maxSal * 100);
+                el.textContent = pct + '% of peak LTV';
+            });
+        }
+
+        // ── PATCH renderCountry to also update new sections ───────────────────────────
+        const _origRenderCountry = renderCountry;
+
+        function renderCountryFull(code, animate = true) {
+            _origRenderCountry(code, animate);
+            renderLevelLTV(currentLevel || 0, code);
+            updateLevelPcts(code);
+            renderIncomeChart(code);
+            renderPromoFlow(code);
+            renderInsights(code);
+            renderLang(code);
+            renderHeatmap(code);
+            renderRequirementExtensions(code);
+            renderCareerRecs(currentLevel || 0);
+            updateSurvivalStrategy(currentLevel || 0);
+        }
+        // Override country tab listener
+        document.getElementById('countryTabs')?.addEventListener('click', e => {
+            const tab = e.target.closest('.ctab');
+            if (!tab) return;
+            document.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentCountry = tab.dataset.country;
+            renderCountryFull(currentCountry);
+        }, { capture: true });
+
+        // Init new sections after a short delay (after original init)
+        setTimeout(() => {
+            const cc = currentCountry || 'US';
+            renderLevelLTV(currentLevel || 0, cc);
+            updateLevelPcts(cc);
+            renderIncomeChart(cc);
+            renderPromoFlow(cc);
+            renderInsights(cc);
+            renderLang(cc);
+            renderHeatmap(cc);
+            renderRequirementExtensions(cc);
+            renderCareerRecs(currentLevel || 0);
+            updateSurvivalStrategy(currentLevel || 0);
+        }, 300);
+    </script>
+
+    <script>
+        // ── Theme Toggle ──────────────────────────────────────────────────────────────
+        (function() {
+            const btn = document.getElementById('themeToggle');
+            const lbl = document.getElementById('themeLabel');
+            if (!btn) return;
+            let dark = true;
+            btn.addEventListener('click', () => {
+                dark = !dark;
+                if (dark) {
+                    document.documentElement.removeAttribute('data-theme');
+                    btn.querySelector('.th-icon').textContent = '☀️';
+                    lbl.textContent = 'Light';
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    btn.querySelector('.th-icon').textContent = '🌙';
+                    lbl.textContent = 'Dark';
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
+```
+### Typography & Capitalization
+
+The page now follows a clear heading hierarchy: primary titles use Title Case (nouns capitalized), while secondary text stays in sentence case for easy scanning.
+
+- **Hero & Primary Headings:** The main page title "AI Career Intelligence Hub" and all section labels (e.g., "Job Lifetime Value Analysis", "Career Profile Insights", "Occupational Hazards") now use Title Case. This includes the level selector heading, which reads "Career Level — Click to Compare Salary, LTV & Insights" — note "Compare" and "Insights" are capitalized as nouns.
+- **Modal & Key Visual Titles:** The modal heading "Subscribe to AI Threat Alerts" and the success state "You're Subscribed!" follow the same rule. Card titles within the "Career Economics and Fit" section, such as "Relationship Budget" and "HNWI Client Access", also use Title Case.
+- **Secondary & Descriptive Text:** All subheadings, table content, card descriptions, footnotes, and small labels (like "Avg. cook salary (local equiv. USD) · cost index" or "Colored dots mark level transitions") remain in standard sentence case. This keeps the visual hierarchy clean and easy to scan.
+
+The result is a polished, professional layout where major sections stand out clearly, while supporting details stay readable and unobtrusive.
+
+---
+
+**Optimization Tip:** The city heatmap and language requirement data are static examples. You can replace the `CITY_DATA` and `LANG_DATA` arrays with live API data for real-time salary and language insights.
