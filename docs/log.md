@@ -1,5 +1,25 @@
 # Skills & Jobs Log
 
+## Log Entry: 2026-04-28 07:52:44
+
+**Prompt Used:** `do next.txt`
+
+### Instructions (from `next.txt`)
+1. Copy the login style (highlighted accent box) to all places that hint the user to login.
+2. Startup Readiness should follow color gradient: green for high score, yellow for mid, red for low (like City Income Heatmap and Career Recommendations).
+3. Expand local resources by default.
+
+### Changes Made
+- Applied the accent-box login style (`background:color-mix(in oklch,var(--accent) 10%,transparent);border:1px dashed var(--accent)`) to all four login-hint locations: MBTI fit note, Private Schooling Considerations note, Recommended Schools note, and Skill Pivot note — matching the existing Key Connections style.
+- Added `startupColor` variable in `renderRequirementExtensions`: green if ≥70%, yellow if ≥40%, red below 40%. Replaced static `var(--green)` on Startup Readiness insight-value with dynamic `${startupColor}`.
+- Changed `startupLinks` div from `display:none` to `display:block` so local resources are expanded by default; updated toggle label from "Click to view local resources" to "Click to hide resources".
+
+### File Transformation
+- **Original:** `042826_082530_gemini-2-0-flash.html`
+- **Updated:** `042826_075244_claude-sonnet-4-6.html`
+
+---
+
 ## Log Entry: 2026-04-28 08:25:30
 
 **Prompt Used:** `perform next.txt`

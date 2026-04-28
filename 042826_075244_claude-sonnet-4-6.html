@@ -1439,6 +1439,7 @@ function renderRequirementExtensions(country){
   const multipliers = [0, 5, 15, 25, 40];
   const dynamicStartup = Math.min(95, baseStartup + multipliers[currentLevel]);
   const startupDisplay = dynamicStartup + '% readiness';
+  const startupColor = dynamicStartup >= 70 ? 'var(--green)' : dynamicStartup >= 40 ? 'var(--yellow)' : 'var(--red)';
 
   // Task 5: Hall of Fame
   const chefs = FAMOUS_CHEFS[country] || FAMOUS_CHEFS.US;
@@ -1503,12 +1504,12 @@ function renderRequirementExtensions(country){
       <div class="insight-card" id="startupCard" style="cursor:pointer">
         <span class="insight-icon">🚀</span>
         <div class="insight-label">Startup Readiness</div>
-        <div class="insight-value" style="color:var(--green)">${startupDisplay}</div>
+        <div class="insight-value" style="color:${startupColor}">${startupDisplay}</div>
         <div class="insight-meta">How naturally this market supports private dining, cloud kitchen, or consulting pivots.</div>
-        <div id="startupLinks" style="display:none;margin-top:8px;border-top:1px solid var(--border);padding-top:8px">
+        <div id="startupLinks" style="display:block;margin-top:8px;border-top:1px solid var(--border);padding-top:8px">
           ${linksListHtml}
         </div>
-        <div id="startupToggle" style="font-size:9px;color:var(--accent);margin-top:8px;text-decoration:underline">Click to view local resources</div>
+        <div id="startupToggle" style="font-size:9px;color:var(--accent);margin-top:8px;text-decoration:underline">Click to hide resources</div>
       </div>
     `;
     
@@ -1555,7 +1556,7 @@ function renderRequirementExtensions(country){
       <div class="note-card">
         <div class="note-title">MBTI fit: ${randomMBTI.type}</div>
         <div class="note-value" style="font-size:14px;color:var(--accent)">Highly Compatible</div>
-        <div class="note-meta">${randomMBTI.desc}<br><br><strong>Log in to see how your own MBTI type fits this role.</strong></div>
+        <div class="note-meta">${randomMBTI.desc}<br><br><div style="background:color-mix(in oklch,var(--accent) 10%,transparent);border:1px dashed var(--accent);padding:8px;border-radius:4px;margin-top:4px"><div style="color:var(--accent);font-weight:700;font-size:11px">Log in to see how your own MBTI type fits this role.</div></div></div>
       </div>
       <div class="note-card">
         <div class="note-title">Prestige University</div>
@@ -1565,12 +1566,12 @@ function renderRequirementExtensions(country){
       <div class="note-card">
         <div class="note-title">Private Schooling Considerations</div>
         <div class="note-value">${meta.privateSchool}</div>
-        <div class="note-meta">${meta.privateMeta} <br><br> <strong>Is it worth it for me?</strong> Login for a personalized ROI analysis. <br> <strong>Can my income cover my child's tuition?</strong> Estimated by career level.</div>
+        <div class="note-meta">${meta.privateMeta}<br><br><div style="background:color-mix(in oklch,var(--accent) 10%,transparent);border:1px dashed var(--accent);padding:8px;border-radius:4px;margin-top:4px"><div style="color:var(--accent);font-weight:700;font-size:11px"><strong>Is it worth it for me?</strong> Login for a personalized ROI analysis.<br><strong>Can my income cover my child's tuition?</strong> Estimated by career level.</div></div></div>
       </div>
       <div class="note-card">
         <div class="note-title">Recommended Schools</div>
         <div class="note-value" style="font-size:13px">${meta.schools}</div>
-        <div class="note-meta">Login for a personalized school match based on your goals — or browse the most recognized programs listed above.</div>
+        <div class="note-meta"><div style="background:color-mix(in oklch,var(--accent) 10%,transparent);border:1px dashed var(--accent);padding:8px;border-radius:4px;margin-top:4px"><div style="color:var(--accent);font-weight:700;font-size:11px">Login for a personalized school match based on your goals — or browse the most recognized programs listed above.</div></div></div>
       </div>
       <div class="note-card">
         <div class="note-title">Retirement Planning</div>
@@ -1580,7 +1581,7 @@ function renderRequirementExtensions(country){
       <div class="note-card">
         <div class="note-title">Skill Pivot</div>
         <div class="note-value" style="font-size:13px">${meta.pivot}</div>
-        <div class="note-meta">Login to discover roles that better match your skillset and career background.</div>
+        <div class="note-meta"><div style="background:color-mix(in oklch,var(--accent) 10%,transparent);border:1px dashed var(--accent);padding:8px;border-radius:4px;margin-top:4px"><div style="color:var(--accent);font-weight:700;font-size:11px">Login to discover roles that better match your skillset and career background.</div></div></div>
       </div>
     `;
   }
