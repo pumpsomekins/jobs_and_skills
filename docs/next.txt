@@ -1,16 +1,16 @@
-Target file: The most recently generated file inside the career_data_exports directory.
+Target file: The most recently generated html
 Complete all pre-checked tasks strictly:
+1. Consistent Color Scaling:
+"Standardize the color palette used to represent data gradients or varying degrees of intensity across the entire site. Ensure that the same semantic color logic (e.g., consistent hues for low/medium/high values) is applied uniformly to all relevant metrics and charts."
 
-1. Job Automation Compatibility List needs a better name since the project now becomes providing holistic job
-service and job stress reduction, then AI JOB ALARMING or simply applying for jobs, it is about to expand to
-other jobs
+2. Global Hover States:
+"Identify the CSS transition and hover effects (such as scaling, translation, or box-shadow changes) that give the 'Pathways & Access Points' cards their tactile feel. Apply these exact interactive hover styles to all clickable cards globally across the website to maintain a consistent user experience."
 
-2. Career Recommendations (Based on Skill Set) must match the current job level, and Matching Skills right now
-for Line Cook is out of touch must display what two jobs truly matched on
+3. Dynamic MBTI Fit Section:
+"Update the 'MBTI FIT' section to dynamically display a randomly selected MBTI personality type. Include a concise, engaging explanation of why this specific MBTI type aligns well with the featured job. Immediately below this text, implement a call-to-action/login prompt that says: 'Log in to see how your own MBTI type fits this role'."
 
-3. BEST PIVOT SET: PRIVATE HOUSEHOLD CHEF, SOP CONSULTANT, FLAVOR/PRODUCT R&D. these are all capital not looking good
-
-4. Survival Strategy should also cater to job level
+4. Typography & Capitalization:
+"Apply Title Case (capitalizing the first letter of all nouns, verbs, and major words) to all primary headings, hero text, and main visual titles. Keep all secondary text, subheadings, and small descriptive paragraphs below them in standard sentence case."
 
 I. Reorder log.md to display the latest log content at the top.
 II. Preserve all original design completely with no modifications.

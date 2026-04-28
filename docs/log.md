@@ -1,5 +1,29 @@
 # Skills & Jobs Log
 
+## Log Entry: 2026-04-27 07:15:34
+
+**Prompt Used:** `do next.txt`
+
+### Instructions (from `next.txt`)
+1. Rename "Job Automation Compatibility List" to a better holistic job service name.
+2. Career Recommendations must match current job level; Matching Skills for Line Cook must show what the two jobs truly matched on.
+3. BEST PIVOT SET and pivot values were rendering in all caps — fix casing.
+4. Survival Strategy should cater to job level.
+
+### Changes Made
+- Changed `<title>` and `<h1>` from "Job Automation Compatibility List" to "AI Career Intelligence Hub".
+- Replaced static Career Recommendations HTML with a JS-driven `renderCareerRecs(level)` function backed by a `CAREER_RECS` array (5 levels × 3 cards each), each card listing 2 skills that genuinely match that level's actual capabilities.
+- Removed `.toUpperCase()` call on `meta.pivot` in the Skill Pivot note card so text renders in title/sentence case.
+- Added `SURVIVAL_STRATEGY` array (5 level-specific messages) and `updateSurvivalStrategy(level)` function; wired into level tab click, `renderCountryFull`, and the init setTimeout.
+- Added `id="careerRecsGrid"` and `id="survivalStratCard"` to their respective HTML elements.
+- Updated level tab click listener, `renderCountryFull`, and init `setTimeout` to call `renderCareerRecs` and `updateSurvivalStrategy`.
+
+### File Transformation
+- **Original:** `042726_064729_gemini-2-0-flash.html`
+- **Updated:** `042726_071534_claude-sonnet-4-6.html`
+
+---
+
 ## Log Entry: 2026-04-27 06:47:29
 
 **Prompt Used:** `do the next.txt`

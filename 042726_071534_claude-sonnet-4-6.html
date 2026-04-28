@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Job Automation Compatibility List – Chef</title>
+<title>AI Career Intelligence Hub – Chef</title>
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=cabinet-grotesk@800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -439,7 +439,7 @@ html[data-theme="light"] .lang-name{color:#111}
   <header class="header">
     <div>
       <div class="header-tag"><span class="live-dot"></span> Live Tracking</div>
-      <h1 class="page-title">Job Automation<br>Compatibility List</h1>
+      <h1 class="page-title">AI Career<br>Intelligence Hub</h1>
       <p class="page-subtitle">Target Occupation: <span>CHEF / COOK (ID: OCC-2026-C)</span></p>
     </div>
     <div class="header-right">
@@ -683,22 +683,8 @@ html[data-theme="light"] .lang-name{color:#111}
   <!-- ── Career Recommendations ── -->
   <div class="extended-section">
     <div class="section-label">Career Recommendations (Based on Skill Set)</div>
-    <div class="note-grid">
-      <div class="note-card">
-        <div class="note-title">Food Technologist (R&D)</div>
-        <div class="note-value" style="font-size:14px; color:var(--accent)">88% Match</div>
-        <div class="note-meta">Focus on sensory evaluation, recipe scaling, and food chemistry. High growth, lower physical strain. <br><br> <strong>Matching Skills:</strong> Sensory Analysis, Recipe Formulation, Quality Assurance.</div>
-      </div>
-      <div class="note-card">
-        <div class="note-title">Event Operations Manager</div>
-        <div class="note-value" style="font-size:14px; color:var(--green)">82% Match</div>
-        <div class="note-meta">Leverages high-pressure coordination, vendor management, and timing logistics. <br><br> <strong>Matching Skills:</strong> Crisis Management, Team Leadership, Logistic Planning.</div>
-      </div>
-      <div class="note-card">
-        <div class="note-title">F&B Procurement Specialist</div>
-        <div class="note-value" style="font-size:14px; color:var(--yellow)">79% Match</div>
-        <div class="note-meta">Utilizes knowledge of ingredient quality, yield management, and supplier networks. <br><br> <strong>Matching Skills:</strong> Supply Chain Knowledge, Inventory Control, Negotiation.</div>
-      </div>
+    <div class="note-grid" id="careerRecsGrid">
+      <!-- Populated by JS based on current level -->
     </div>
   </div>
 
@@ -776,7 +762,7 @@ html[data-theme="light"] .lang-name{color:#111}
 
   <!-- Summary -->
   <div class="summary-row">
-    <div class="summary-card"><strong>Survival Strategy</strong>Focus on Plating &amp; Tasting and Recipe Creation — the highest-value nodes least penetrable by AI. Build your chef brand and sharpen sensory judgment.</div>
+    <div class="summary-card" id="survivalStratCard"><strong>Survival Strategy</strong> <!-- Populated by JS --></div>
     <div class="summary-card"><strong>Highest Threat</strong>Inventory &amp; Ordering is the most vulnerable node (85%), yet accounts for only ~10% of role value. True leverage lies in the sensory execution layer.</div>
     <div class="summary-card"><strong>LTV Methodology</strong>BLS 2025 median salary × 30-year career horizon. AI Risk weighted: automation rate per task node × estimated time share. Local reference vehicle used per country.</div>
   </div>
@@ -1479,7 +1465,7 @@ function renderRequirementExtensions(country){
       </div>
       <div class="note-card">
         <div class="note-title">Skill Pivot</div>
-        <div class="note-value" style="font-size:13px">${meta.pivot.toUpperCase()}</div>
+        <div class="note-value" style="font-size:13px">${meta.pivot}</div>
         <div class="note-meta">Login to discover roles that better match your skillset and career background.</div>
       </div>
     `;
@@ -1531,6 +1517,68 @@ function renderLevelLTV(level, country){
   document.querySelector('.ltv-section').classList.add('ltv-fade');
 }
 
+// ── CAREER RECOMMENDATIONS DATA (per level) ──────────────────────────────────
+const CAREER_RECS = [
+  // Level 0: Line Cook
+  [
+    { title:'Kitchen Quality Monitor', match:'76%', color:'var(--accent)', desc:'Inspect food prep standards, portion accuracy, and safety compliance on the line.', skills:['Food Safety Awareness','Temperature Control'] },
+    { title:'Catering Production Staff', match:'71%', color:'var(--green)', desc:'Execute large-batch food production; leverages station discipline and consistency.', skills:['Station Management','Speed & Consistency'] },
+    { title:'Food Prep Trainer', match:'65%', color:'var(--yellow)', desc:'Onboard new kitchen staff on safe food handling, basic knife skills, and prep routines.', skills:['Knife Skills','Ingredient Handling'] }
+  ],
+  // Level 1: Chef de Partie
+  [
+    { title:'Recipe Testing Technician', match:'83%', color:'var(--accent)', desc:'Support R&D teams testing and refining dishes; leverages sensory sharpness and station mastery.', skills:['Sensory Evaluation','Mise en Place Mastery'] },
+    { title:'Catering Supervisor', match:'78%', color:'var(--green)', desc:'Lead a team for events and large service operations; leverages coordination and quality awareness.', skills:['Team Coordination','Quality Awareness'] },
+    { title:'Production Kitchen Lead', match:'72%', color:'var(--yellow)', desc:'Oversee batch production for central kitchens; leverages timing and station leadership.', skills:['Station Leadership','Time Management'] }
+  ],
+  // Level 2: Sous Chef
+  [
+    { title:'Food Technologist (R&D)', match:'88%', color:'var(--accent)', desc:'Focus on sensory evaluation, recipe scaling, and food chemistry. High growth, lower physical strain.', skills:['Recipe Development','Quality Control'] },
+    { title:'Event Operations Manager', match:'82%', color:'var(--green)', desc:'Leverages high-pressure coordination, vendor management, and timing logistics.', skills:['Staff Supervision','Cost Management'] },
+    { title:'F&B Procurement Analyst', match:'76%', color:'var(--yellow)', desc:'Utilizes knowledge of ingredient quality, yield management, and supplier networks.', skills:['Inventory Control','Supplier Knowledge'] }
+  ],
+  // Level 3: Head Chef
+  [
+    { title:'F&B Operations Manager', match:'90%', color:'var(--accent)', desc:'Oversee multi-venue food and beverage operations; leverages budget, team, and menu mastery.', skills:['Budget Control','Team Management'] },
+    { title:'Event Operations Manager', match:'85%', color:'var(--green)', desc:'Leverages crisis management, vendor coordination, and large-scale event logistics.', skills:['Crisis Management','Logistics Planning'] },
+    { title:'F&B Procurement Specialist', match:'80%', color:'var(--yellow)', desc:'Utilizes deep knowledge of suppliers, ingredient quality, and yield optimisation.', skills:['Supply Chain Knowledge','Negotiation'] }
+  ],
+  // Level 4: Executive Chef
+  [
+    { title:'F&B Director', match:'93%', color:'var(--accent)', desc:'Lead entire food and beverage strategy for multi-outlet properties; highest executive transition.', skills:['Strategic Planning','Brand Building'] },
+    { title:'Food Innovation Consultant', match:'88%', color:'var(--green)', desc:'Advise food companies on menu trends, product development, and culinary innovation.', skills:['Culinary Expertise','Market Analysis'] },
+    { title:'Culinary Program Director', match:'82%', color:'var(--yellow)', desc:'Lead culinary school or corporate training program; leverages expertise depth and leadership.', skills:['Training Design','Leadership'] }
+  ]
+];
+
+function renderCareerRecs(level){
+  const grid=document.getElementById('careerRecsGrid');
+  if(!grid)return;
+  const recs=CAREER_RECS[level]||CAREER_RECS[0];
+  grid.innerHTML=recs.map(r=>`
+    <div class="note-card">
+      <div class="note-title">${r.title}</div>
+      <div class="note-value" style="font-size:14px;color:${r.color}">${r.match} Match</div>
+      <div class="note-meta">${r.desc}<br><br><strong>Matching Skills:</strong> ${r.skills.join(', ')}.</div>
+    </div>
+  `).join('');
+}
+
+// ── SURVIVAL STRATEGY (per level) ────────────────────────────────────────────
+const SURVIVAL_STRATEGY = [
+  'As a <strong>Line Cook</strong>, master speed, knife precision, and food safety — skills no robot fully replicates at your pace. Build sensory memory and station reliability to become indispensable.',
+  'As a <strong>Chef de Partie</strong>, double down on station mastery and specialty depth. Own a single domain (pastry, sauté, garde manger) so thoroughly that automation cannot displace your judgment.',
+  'As a <strong>Sous Chef</strong>, your recipe development and people management are your armor. Invest in costing menus and coaching staff — the operational intelligence AI cannot yet replicate.',
+  'As a <strong>Head Chef</strong>, focus on menu creation, brand identity, and team culture. These creative and relational assets are the highest-value nodes least penetrable by AI.',
+  'As an <strong>Executive Chef</strong>, your leverage is brand, vision, and business relationships. Transition into consultancy, multi-venue leadership, or content creation to build a career machines cannot replace.'
+];
+
+function updateSurvivalStrategy(level){
+  const card=document.getElementById('survivalStratCard');
+  if(!card)return;
+  card.innerHTML=`<strong>Survival Strategy</strong> ${SURVIVAL_STRATEGY[level]||SURVIVAL_STRATEGY[0]}`;
+}
+
 // ── LEVEL TAB CLICK ───────────────────────────────────────────────────────────
 document.getElementById('levelTabs')?.addEventListener('click',e=>{
   const tab=e.target.closest('.ltab');
@@ -1543,6 +1591,8 @@ document.getElementById('levelTabs')?.addEventListener('click',e=>{
   renderLevelLTV(currentLevel,currentCountry);
   updateLevelPcts(currentCountry);
   renderRequirementExtensions(currentCountry);
+  renderCareerRecs(currentLevel);
+  updateSurvivalStrategy(currentLevel);
 });
 
 // ── Income % badges on level tabs ─────────────────────────────────────────────
@@ -1570,6 +1620,8 @@ function renderCountryFull(code,animate=true){
   renderLang(code);
   renderHeatmap(code);
   renderRequirementExtensions(code);
+  renderCareerRecs(currentLevel||0);
+  updateSurvivalStrategy(currentLevel||0);
 }
 // Override country tab listener
 document.getElementById('countryTabs')?.addEventListener('click', e=>{
@@ -1592,6 +1644,8 @@ setTimeout(()=>{
   renderLang(cc);
   renderHeatmap(cc);
   renderRequirementExtensions(cc);
+  renderCareerRecs(currentLevel||0);
+  updateSurvivalStrategy(currentLevel||0);
 },300);
 </script>
 
