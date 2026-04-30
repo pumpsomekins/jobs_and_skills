@@ -1,7 +1,7 @@
 Target file: The most recently generated html
 Complete all pre-checked tasks strictly:
-1. move City Income Heatmap and Language Requirements under Career Profile Insights
-2. give me full HNWI text, ppl dont know what HNWI means
+1. [x] move City Income Heatmap and Language Requirements under Career Profile Insights
+2. [x] give me full HNWI text, ppl dont know what HNWI means
 
 I. Reorder log.md to display the latest log content at the top.
 II. Preserve all original design completely with no modifications.

@@ -1,5 +1,23 @@
 # Skills & Jobs Log
 
+## Log Entry: 2026-04-30 06:30:08
+
+**Prompt Used:** `do next`
+
+### Instructions (from `next.txt`)
+1. Move City Income Heatmap and Language Requirements under Career Profile Insights.
+2. Give full HNWI text — people don't know what HNWI means.
+
+### Changes Made
+- Moved "Language Requirements" and "City Income Heatmap" sections to appear directly after the Career Profile Insights grid, before Occupational Hazards.
+- Expanded label "HNWI Client Access" to "High-Net-Worth Individual (HNWI) Client Access".
+
+### File Transformation
+- **Original:** `042826_075244_claude-sonnet-4-6.html`
+- **Updated:** `043026_063008_claude-sonnet-4-6.html`
+
+---
+
 ## Log Entry: 2026-04-28 07:52:44
 
 **Prompt Used:** `do next.txt`
