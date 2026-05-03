@@ -1,7 +1,0 @@
-[x] 1. base on 要加入的功能，to see what else is fullrequirements missing and add those to the html
-[x] 2. display the right currency symbol
-[x] 3. make the data a bit accurate
-[x] 4. make a folder to save those data
-[x] 5. keep anything that is already exist!
-
-write it to new file and mark the model use on new file and daytime seperated by _

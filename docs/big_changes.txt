@@ -1,6 +1,0 @@
-just for the LTV part, also change the job title from Chef to Dasher
-1. adjust the LTV to Dasher
-2. dont make things up for career path if there is no higher job than dasher on its line
-3. add a slider to let dasher see their LTV changes as they dynamilyer changes the order they delivery everyday
-
-make a new file for the job title in the same path, do not make changes to the original file.
