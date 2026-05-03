@@ -2274,7 +2274,7 @@
 
         <!-- Summary -->
         <div class="summary-row" id="summaryRow"></div>
-        <div class="footnote"><span id="footnoteText"></span></div>
+        <div class="footnote">* Data: Miso Robotics deployments · BLS Occupational Outlook 2025 · JobForesight 2026 · ILO salary benchmarks</div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
@@ -2282,11 +2282,11 @@
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <script>
         // ==========================================================================
-        //  JOB_DATA — The single source of truth for ALL data in this dashboard.
+        //  CHEF_DATA — The single source of truth for ALL data in this dashboard.
         //  To edit any value (salary, city, risk age, language, etc.), modify the
         //  relevant section below. The UI will automatically reflect changes.
         // ==========================================================================
-        const JOB_DATA = {
+        const CHEF_DATA = {
 
             // ── Industry Tags ──────────────────────────────────────────────────────
             industries: [
@@ -2595,6 +2595,10 @@
                 pivot: 'Best Pivot Set: private Household Chef, SOP Consultant, Flavor/Product R&D.' },
             },
 
+            // ── Country Name Lookup ────────────────────────────────────────────────
+            countryNames: { US: 'USA', UK: 'United Kingdom', AU: 'Australia', DE: 'Germany', JP: 'Japan',
+                SG: 'Singapore', TW: 'Taiwan', CN: 'China' },
+
             // ── Startup Resource Links per Country ─────────────────────────────────
             startupLinks: {
                 US: [{ label: 'SBA Grants', url: 'https://www.sba.gov' }, { label: 'CloudKitchens',
@@ -2768,7 +2772,7 @@
 
             // ── Filter Pills ───────────────────────────────────────────────────────
             filters: [
-                { id: 'all', label: 'All', class: 'all', active: true, dot: false },
+                { id: 'all', label: 'All', class: 'all', active: true, dot: false, count: 4 },
                 { id: 'playable', label: 'Playable', class: 'gf', active: false, dot: true },
                 { id: 'ingame', label: 'In-Game', class: 'yf', active: false, dot: true },
                 { id: 'intro', label: 'Intro', class: 'of', active: false, dot: true },
@@ -2779,8 +2783,8 @@
             mbtiData: [
                 { type: 'ESTP',
                     desc: 'The Dynamo. Thrives in fast-paced, high-pressure environments. Excellent at hands-on execution and real-time problem solving on the line.' },
-                { type: 'ESTP',
-                    desc: 'The Dynamo. Thrives in fast-paced, high-pressure environments. Excellent at hands-on execution and real-time problem solving on the line.' },
+                { type: 'ISTJ',
+                    desc: 'The Inspector. Reliable and meticulous. Ensures absolute consistency in recipes and maintains the highest standards of food safety.' },
                 { type: 'ENTJ',
                     desc: 'The Commander. Natural leaders who can efficiently manage a complex kitchen brigade and drive the restaurant towards strategic goals.' },
                 { type: 'ISFP',
@@ -2801,30 +2805,17 @@
             // ── Language Pill Class Mapping ────────────────────────────────────────
             langPillClasses: { 'Essential': 'llp-essential', 'Helpful': 'llp-helpful', 'Optional': 'llp-optional',
                 'Senior Only': 'llp-senior', 'High-end Only': 'llp-senior', 'Regional': 'llp-helpful' },
-
-            // ── Network Cards ──────────────────────────────────────────────────────
-            networkCards: [
-                { title: "Recommended Majors", value: "Culinary Arts & Hospitality Mgt", meta: "Secondary: Food Science, Nutrition, or Business Administration." },
-                { title: "Target Courses", value: "Kitchen Ops & Cost Control", meta: "Also highly recommended: Molecular Gastronomy, Sustainable Sourcing, and Staff Leadership." },
-                { title: "Stretch Majors", value: "F&B Tech & Innovation", meta: "To beat AI risk, transition into tech-enabled food systems or high-end molecular research." },
-                { title: "Key Connections", value: "Michelin Execs & F&B Directors", meta: `<div style="background:color-mix(in oklch,var(--accent) 10%,transparent);border:1px dashed var(--accent);padding:8px;border-radius:4px;margin-top:4px"><div style="color:var(--accent);font-weight:700;font-size:11px">Login to unlock your personalized key connection plan and step-by-step outreach strategy</div></div>` }
-            ],
-
-            // ── Version & Footnote ─────────────────────────────────────────────────
-            version: 'v2.2 · Apr 2026',
-            footnote: '* Data: Miso Robotics deployments · BLS Occupational Outlook 2025 · JobForesight 2026 · ILO salary benchmarks',
         };
     </script>
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <!-- ░░░░░░  APPLICATION LOGIC — Reads from JOB_DATA above ░░░░░░░░░░░░░ -->
+    <!-- ░░░░░░  APPLICATION LOGIC — Reads from CHEF_DATA above ░░░░░░░░░░░░░ -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <script>
         // ── State ──────────────────────────────────────────────────────────────────
         let currentCountry = 'US';
         let currentLevel = 0;
-        const D = JOB_DATA; // shorthand
-        const selectedMBTI = D.mbtiData[0]; // fix random MBTI
+        const D = CHEF_DATA; // shorthand
 
         // ── Utility ────────────────────────────────────────────────────────────────
         function fmt(n, c) {
@@ -3122,7 +3113,7 @@
                 `<defs><linearGradient id="careerGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#4f98a3"/><stop offset="60%" stop-color="#eab308"/><stop offset="100%" stop-color="#22c55e"/></linearGradient></defs><rect x="${rx1}" y="${padT}" width="${rx2-rx1}" height="${cH}" fill="${lvlColor}" opacity="0.07" rx="2"/>`;
             wrap.innerHTML = `
             <div class="income-chart-header">
-              <span class="income-chart-title">Annual Income Curve — Full Career (<span id="chartCountryLabel">${D.countries[country]?.name || country}</span>)</span>
+              <span class="income-chart-title">Annual Income Curve — Full Career (<span id="chartCountryLabel">${D.countryNames[country]||country}</span>)</span>
               <span class="income-chart-note">Colored dots mark level transitions · hover for value</span>
             </div>
             <svg id="incomeSVG" height="${H}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${defs}${inner}</svg>
@@ -3199,7 +3190,7 @@
             const langs = D.languages[country] || [];
             const pillClass = D.langPillClasses;
             section.innerHTML = `
-            <div class="section-label" style="margin-bottom:12px">Language Requirements — <span>${D.countries[country]?.name || country}</span></div>
+            <div class="section-label" style="margin-bottom:12px">Language Requirements — <span>${D.countryNames[country]||country}</span></div>
             <div class="lang-list">${langs.map(l=>`
               <div class="lang-row">
                 <div class="lang-name">${l.lang}</div>
@@ -3235,7 +3226,7 @@
                 return `<div class="city-card" style="background:${bg};border:1px solid ${brd}"><div class="city-name">${c.city}</div><div class="city-region">${c.region}</div><div class="city-salary">$${salK}</div><div class="city-cost">Cost Index: ${c.cost}</div></div>`;
             }).join('');
             section.innerHTML = `
-            <div class="heatmap-header"><span class="section-label" style="margin-bottom:0">City Income Heatmap — <span>${D.countries[country]?.name || country}</span></span><span style="font-size:10px;color:var(--text-faint)">Avg. cook salary (local equiv. USD) · <span style="color:var(--text-muted)">cost index</span></span></div>
+            <div class="heatmap-header"><span class="section-label" style="margin-bottom:0">City Income Heatmap — <span>${D.countryNames[country]||country}</span></span><span style="font-size:10px;color:var(--text-faint)">Avg. cook salary (local equiv. USD) · <span style="color:var(--text-muted)">cost index</span></span></div>
             <div class="heatmap-grid">${cards}</div>
             <div class="heatmap-scale"><div class="heatmap-scale-bar"><div class="hs-low"></div><div class="hs-mid"></div><div class="hs-high"></div></div><span style="font-size:9px;color:var(--text-faint)">Low → High income</span></div>`;
         }
@@ -3301,7 +3292,7 @@
             const section = document.getElementById('careerNotesSection');
             if (!section) return;
             const meta = D.extendedMeta[country] || D.extendedMeta.US;
-            const randomMBTI = selectedMBTI; // fix: use constant instead of random
+            const randomMBTI = D.mbtiData[Math.floor(Math.random() * D.mbtiData.length)];
             let retireMetaText =
                 "Your late-career exit options and personal retirement outlook.";
             if (D.filialPietyCountries.includes(country)) {
@@ -3339,14 +3330,14 @@
             if (!section) return;
             const chefs = D.famousChefs[country] || D.famousChefs.US;
             const chefsHtml = chefs.map(c => `<strong>${c.name}</strong> (${c.netWorth})`).join(', ');
-            const networkCardsHtml = D.networkCards.map(card => `
-                <div class="note-card"><div class="note-title">${card.title}</div><div class="note-value" style="font-size:14px">${card.value}</div><div class="note-meta">${card.meta}</div></div>
-            `).join('');
             section.innerHTML = `
             <div class="section-label">Academic & Networking Strategy</div>
             <div class="note-grid">
-              ${networkCardsHtml}
-              <div class="note-card" style="grid-column:span 2"><div class="note-title">Hall of Fame — ${D.countries[country]?.name || country}</div><div class="note-value" style="font-size:14px">${chefsHtml}</div><div class="note-meta">These chefs scaled by leveraging personal brand, media, and multi-venue empires rather than just line cooking.</div></div>
+              <div class="note-card"><div class="note-title">Recommended Majors</div><div class="note-value" style="font-size:14px">Culinary Arts & Hospitality Mgt</div><div class="note-meta">Secondary: Food Science, Nutrition, or Business Administration.</div></div>
+              <div class="note-card"><div class="note-title">Target Courses</div><div class="note-value" style="font-size:14px">Kitchen Ops & Cost Control</div><div class="note-meta">Also highly recommended: Molecular Gastronomy, Sustainable Sourcing, and Staff Leadership.</div></div>
+              <div class="note-card"><div class="note-title">Stretch Majors</div><div class="note-value" style="font-size:14px">F&B Tech & Innovation</div><div class="note-meta">To beat AI risk, transition into tech-enabled food systems or high-end molecular research.</div></div>
+              <div class="note-card"><div class="note-title">Key Connections</div><div class="note-value" style="font-size:14px">Michelin Execs & F&B Directors</div><div class="note-meta"><div style="background:color-mix(in oklch,var(--accent) 10%,transparent);border:1px dashed var(--accent);padding:8px;border-radius:4px;margin-top:4px"><div style="color:var(--accent);font-weight:700;font-size:11px">Login to unlock your personalized key connection plan and step-by-step outreach strategy</div></div></div></div>
+              <div class="note-card" style="grid-column:span 2"><div class="note-title">Hall of Fame — ${D.countryNames[country]||country}</div><div class="note-value" style="font-size:14px">${chefsHtml}</div><div class="note-meta">These chefs scaled by leveraging personal brand, media, and multi-venue empires rather than just line cooking.</div></div>
             </div>`;
         }
 
@@ -3359,11 +3350,11 @@
             <div class="filters-left" role="group">
               ${D.filters.map(f=>`
                 <button class="filter-pill ${f.class}${f.active?' active':''}" data-filter="${f.id}">
-                  ${f.dot?'<span class="dot"></span> ':''}${f.label}${f.id==='all'?` <span style="opacity:.5;font-size:10px">${D.tasks.length}</span>`:''}
+                  ${f.dot?'<span class="dot"></span> ':''}${f.label}${f.id==='all'?` <span style="opacity:.5;font-size:10px">${f.count}</span>`:''}
                 </button>
               `).join('')}
             </div>
-            <div style="font-size:10px;color:var(--text-faint)">${D.version}</div>`;
+            <div style="font-size:10px;color:var(--text-faint)">v2.2 · Apr 2026</div>`;
             tableWrap.innerHTML = `
             <div class="table-scroll"><table aria-label="Job automation compatibility">
               <thead><tr><th>Action</th><th>Human Workflow</th><th>AI / Bot Workflow</th><th>Replace Ratio</th><th style="text-align:center">Node LTV</th><th style="text-align:center">ETA</th><th style="text-align:center">Status</th></tr></thead>
@@ -3432,9 +3423,6 @@
             renderAccessLinks();
             renderFiltersAndTable();
             renderAll(currentCountry, currentLevel, false);
-            // Set footnote from data
-            const footnoteEl = document.getElementById('footnoteText');
-            if (footnoteEl) footnoteEl.textContent = D.footnote;
         }
 
         // ── Event: Country Tabs ────────────────────────────────────────────────────
