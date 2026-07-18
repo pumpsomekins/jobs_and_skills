@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JobAtlas — All Jobs + Job Market News</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=cabinet-grotesk@500,700,800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0f12;
+      --surface: #14181d;
+      --surface-2: #191f26;
+      --surface-3: #202832;
+      --border: #28313c;
+      --border-hi: #364253;
+      --text: #edf2f7;
+      --text-muted: #98a5b3;
+      --text-faint: #6a7785;
+      --accent: #4f98a3;
+      --accent-2: #7dd3fc;
+      --green: #22c55e;
+      --yellow: #eab308;
+      --orange: #f97316;
+      --red: #ef4444;
+      --blue: #60a5fa;
+      --purple: #a78bfa;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow: 0 18px 60px rgba(0,0,0,.28);
+      --font-body: "Satoshi", Inter, sans-serif;
+      --font-display: "Cabinet Grotesk", "Satoshi", sans-serif;
+      --ease: cubic-bezier(.16,1,.3,1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(79,152,163,.15), transparent 35%),
+        radial-gradient(circle at top right, rgba(96,165,250,.08), transparent 30%),
+        linear-gradient(180deg, #0b0d10 0%, #0e1217 100%);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,.015) 2px,
+        rgba(255,255,255,.015) 4px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; border: none; }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 28px 22px 80px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 18px;
+      background: rgba(20,24,29,.78);
+      border: 1px solid rgba(255,255,255,.06);
+      backdrop-filter: blur(14px);
+      border-radius: 18px;
+      position: sticky;
+      top: 16px;
+      z-index: 30;
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background:
+        linear-gradient(135deg, rgba(79,152,163,.25), rgba(96,165,250,.15)),
+        var(--surface-2);
+      border: 1px solid rgba(125,211,252,.22);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: var(--accent-2);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      margin-bottom: 3px;
+      font-weight: 700;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 6px rgba(34,197,94,.12);
+      animation: pulse 1.8s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(.82); opacity: .45; }
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      color: #fff;
+    }
+
+    .brand-sub {
+      font-size: 12px;
+      color: var(--text-faint);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      color: var(--text-muted);
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: .18s var(--ease);
+    }
+
+    .nav a:hover {
+      background: var(--surface-2);
+      color: #fff;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn, .btn-ghost {
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .02em;
+      transition: .18s var(--ease);
+      white-space: nowrap;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--accent), #5fb8c5);
+      color: #fff;
+      box-shadow: 0 10px 28px rgba(79,152,163,.22);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.06);
+    }
+
+    .btn-ghost {
+      background: var(--surface);
+      color: var(--text-muted);
+      border: 1px solid var(--border-hi);
+    }
+
+    .btn-ghost:hover {
+      color: var(--text);
+      border-color: var(--accent);
+      background: var(--surface-2);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.18fr .82fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .hero-main,
+    .hero-side,
+    .section,
+    .cta {
+      background: rgba(20,24,29,.88);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-main {
+      padding: 28px;
+      position: relative;
+      min-height: 430px;
+      background:
+        radial-gradient(circle at 85% 0%, rgba(79,152,163,.18), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.015), rgba(255,255,255,0)),
+        rgba(20,24,29,.92);
+    }
+
+    .hero-side {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      height: 100%;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(34px, 6vw, 62px);
+      line-height: .98;
+      letter-spacing: -.05em;
+      max-width: 11ch;
+      margin-bottom: 14px;
+    }
+
+    .hero-title span {
+      color: var(--accent-2);
+    }
+
+    .hero-desc {
+      max-width: 65ch;
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 22px;
+    }
+
+    .search-shell {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr auto;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 10px;
+      margin-bottom: 16px;
+    }
+
+    .search-shell input {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid transparent;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 14px 14px;
+      outline: none;
+      transition: border-color .18s var(--ease), background .18s var(--ease);
+    }
+
+    .search-shell input:focus {
+      border-color: var(--accent);
+      background: #1c242e;
+    }
+
+    .search-shell button {
+      min-width: 145px;
+    }
+
+    .hero-tags, .chips {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      border: 1px solid var(--border-hi);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      transition: .18s var(--ease);
+    }
+
+    .chip:hover,
+    .chip.active {
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(135deg, rgba(79,152,163,.24), rgba(96,165,250,.18));
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .7;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .stat-card, .mini-card, .pulse-card, .market-list-card, .news-card, .skill-row, .job-card, .index-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .stat-card {
+      padding: 16px;
+    }
+
+    .stat-label,
+    .section-label,
+    .tiny-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: clamp(23px, 2.6vw, 32px);
+      line-height: 1;
+      margin: 8px 0 6px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+    }
+
+    .stat-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .hero-side .mini-card {
+      padding: 16px;
+    }
+
+    .mini-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .trend-up { color: var(--green); }
+    .trend-flat { color: var(--yellow); }
+    .trend-down { color: var(--red); }
+
+    .mini-value {
+      font-family: var(--font-display);
+      font-size: 30px;
+      line-height: 1;
+      letter-spacing: -.03em;
+      margin-bottom: 6px;
+    }
+
+    .mini-desc {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .market-list-card {
+      padding: 18px;
+      flex: 1;
+    }
+
+    .market-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .market-row {
+      display: grid;
+      grid-template-columns: 1.05fr .75fr .5fr;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      font-size: 13px;
+    }
+
+    .market-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .market-row span:last-child {
+      text-align: right;
+      font-weight: 800;
+    }
+
+    .pulse {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .pulse-card {
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pulse-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -40% auto;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(255,255,255,.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .pulse-value {
+      font-family: var(--font-display);
+      font-size: 32px;
+      line-height: 1;
+      margin: 10px 0 6px;
+      letter-spacing: -.03em;
+      font-weight: 800;
+    }
+
+    .pulse-note {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section {
+      padding: 22px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1;
+      margin-top: 6px;
+    }
+
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 13px;
+      max-width: 70ch;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1.2fr repeat(4, .7fr) auto;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .filters input,
+    .filters select {
+      width: 100%;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 13px;
+      outline: none;
+    }
+
+    .filters input:focus,
+    .filters select:focus {
+      border-color: var(--accent);
+    }
+
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .job-card {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform .18s var(--ease), border-color .18s var(--ease), box-shadow .18s var(--ease);
+    }
+
+    .job-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-hi);
+      box-shadow: 0 14px 36px rgba(0,0,0,.26);
+    }
+
+    .job-top,
+    .job-bottom,
+    .job-meta,
+    .news-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .mini-badge {
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .03em;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+
+    .b-remote { color: var(--green); border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.10); }
+    .b-onsite { color: var(--orange); border-color: rgba(249,115,22,.35); background: rgba(249,115,22,.10); }
+    .b-hybrid { color: var(--accent-2); border-color: rgba(125,211,252,.35); background: rgba(125,211,252,.10); }
+    .b-hot { color: var(--red); border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.10); }
+    .b-steady { color: var(--yellow); border-color: rgba(234,179,8,.35); background: rgba(234,179,8,.10); }
+    .b-rising { color: var(--green); border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.10); }
+
+    .job-title {
+      font-size: 21px;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: #fff;
+    }
+
+    .job-company {
+      color: var(--accent-2);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .job-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      justify-content: flex-start;
+    }
+
+    .job-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 60px;
+    }
+
+    .skill-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .skill-pill {
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      border: 1px solid rgba(255,255,255,.06);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .salary {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .salary-sub {
+      color: var(--text-faint);
+      font-size: 12px;
+    }
+
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .news-card {
+      padding: 15px;
+      transition: border-color .18s var(--ease), transform .18s var(--ease);
+    }
+
+    .news-card:hover {
+      border-color: var(--border-hi);
+      transform: translateY(-1px);
+    }
+
+    .news-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      margin-bottom: 8px;
+    }
+
+    .news-title {
+      font-size: 16px;
+      line-height: 1.25;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .news-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .news-meta {
+      font-size: 12px;
+      color: var(--text-faint);
+    }
+
+    .aside-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .skill-list,
+    .index-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .skill-row,
+    .index-row {
+      padding: 12px 14px;
+    }
+
+    .skill-head,
+    .index-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .bar {
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--surface-3);
+      overflow: hidden;
+    }
+
+    .bar > span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    .industries-section {
+      margin-bottom: 18px;
+    }
+
+    .category-cloud {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .cat-card {
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: .18s var(--ease);
+    }
+
+    .cat-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-hi);
+    }
+
+    .cat-title {
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .cat-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .cta {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items: center;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(79,152,163,.18), transparent 30%),
+        rgba(20,24,29,.9);
+      margin-bottom: 18px;
+    }
+
+    .cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 5vw, 42px);
+      line-height: .96;
+      letter-spacing: -.04em;
+      margin: 10px 0 10px;
+      max-width: 14ch;
+    }
+
+    .cta-desc {
+      color: var(--text-muted);
+      max-width: 60ch;
+      font-size: 14px;
+    }
+
+    .cta-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .cta-form input {
+      width: 100%;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 14px;
+      outline: none;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: var(--text-faint);
+      font-size: 12px;
+      padding: 0 4px;
+    }
+
+    .empty-state {
+      padding: 18px;
+      border: 1px dashed var(--border-hi);
+      border-radius: 16px;
+      color: var(--text-muted);
+      background: var(--surface);
+      grid-column: 1 / -1;
+    }
+
+    .muted {
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 1280px) {
+      .hero,
+      .main-grid,
+      .cta {
+        grid-template-columns: 1fr;
+      }
+      .stats-grid,
+      .pulse,
+      .category-cloud {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .jobs-grid {
+        grid-template-columns: 1fr;
+      }
+      .filters {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 820px) {
+      .page { padding: 16px 12px 64px; }
+      .topbar { position: static; }
+      .nav { display: none; }
+      .search-shell,
+      .filters,
+      .cta-form,
+      .stats-grid,
+      .pulse,
+      .category-cloud {
+        grid-template-columns: 1fr;
+      }
+      .hero-main,
+      .hero-side,
+      .section,
+      .cta {
+        border-radius: 18px;
+      }
+      .hero-main { padding: 22px; min-height: auto; }
+      .hero-title { max-width: 10ch; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand-mark">JA</div>
+        <div class="brand-text">
+          <div class="eyebrow"><span class="live-dot"></span> live labor intelligence</div>
+          <div class="brand-title">JobAtlas</div>
+          <div class="brand-sub">All jobs. Salary context. Market signals. News that matters.</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="#all-jobs">Jobs</a>
+        <a href="#market-news">News</a>
+        <a href="#industries">Industries</a>
+        <a href="#signals">Signals</a>
+        <a href="#alerts">Alerts</a>
+      </nav>
+
+      <div class="top-actions">
+        <button class="btn-ghost">Sign In</button>
+        <button class="btn">Post a Job</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-main">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow"><span class="live-dot"></span> homepage prototype</div>
+            <h1 class="hero-title">Find <span>every job</span>. Read the market before you apply.</h1>
+            <p class="hero-desc">
+              One search layer for product, engineering, finance, sales, operations, healthcare, design, and frontline roles — plus a live editorial layer for hiring freezes, salary momentum, AI impact, and regional job demand.
+            </p>
+
+            <div class="search-shell">
+              <input id="keywordInput" type="text" placeholder="Job title, skill, company, or keyword" />
+              <input id="locationInput" type="text" placeholder="City, country, or remote" />
+              <button class="btn" id="searchBtn">Search Jobs</button>
+            </div>
+
+            <div class="hero-tags" id="heroTags">
+              <button class="chip tag-filter" data-keyword="AI"><span class="dot"></span>AI</button>
+              <button class="chip tag-filter" data-keyword="Product"><span class="dot"></span>Product</button>
+              <button class="chip tag-filter" data-keyword="Finance"><span class="dot"></span>Finance</button>
+              <button class="chip tag-filter" data-keyword="Sales"><span class="dot"></span>Sales</button>
+              <button class="chip tag-filter" data-keyword="Healthcare"><span class="dot"></span>Healthcare</button>
+              <button class="chip tag-filter" data-keyword="Taipei"><span class="dot"></span>Taipei</button>
+              <button class="chip tag-filter" data-keyword="Remote"><span class="dot"></span>Remote</button>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-label">Live jobs indexed</div>
+                <div class="stat-value" id="liveJobsCount">14,280</div>
+                <div class="stat-meta">Cross-category discovery, not one-role tunnel vision.</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Remote share</div>
+                <div class="stat-value" id="remoteShare">41%</div>
+                <div class="stat-meta">Hybrid is still winning where employers can compromise.</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">New stories today</div>
+                <div class="stat-value" id="storyCount">18</div>
+                <div class="stat-meta">Hiring freezes, pay shifts, layoffs, and sector rebounds.</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Median salary</div>
+                <div class="stat-value" id="medianSalary">$118K</div>
+                <div class="stat-meta">Estimated from visible roles on this homepage feed.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-side">
+        <div class="mini-card">
+          <div class="mini-top">
+            <div class="section-label">Hiring heat</div>
+            <div class="mini-badge b-rising">Rising</div>
+          </div>
+          <div class="mini-value">+12%</div>
+          <div class="mini-desc">AI infrastructure, enterprise software, cybersecurity, and revenue operations are still absorbing demand faster than the rest of the market.</div>
+        </div>
+
+        <div class="mini-card">
+          <div class="mini-top">
+            <div class="section-label">Layoff pressure</div>
+            <div class="mini-badge b-steady">Steady</div>
+          </div>
+          <div class="mini-value">3.1/5</div>
+          <div class="mini-desc">Consumer tech and middle-management layers remain the softest parts of the market, especially where headcount is easier to rationalize than revenue generation.</div>
+        </div>
+
+        <div class="market-list-card">
+          <div class="section-label">Fast read</div>
+          <div class="section-title" style="font-size:22px;margin-top:8px;">Where the market is actually moving</div>
+          <div class="market-list">
+            <div class="market-row">
+              <span>AI / Data</span>
+              <span class="muted">Demand expansion</span>
+              <span class="trend-up">+18%</span>
+            </div>
+            <div class="market-row">
+              <span>Product / UX</span>
+              <span class="muted">Selective hiring</span>
+              <span class="trend-flat">+4%</span>
+            </div>
+            <div class="market-row">
+              <span>Sales / RevOps</span>
+              <span class="muted">Recovery mode</span>
+              <span class="trend-up">+9%</span>
+            </div>
+            <div class="market-row">
+              <span>General admin</span>
+              <span class="muted">Compression</span>
+              <span class="trend-down">-6%</span>
+            </div>
+            <div class="market-row">
+              <span>Healthcare</span>
+              <span class="muted">Persistent shortage</span>
+              <span class="trend-up">+11%</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="pulse" id="signals">
+      <div class="pulse-card">
+        <div class="section-label">Active companies</div>
+        <div class="pulse-value">4,920</div>
+        <div class="pulse-note">The homepage should show market breadth immediately, not bury discovery under one deep-dive template.</div>
+      </div>
+      <div class="pulse-card">
+        <div class="section-label">Avg. time to fill</div>
+        <div class="pulse-value">29 days</div>
+        <div class="pulse-note">Longer for senior technical roles, shorter for quota-carrying and frontline positions.</div>
+      </div>
+      <div class="pulse-card">
+        <div class="section-label">Salary momentum</div>
+        <div class="pulse-value trend-up">+5.6%</div>
+        <div class="pulse-note">Still strongest where measurable output is obvious and expensive mistakes are unacceptable.</div>
+      </div>
+      <div class="pulse-card">
+        <div class="section-label">Automation watch</div>
+        <div class="pulse-value trend-flat">Mixed</div>
+        <div class="pulse-note">Routine documentation and coordination are under pressure; judgment-heavy roles still hold more pricing power.</div>
+      </div>
+    </section>
+
+    <div class="main-grid">
+      <main>
+        <section class="section" id="all-jobs">
+          <div class="section-head">
+            <div>
+              <div class="section-label">Universal feed</div>
+              <h2 class="section-title">All jobs</h2>
+              <p class="section-sub">This is the front page: broad discovery first, detail later. Users should see what exists, what pays, what is hot, and where the market is getting uglier.</p>
+            </div>
+            <div class="chips">
+              <span class="chip active">Cards</span>
+              <span class="chip">Realtime filters</span>
+              <span class="chip">Market context</span>
+            </div>
+          </div>
+
+          <div class="filters">
+            <input id="globalSearch" type="text" placeholder="Filter jobs by title, company, skill, or category" />
+            <select id="categoryFilter">
+              <option value="all">All categories</option>
+            </select>
+            <select id="workModeFilter">
+              <option value="all">All work modes</option>
+              <option value="Remote">Remote</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="On-site">On-site</option>
+            </select>
+            <select id="levelFilter">
+              <option value="all">All levels</option>
+              <option value="Entry">Entry</option>
+              <option value="Mid">Mid</option>
+              <option value="Senior">Senior</option>
+              <option value="Lead">Lead</option>
+            </select>
+            <select id="salaryFilter">
+              <option value="0">Any salary</option>
+              <option value="60000">$60K+</option>
+              <option value="100000">$100K+</option>
+              <option value="150000">$150K+</option>
+              <option value="200000">$200K+</option>
+            </select>
+            <button class="btn-ghost" id="resetBtn">Reset</button>
+          </div>
+
+          <div class="jobs-grid" id="jobsGrid"></div>
+        </section>
+      </main>
+
+      <aside class="aside-stack">
+        <section class="section" id="market-news">
+          <div class="section-head">
+            <div>
+              <div class="section-label">Editorial layer</div>
+              <h2 class="section-title">Job market news</h2>
+              <p class="section-sub">Without news, this becomes a dumb listing site. With news, it becomes a decision tool.</p>
+            </div>
+          </div>
+          <div class="news-list" id="newsList"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-label">Trending skills</div>
+          <div class="section-title">What employers keep asking for</div>
+          <div class="skill-list" id="skillList"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-label">Salary index</div>
+          <div class="section-title">Where money is still flowing</div>
+          <div class="index-list" id="indexList"></div>
+        </section>
+      </aside>
+    </div>
+
+    <section class="section industries-section" id="industries">
+      <div class="section-head">
+        <div>
+          <div class="section-label">Sector map</div>
+          <h2 class="section-title">Popular industries</h2>
+          <p class="section-sub">A homepage has to expose category breadth fast, otherwise users assume your platform is narrower than it claims.</p>
+        </div>
+      </div>
+
+      <div class="category-cloud" id="categoryCloud"></div>
+    </section>
+
+    <section class="cta" id="alerts">
+      <div>
+        <div class="eyebrow"><span class="live-dot"></span> alert layer</div>
+        <div class="cta-title">Get market alerts before the crowd reacts.</div>
+        <p class="cta-desc">
+          Salary drops, hiring spikes, layoffs, category rebounds, and new role clusters should hit inboxes before users waste a month applying into a dead segment.
+        </p>
+      </div>
+
+      <div>
+        <div class="cta-form">
+          <input type="email" placeholder="name@company.com" />
+          <button class="btn">Subscribe</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>JobAtlas prototype homepage · static front-end only</div>
+      <div>Needs real APIs for jobs, editorial CMS, auth, saved searches, and personalization</div>
+    </footer>
+  </div>
+
+  <script>
+    const jobs = [
+      {
+        title: "AI Product Manager",
+        company: "Vector Labs",
+        location: "Taipei, Taiwan",
+        category: "Product",
+        workMode: "Hybrid",
+        level: "Senior",
+        salaryMin: 120000,
+        salaryMax: 165000,
+        currency: "USD",
+        posted: "2h ago",
+        urgency: "Hot",
+        marketSignal: "Rising",
+        summary: "Own AI workflow products, prioritize roadmap bets, and translate user pain into defensible product decisions.",
+        skills: ["AI Strategy", "Roadmapping", "SQL", "Experimentation"]
+      },
+      {
+        title: "Machine Learning Engineer",
+        company: "Northstar Compute",
+        location: "Remote",
+        category: "AI",
+        workMode: "Remote",
+        level: "Senior",
+        salaryMin: 155000,
+        salaryMax: 220000,
+        currency: "USD",
+        posted: "5h ago",
+        urgency: "Hot",
+        marketSignal: "Rising",
+        summary: "Build model pipelines, inference systems, and scalable evaluation tooling for enterprise AI products.",
+        skills: ["Python", "PyTorch", "MLOps", "LLMs"]
+      },
+      {
+        title: "Revenue Operations Analyst",
+        company: "Crestline SaaS",
+        location: "Singapore",
+        category: "Operations",
+        workMode: "Hybrid",
+        level: "Mid",
+        salaryMin: 78000,
+        salaryMax: 110000,
+        currency: "USD",
+        posted: "1d ago",
+        urgency: "Steady",
+        marketSignal: "Rising",
+        summary: "Fix broken funnels, clean CRM logic, and turn sales chaos into something the CFO can trust.",
+        skills: ["Salesforce", "Dashboards", "Forecasting", "SQL"]
+      },
+      {
+        title: "Investment Analyst",
+        company: "Harbor Capital",
+        location: "Hong Kong",
+        category: "Finance",
+        workMode: "On-site",
+        level: "Mid",
+        salaryMin: 90000,
+        salaryMax: 135000,
+        currency: "USD",
+        posted: "8h ago",
+        urgency: "Hot",
+        marketSignal: "Steady",
+        summary: "Support public market and thematic investing research across macro, tech, and cross-border capital flows.",
+        skills: ["Valuation", "Modeling", "Research", "Excel"]
+      },
+      {
+        title: "Product Designer",
+        company: "Signal Grid",
+        location: "Tokyo, Japan",
+        category: "Design",
+        workMode: "Hybrid",
+        level: "Mid",
+        salaryMin: 82000,
+        salaryMax: 118000,
+        currency: "USD",
+        posted: "18h ago",
+        urgency: "Steady",
+        marketSignal: "Steady",
+        summary: "Design complex B2B workflows without pretending every enterprise problem can be solved with prettier buttons.",
+        skills: ["Figma", "UX Research", "Prototyping", "Design Systems"]
+      },
+      {
+        title: "Backend Engineer",
+        company: "Peak Ledger",
+        location: "Remote",
+        category: "Engineering",
+        workMode: "Remote",
+        level: "Senior",
+        salaryMin: 140000,
+        salaryMax: 205000,
+        currency: "USD",
+        posted: "3h ago",
+        urgency: "Hot",
+        marketSignal: "Rising",
+        summary: "Ship APIs, event systems, and secure platform services for high-volume fintech infrastructure.",
+        skills: ["Go", "PostgreSQL", "Kubernetes", "APIs"]
+      },
+      {
+        title: "Sales Director",
+        company: "Orbit Security",
+        location: "Sydney, Australia",
+        category: "Sales",
+        workMode: "Hybrid",
+        level: "Lead",
+        salaryMin: 160000,
+        salaryMax: 240000,
+        currency: "USD",
+        posted: "4d ago",
+        urgency: "Steady",
+        marketSignal: "Rising",
+        summary: "Own pipeline generation, large account expansion, and the kind of forecasting discipline most orgs only fake in board decks.",
+        skills: ["Enterprise Sales", "Negotiation", "Forecasting", "Pipeline"]
+      },
+      {
+        title: "Clinical Data Manager",
+        company: "Nova Biocare",
+        location: "Boston, USA",
+        category: "Healthcare",
+        workMode: "On-site",
+        level: "Mid",
+        salaryMin: 98000,
+        salaryMax: 138000,
+        currency: "USD",
+        posted: "11h ago",
+        urgency: "Hot",
+        marketSignal: "Rising",
+        summary: "Manage regulated trial data, validation rules, and reporting pipelines where sloppy work can become an expensive legal problem.",
+        skills: ["Clinical Ops", "Validation", "SAS", "Compliance"]
+      },
+      {
+        title: "Growth Marketing Lead",
+        company: "Luma Commerce",
+        location: "Taipei, Taiwan",
+        category: "Marketing",
+        workMode: "Hybrid",
+        level: "Lead",
+        salaryMin: 98000,
+        salaryMax: 145000,
+        currency: "USD",
+        posted: "7h ago",
+        urgency: "Hot",
+        marketSignal: "Steady",
+        summary: "Own paid growth, lifecycle systems, attribution sanity, and demand-gen that actually produces revenue instead of vanity charts.",
+        skills: ["Performance Marketing", "Lifecycle", "Analytics", "CRM"]
+      },
+      {
+        title: "Supply Chain Planner",
+        company: "Blue Meridian",
+        location: "Shenzhen, China",
+        category: "Operations",
+        workMode: "On-site",
+        level: "Mid",
+        salaryMin: 70000,
+        salaryMax: 99000,
+        currency: "USD",
+        posted: "2d ago",
+        urgency: "Steady",
+        marketSignal: "Steady",
+        summary: "Coordinate sourcing, inventory risk, and factory timelines across unstable demand and vendor reality distortion.",
+        skills: ["ERP", "Planning", "Procurement", "Forecasting"]
+      },
+      {
+        title: "Cybersecurity Analyst",
+        company: "Vaultworks",
+        location: "Remote",
+        category: "Security",
+        workMode: "Remote",
+        level: "Mid",
+        salaryMin: 105000,
+        salaryMax: 150000,
+        currency: "USD",
+        posted: "6h ago",
+        urgency: "Hot",
+        marketSignal: "Rising",
+        summary: "Monitor threats, reduce attack surface, and clean up the mess that happens when growth teams think security is optional.",
+        skills: ["SIEM", "Threat Detection", "IAM", "Incident Response"]
+      },
+      {
+        title: "Manufacturing Process Engineer",
+        company: "Arc Forge",
+        location: "Munich, Germany",
+        category: "Manufacturing",
+        workMode: "On-site",
+        level: "Senior",
+        salaryMin: 93000,
+        salaryMax: 132000,
+        currency: "USD",
+        posted: "1d ago",
+        urgency: "Steady",
+        marketSignal: "Steady",
+        summary: "Improve throughput, quality, and process stability in environments where every inefficiency has a direct margin cost.",
+        skills: ["Lean", "Six Sigma", "Automation", "QA"]
+      },
+      {
+        title: "Customer Success Manager",
+        company: "GridOS",
+        location: "Remote",
+        category: "Customer Success",
+        workMode: "Remote",
+        level: "Mid",
+        salaryMin: 76000,
+        salaryMax: 108000,
+        currency: "USD",
+        posted: "10h ago",
+        urgency: "Steady",
+        marketSignal: "Steady",
+        summary: "Protect renewals, drive adoption, and translate product defects into something internal teams cannot ignore.",
+        skills: ["Renewals", "Stakeholder Mgmt", "Onboarding", "QBRs"]
+      },
+      {
+        title: "Data Analyst",
+        company: "Tidal Metrics",
+        location: "London, UK",
+        category: "Data",
+        workMode: "Hybrid",
+        level: "Entry",
+        salaryMin: 62000,
+        salaryMax: 86000,
+        currency: "USD",
+        posted: "9h ago",
+        urgency: "Hot",
+        marketSignal: "Rising",
+        summary: "Build dashboards, answer ugly business questions, and survive the weekly ritual of fixing leadership's broken assumptions with data.",
+        skills: ["SQL", "Python", "BI", "Statistics"]
+      },
+      {
+        title: "Business Development Manager",
+        company: "Atlas Freight",
+        location: "Dubai, UAE",
+        category: "Sales",
+        workMode: "On-site",
+        level: "Senior",
+        salaryMin: 110000,
+        salaryMax: 160000,
+        currency: "USD",
+        posted: "3d ago",
+        urgency: "Steady",
+        marketSignal: "Rising",
+        summary: "Open regional partnerships, structure cross-border deals, and push growth without wrecking gross margin.",
+        skills: ["Partnerships", "Negotiation", "Logistics", "Pipeline"]
+      },
+      {
+        title: "Frontend Engineer",
+        company: "Prism Health",
+        location: "Toronto, Canada",
+        category: "Engineering",
+        workMode: "Hybrid",
+        level: "Mid",
+        salaryMin: 102000,
+        salaryMax: 142000,
+        currency: "USD",
+        posted: "14h ago",
+        urgency: "Steady",
+        marketSignal: "Steady",
+        summary: "Build performant user interfaces for healthcare workflows where clarity matters more than trendy animation nonsense.",
+        skills: ["React", "TypeScript", "Accessibility", "Testing"]
+      }
+    ];
+
+    const news = [
+      {
+        tag: "AI Hiring",
+        title: "Inference infrastructure roles keep expanding while generic coordination roles stay under pressure",
+        desc: "Companies are still paying for engineers and operators who reduce model cost, increase reliability, or unlock measurable revenue. The market is far colder for vague strategy jobs with no operational teeth.",
+        source: "Market Desk",
+        time: "37 min ago"
+      },
+      {
+        tag: "Salary Watch",
+        title: "Compensation is holding up best in security, revenue operations, and regulated data work",
+        desc: "The common pattern is brutal but simple: when failure is expensive and output is measurable, employers keep paying. Where work is hard to measure, pay gets negotiated downward faster.",
+        source: "Pay Graph",
+        time: "1h ago"
+      },
+      {
+        tag: "Layoffs",
+        title: "Consumer-facing tech is still trimming layers that grew faster than revenue quality",
+        desc: "Middle layers are vulnerable when they add reporting ceremony but not decision speed, margin protection, or customer retention.",
+        source: "JobAtlas News",
+        time: "2h ago"
+      },
+      {
+        tag: "Regional Shift",
+        title: "Singapore, Taipei, and Tokyo continue attracting cross-border product and infrastructure hiring",
+        desc: "The draw is straightforward: regional headquarters, stronger technical ecosystems, and employers that still need proximity for execution-heavy teams.",
+        source: "Asia Jobs Wire",
+        time: "3h ago"
+      },
+      {
+        tag: "Healthcare",
+        title: "Clinical operations and health data teams remain talent constrained despite broader market hesitation",
+        desc: "Regulated environments still punish mistakes, so employers cannot replace domain competence with cheap optimism.",
+        source: "Clinical Brief",
+        time: "4h ago"
+      },
+      {
+        tag: "Automation",
+        title: "Routine documentation work is being compressed first, not high-judgment, cross-functional execution",
+        desc: "The takeaway is not that all jobs are dying. The real takeaway is that fuzzy, repetitive work with low accountability is becoming harder to defend.",
+        source: "Labor Signal",
+        time: "6h ago"
+      }
+    ];
+
+    const skillData = [
+      { name: "SQL", demand: 92, note: "Still unavoidable when people finally stop trusting dashboards and ask for proof." },
+      { name: "AI Product Sense", demand: 88, note: "The market wants applied judgment, not prompt theatre." },
+      { name: "Python", demand: 86, note: "Because real automation still needs people who can actually build." },
+      { name: "Forecasting", demand: 78, note: "Every company wants confidence, very few deserve it." },
+      { name: "Security Ops", demand: 75, note: "Cyber risk keeps forcing budget allocation." },
+      { name: "Stakeholder Management", demand: 71, note: "Mostly because org structures remain messy." }
+    ];
+
+    const salaryIndex = [
+      { name: "AI / ML", score: 94, meta: "Money still follows leverage." },
+      { name: "Security", score: 88, meta: "Fear remains a budget line." },
+      { name: "Healthcare Data", score: 83, meta: "Compliance keeps pricing power alive." },
+      { name: "Product", score: 74, meta: "Selective, not dead." },
+      { name: "Marketing", score: 67, meta: "Performance beats brand fluff." },
+      { name: "Admin / General Ops", score: 49, meta: "The squeeze is real." }
+    ];
+
+    const categoryCounts = {
+      "AI": 1240,
+      "Engineering": 2870,
+      "Product": 1180,
+      "Finance": 940,
+      "Sales": 1640,
+      "Operations": 1330,
+      "Marketing": 870,
+      "Healthcare": 910,
+      "Design": 620,
+      "Security": 760,
+      "Data": 980,
+      "Manufacturing": 710,
+      "Customer Success": 540
+    };
+
+    const jobsGrid = document.getElementById("jobsGrid");
+    const newsList = document.getElementById("newsList");
+    const skillList = document.getElementById("skillList");
+    const indexList = document.getElementById("indexList");
+    const categoryCloud = document.getElementById("categoryCloud");
+
+    const keywordInput = document.getElementById("keywordInput");
+    const locationInput = document.getElementById("locationInput");
+    const searchBtn = document.getElementById("searchBtn");
+    const globalSearch = document.getElementById("globalSearch");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const workModeFilter = document.getElementById("workModeFilter");
+    const levelFilter = document.getElementById("levelFilter");
+    const salaryFilter = document.getElementById("salaryFilter");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function formatMoney(min, max, currency = "USD") {
+      const fmt = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency,
+        maximumFractionDigits: 0
+      });
+      return `${fmt.format(min)}–${fmt.format(max)}`;
+    }
+
+    function median(arr) {
+      const sorted = [...arr].sort((a, b) => a - b);
+      const mid = Math.floor(sorted.length / 2);
+      return sorted.length % 2 ? sorted[mid] : Math.round((sorted[mid - 1] + sorted[mid]) / 2);
+    }
+
+    function populateCategoryFilter() {
+      const categories = [...new Set(jobs.map(j => j.category))].sort();
+      categories.forEach(cat => {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = cat;
+        categoryFilter.appendChild(opt);
+      });
+    }
+
+    function renderJobs() {
+      const q1 = keywordInput.value.trim().toLowerCase();
+      const q2 = locationInput.value.trim().toLowerCase();
+      const q3 = globalSearch.value.trim().toLowerCase();
+      const cat = categoryFilter.value;
+      const mode = workModeFilter.value;
+      const level = levelFilter.value;
+      const minSalary = Number(salaryFilter.value || 0);
+
+      const filtered = jobs.filter(job => {
+        const haystack = [
+          job.title,
+          job.company,
+          job.location,
+          job.category,
+          job.workMode,
+          job.level,
+          ...job.skills
+        ].join(" ").toLowerCase();
+
+        const maxPay = job.salaryMax;
+        const matchesHeroKeyword = !q1 || haystack.includes(q1);
+        const matchesHeroLocation = !q2 || job.location.toLowerCase().includes(q2) || job.workMode.toLowerCase().includes(q2);
+        const matchesGlobal = !q3 || haystack.includes(q3);
+        const matchesCategory = cat === "all" || job.category === cat;
+        const matchesMode = mode === "all" || job.workMode === mode;
+        const matchesLevel = level === "all" || job.level === level;
+        const matchesSalary = maxPay >= minSalary;
+
+        return matchesHeroKeyword && matchesHeroLocation && matchesGlobal && matchesCategory && matchesMode && matchesLevel && matchesSalary;
+      });
+
+      if (!filtered.length) {
+        jobsGrid.innerHTML = `<div class="empty-state">No roles match these filters. Good — that means the filters are doing their job instead of pretending every search is equally useful.</div>`;
+        updateTopStats(filtered);
+        return;
+      }
+
+      jobsGrid.innerHTML = filtered.map(job => `
+        <article class="job-card">
+          <div class="job-top">
+            <div class="badge-row">
+              <span class="mini-badge ${job.workMode === "Remote" ? "b-remote" : job.workMode === "Hybrid" ? "b-hybrid" : "b-onsite"}">${job.workMode}</span>
+              <span class="mini-badge ${job.urgency === "Hot" ? "b-hot" : "b-steady"}">${job.urgency}</span>
+              <span class="mini-badge ${job.marketSignal === "Rising" ? "b-rising" : "b-steady"}">${job.marketSignal}</span>
+            </div>
+            <span class="chip">${job.category}</span>
+          </div>
+
+          <div>
+            <div class="job-company">${job.company}</div>
+            <h3 class="job-title">${job.title}</h3>
+          </div>
+
+          <div class="job-meta">
+            <span>${job.location}</span>
+            <span>•</span>
+            <span>${job.level}</span>
+            <span>•</span>
+            <span>${job.posted}</span>
+          </div>
+
+          <p class="job-desc">${job.summary}</p>
+
+          <div class="skill-pills">
+            ${job.skills.map(skill => `<span class="skill-pill">${skill}</span>`).join("")}
+          </div>
+
+          <div class="job-bottom">
+            <div>
+              <div class="salary">${formatMoney(job.salaryMin, job.salaryMax, job.currency)}</div>
+              <div class="salary-sub">Estimated annual base pay</div>
+            </div>
+            <button class="btn-ghost">View Role</button>
+          </div>
+        </article>
+      `).join("");
+
+      updateTopStats(filtered);
+    }
+
+    function renderNews() {
+      newsList.innerHTML = news.map(item => `
+        <article class="news-card">
+          <div class="news-kicker"><span class="dot"></span>${item.tag}</div>
+          <h3 class="news-title">${item.title}</h3>
+          <p class="news-desc">${item.desc}</p>
+          <div class="news-meta">
+            <span>${item.source}</span>
+            <span>${item.time}</span>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderSkills() {
+      skillList.innerHTML = skillData.map(skill => `
+        <div class="skill-row">
+          <div class="skill-head">
+            <span>${skill.name}</span>
+            <span>${skill.demand}%</span>
+          </div>
+          <div class="bar"><span style="width:${skill.demand}%"></span></div>
+          <div class="salary-sub" style="margin-top:8px;">${skill.note}</div>
+        </div>
+      `).join("");
+    }
+
+    function renderIndex() {
+      indexList.innerHTML = salaryIndex.map(item => `
+        <div class="index-row">
+          <div class="index-head">
+            <span>${item.name}</span>
+            <span>${item.score}/100</span>
+          </div>
+          <div class="bar"><span style="width:${item.score}%; background: linear-gradient(90deg, #4f98a3, #22c55e);"></span></div>
+          <div class="salary-sub" style="margin-top:8px;">${item.meta}</div>
+        </div>
+      `).join("");
+    }
+
+    function renderCategories() {
+      categoryCloud.innerHTML = Object.entries(categoryCounts)
+        .sort((a, b) => b[1] - a[1])
+        .map(([name, count]) => `
+          <div class="cat-card">
+            <div class="cat-title">${name}</div>
+            <div class="cat-meta">${count.toLocaleString()} indexed roles</div>
+          </div>
+        `).join("");
+    }
+
+    function updateTopStats(filteredJobs) {
+      const visible = filteredJobs.length;
+      const remoteCount = filteredJobs.filter(j => j.workMode === "Remote").length;
+      const remotePct = visible ? Math.round((remoteCount / visible) * 100) : 0;
+      const midpointSalaries = filteredJobs.map(j => Math.round((j.salaryMin + j.salaryMax) / 2));
+      const med = midpointSalaries.length ? median(midpointSalaries) : 0;
+
+      document.getElementById("liveJobsCount").textContent = visible.toLocaleString();
+      document.getElementById("remoteShare").textContent = `${remotePct}%`;
+      document.getElementById("storyCount").textContent = news.length.toString();
+      document.getElementById("medianSalary").textContent = med ? new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(med) : "$0";
+    }
+
+    function syncHeroToGlobalSearch() {
+      if (keywordInput.value.trim()) {
+        globalSearch.value = keywordInput.value.trim();
+      }
+    }
+
+    function resetFilters() {
+      keywordInput.value = "";
+      locationInput.value = "";
+      globalSearch.value = "";
+      categoryFilter.value = "all";
+      workModeFilter.value = "all";
+      levelFilter.value = "all";
+      salaryFilter.value = "0";
+      document.querySelectorAll(".tag-filter").forEach(btn => btn.classList.remove("active"));
+      renderJobs();
+    }
+
+    searchBtn.addEventListener("click", () => {
+      syncHeroToGlobalSearch();
+      renderJobs();
+      document.getElementById("all-jobs").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    [keywordInput, locationInput, globalSearch].forEach(input => {
+      input.addEventListener("input", renderJobs);
+    });
+
+    [categoryFilter, workModeFilter, levelFilter, salaryFilter].forEach(control => {
+      control.addEventListener("change", renderJobs);
+    });
+
+    resetBtn.addEventListener("click", resetFilters);
+
+    document.querySelectorAll(".tag-filter").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tag-filter").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const value = btn.dataset.keyword || "";
+        if (value.toLowerCase() === "remote") {
+          locationInput.value = "";
+          keywordInput.value = "";
+          globalSearch.value = "";
+          workModeFilter.value = "Remote";
+        } else if (value.toLowerCase() === "taipei") {
+          locationInput.value = "Taipei";
+          keywordInput.value = "";
+          globalSearch.value = "";
+          workModeFilter.value = "all";
+        } else {
+          keywordInput.value = value;
+          globalSearch.value = value;
+          locationInput.value = "";
+          workModeFilter.value = "all";
+        }
+        renderJobs();
+      });
+    });
+
+    populateCategoryFilter();
+    renderJobs();
+    renderNews();
+    renderSkills();
+    renderIndex();
+    renderCategories();
+  </script>
+</body>
+</html>

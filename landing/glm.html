@@ -1,0 +1,2931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobPulse — Job Market Intelligence & Automation Risk</title>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=cabinet-grotesk@800&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --bg: #0e0e0e;
+            --surface: #161616;
+            --surface-2: #1c1c1c;
+            --surface-3: #222;
+            --border: #2a2a2a;
+            --border-hi: #363636;
+            --text: #e2e2e2;
+            --text-muted: #888;
+            --text-faint: #555;
+            --green: #22c55e;
+            --yellow: #eab308;
+            --orange: #f97316;
+            --red: #ef4444;
+            --accent: #4f98a3;
+            --accent-hover: #60b8c4;
+            --font-body: 'Satoshi', 'Inter', sans-serif;
+            --font-display: 'Cabinet Grotesk', 'Satoshi', sans-serif;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.6;
+            min-height: 100dvh
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font: inherit
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, .05) 2px, rgba(0, 0, 0, .05) 4px);
+            pointer-events: none;
+            z-index: 0
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 36px 24px 80px
+        }
+
+        @media(max-width:768px) {
+            .page {
+                padding: 20px 14px 60px
+            }
+        }
+
+        /* ── Industry Tags ── */
+        .industry-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 14px
+        }
+
+        .industry-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .04em;
+            border: 1px solid var(--border-hi);
+            color: var(--text-faint);
+            cursor: pointer;
+            transition: all .18s var(--ease);
+            white-space: nowrap
+        }
+
+        .industry-pill:hover {
+            color: var(--text-muted);
+            border-color: var(--text-faint)
+        }
+
+        .industry-pill.active {
+            color: #fff;
+            border-color: transparent;
+            background: var(--surface-3)
+        }
+
+        .industry-pill .ind-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: currentColor;
+            flex-shrink: 0;
+            opacity: .7
+        }
+
+        /* ── Header ── */
+        .header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 28px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap
+        }
+
+        .header-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: color-mix(in oklch, var(--accent) 12%, transparent);
+            border: 1px solid color-mix(in oklch, var(--accent) 30%, transparent);
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-bottom: 10px
+        }
+
+        .header-tag .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse 2s ease-in-out infinite
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1
+            }
+            50% {
+                opacity: .35
+            }
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: clamp(22px, 4vw, 32px);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 6px;
+            letter-spacing: -.01em
+        }
+
+        .page-subtitle {
+            font-size: 12px;
+            color: var(--text-muted)
+        }
+
+        .page-subtitle span {
+            color: var(--accent);
+            font-size: 11px;
+            font-family: monospace
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            padding-top: 2px;
+            flex-wrap: wrap
+        }
+
+        .btn-subscribe {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .02em;
+            background: var(--accent);
+            color: #fff;
+            transition: background .18s var(--ease), transform .15s, box-shadow .18s var(--ease)
+        }
+
+        .btn-subscribe:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px color-mix(in oklch, var(--accent) 35%, transparent)
+        }
+
+        .btn-subscribe svg {
+            width: 14px;
+            height: 14px
+        }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-hi);
+            background: var(--surface);
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .18s var(--ease);
+            letter-spacing: .04em
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--accent);
+            color: var(--text)
+        }
+
+        .btn-login {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .02em;
+            background: var(--surface-3);
+            color: #fff;
+            border: 1px solid var(--border-hi);
+            transition: all .18s var(--ease);
+            cursor: pointer
+        }
+
+        .btn-login:hover {
+            background: var(--surface-2);
+            border-color: var(--text-muted)
+        }
+
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-hi);
+            background: var(--surface);
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .18s var(--ease);
+            letter-spacing: .04em
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            color: var(--text)
+        }
+
+        .theme-toggle .th-icon {
+            font-size: 15px;
+            line-height: 1
+        }
+
+        /* ── Search Bar ── */
+        .search-wrap {
+            position: relative;
+            margin-bottom: 28px
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            background: var(--surface);
+            border: 1px solid var(--border-hi);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: border-color .2s var(--ease)
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--accent)
+        }
+
+        .search-icon {
+            padding: 0 16px;
+            color: var(--text-faint);
+            display: flex;
+            align-items: center
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text);
+            font: inherit;
+            font-size: 14px;
+            padding: 14px 0
+        }
+
+        .search-input::placeholder {
+            color: var(--text-faint)
+        }
+
+        .search-filters {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            border-left: 1px solid var(--border)
+        }
+
+        .search-filter-btn {
+            padding: 14px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            border-right: 1px solid var(--border);
+            cursor: pointer;
+            transition: color .15s;
+            white-space: nowrap
+        }
+
+        .search-filter-btn:hover {
+            color: var(--text)
+        }
+
+        .search-filter-btn:last-child {
+            border-right: none
+        }
+
+        .search-submit {
+            padding: 14px 24px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: background .15s
+        }
+
+        .search-submit:hover {
+            background: var(--accent-hover)
+        }
+
+        .search-suggestions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap
+        }
+
+        .search-suggest-pill {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: var(--text-faint);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all .15s var(--ease)
+        }
+
+        .search-suggest-pill:hover {
+            color: var(--text-muted);
+            border-color: var(--text-faint)
+        }
+
+        /* ── KPI Row ── */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 28px
+        }
+
+        @media(max-width:1000px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:480px) {
+            .kpi-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .kpi-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px 20px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color .2s, box-shadow .2s var(--ease)
+        }
+
+        .kpi-card:hover {
+            border-color: var(--border-hi);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .35)
+        }
+
+        .kpi-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, var(--glow, transparent) 0%, transparent 70%);
+            pointer-events: none;
+            opacity: .5
+        }
+
+        .kpi-card.k-total {
+            --glow: color-mix(in oklch, var(--accent) 15%, transparent)
+        }
+
+        .kpi-card.k-new {
+            --glow: color-mix(in oklch, var(--green) 12%, transparent)
+        }
+
+        .kpi-card.k-sal {
+            --glow: color-mix(in oklch, var(--yellow) 12%, transparent)
+        }
+
+        .kpi-card.k-risk {
+            --glow: color-mix(in oklch, var(--red) 12%, transparent)
+        }
+
+        .kpi-lbl {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px
+        }
+
+        .kpi-val {
+            font-family: var(--font-display);
+            font-size: clamp(22px, 3vw, 30px);
+            font-weight: 800;
+            letter-spacing: -.02em;
+            line-height: 1;
+            margin-bottom: 4px
+        }
+
+        .kpi-meta {
+            font-size: 10px;
+            color: var(--text-faint);
+            line-height: 1.4
+        }
+
+        .kpi-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 6px
+        }
+
+        .kpi-change.up {
+            background: color-mix(in oklch, var(--green) 14%, transparent);
+            color: var(--green)
+        }
+
+        .kpi-change.down {
+            background: color-mix(in oklch, var(--red) 14%, transparent);
+            color: var(--red)
+        }
+
+        /* ── Section Label ── */
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 14px
+        }
+
+        /* ── Job Category Tabs ── */
+        .cat-section {
+            margin-bottom: 20px
+        }
+
+        .cat-tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+
+        .cattab {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 13px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-hi);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all .18s var(--ease);
+            white-space: nowrap;
+            position: relative
+        }
+
+        .cattab:hover {
+            border-color: var(--text-faint);
+            color: var(--text)
+        }
+
+        .cattab.active {
+            background: var(--surface-2);
+            border-color: var(--accent);
+            color: #fff
+        }
+
+        .cattab .cat-emoji {
+            font-size: 14px
+        }
+
+        .cattab .cat-count {
+            font-size: 10px;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-weight: 700;
+            background: var(--surface-3);
+            color: var(--text-muted)
+        }
+
+        .cattab.active .cat-count {
+            background: color-mix(in oklch, var(--accent) 20%, transparent);
+            color: var(--accent)
+        }
+
+        /* ── Job Cards ── */
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 8px
+        }
+
+        @media(max-width:900px) {
+            .jobs-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:560px) {
+            .jobs-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .job-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px 20px;
+            transition: border-color .2s, transform .15s var(--ease), box-shadow .2s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden
+        }
+
+        .job-card:hover {
+            border-color: var(--border-hi);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .35)
+        }
+
+        .job-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px
+        }
+
+        .job-company {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--text-muted)
+        }
+
+        .job-posted {
+            font-size: 10px;
+            color: var(--text-faint)
+        }
+
+        .job-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.2;
+            margin-bottom: 8px
+        }
+
+        .job-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px
+        }
+
+        .job-meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: var(--text-muted)
+        }
+
+        .job-meta-item svg {
+            width: 12px;
+            height: 12px;
+            opacity: .6
+        }
+
+        .job-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 12px
+        }
+
+        .job-tag {
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .03em
+        }
+
+        .job-tag.tag-remote {
+            background: color-mix(in oklch, var(--green) 14%, transparent);
+            color: var(--green);
+            border: 1px solid color-mix(in oklch, var(--green) 25%, transparent)
+        }
+
+        .job-tag.tag-hybrid {
+            background: color-mix(in oklch, var(--yellow) 12%, transparent);
+            color: var(--yellow);
+            border: 1px solid color-mix(in oklch, var(--yellow) 22%, transparent)
+        }
+
+        .job-tag.tag-onsite {
+            background: color-mix(in oklch, var(--orange) 12%, transparent);
+            color: var(--orange);
+            border: 1px solid color-mix(in oklch, var(--orange) 22%, transparent)
+        }
+
+        .job-tag.tag-urgent {
+            background: color-mix(in oklch, var(--red) 14%, transparent);
+            color: var(--red);
+            border: 1px solid color-mix(in oklch, var(--red) 25%, transparent)
+        }
+
+        .job-tag.tag-ai {
+            background: color-mix(in oklch, var(--accent) 14%, transparent);
+            color: var(--accent);
+            border: 1px solid color-mix(in oklch, var(--accent) 25%, transparent)
+        }
+
+        .job-salary {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--accent)
+        }
+
+        .job-salary-note {
+            font-size: 10px;
+            color: var(--text-faint)
+        }
+
+        .job-risk-bar {
+            margin-top: 10px
+        }
+
+        .job-risk-track {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden
+        }
+
+        .job-risk-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width .8s var(--ease)
+        }
+
+        .job-risk-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+            color: var(--text-faint);
+            margin-top: 3px
+        }
+
+        .job-risk-label span:last-child {
+            font-weight: 700
+        }
+
+        .job-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border)
+        }
+
+        .job-apply-btn {
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            background: var(--accent);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .15s, transform .1s
+        }
+
+        .job-apply-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px)
+        }
+
+        .job-save-btn {
+            padding: 6px 10px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-hi);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all .15s;
+            font-size: 13px
+        }
+
+        .job-save-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent)
+        }
+
+        .job-save-btn.saved {
+            color: var(--accent);
+            border-color: var(--accent)
+        }
+
+        .load-more-wrap {
+            text-align: center;
+            margin: 20px 0 28px
+        }
+
+        .load-more-btn {
+            padding: 10px 28px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-hi);
+            background: var(--surface);
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .18s var(--ease)
+        }
+
+        .load-more-btn:hover {
+            border-color: var(--accent);
+            color: var(--text);
+            transform: translateY(-1px)
+        }
+
+        /* ── News Section ── */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 12px
+        }
+
+        @media(max-width:900px) {
+            .news-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:560px) {
+            .news-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .news-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: border-color .2s, transform .15s var(--ease), box-shadow .2s;
+            cursor: pointer
+        }
+
+        .news-card:hover {
+            border-color: var(--border-hi);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .35)
+        }
+
+        .news-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            filter: brightness(.8);
+            transition: filter .3s
+        }
+
+        .news-card:hover .news-img {
+            filter: brightness(.9)
+        }
+
+        .news-body {
+            padding: 16px 18px
+        }
+
+        .news-cat {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            margin-bottom: 8px
+        }
+
+        .news-cat.nc-ai {
+            background: color-mix(in oklch, var(--accent) 14%, transparent);
+            color: var(--accent);
+            border: 1px solid color-mix(in oklch, var(--accent) 25%, transparent)
+        }
+
+        .news-cat.nc-salary {
+            background: color-mix(in oklch, var(--green) 14%, transparent);
+            color: var(--green);
+            border: 1px solid color-mix(in oklch, var(--green) 25%, transparent)
+        }
+
+        .news-cat.nc-layoff {
+            background: color-mix(in oklch, var(--red) 14%, transparent);
+            color: var(--red);
+            border: 1px solid color-mix(in oklch, var(--red) 25%, transparent)
+        }
+
+        .news-cat.nc-trend {
+            background: color-mix(in oklch, var(--yellow) 14%, transparent);
+            color: var(--yellow);
+            border: 1px solid color-mix(in oklch, var(--yellow) 22%, transparent)
+        }
+
+        .news-cat.nc-policy {
+            background: color-mix(in oklch, var(--orange) 14%, transparent);
+            color: var(--orange);
+            border: 1px solid color-mix(in oklch, var(--orange) 22%, transparent)
+        }
+
+        .news-title {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.25;
+            margin-bottom: 6px
+        }
+
+        .news-excerpt {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden
+        }
+
+        .news-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--text-faint)
+        }
+
+        .news-source {
+            font-weight: 600;
+            color: var(--text-muted)
+        }
+
+        .news-featured {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0
+        }
+
+        @media(max-width:768px) {
+            .news-featured {
+                grid-column: span 1;
+                grid-template-columns: 1fr
+            }
+        }
+
+        .news-featured .news-img {
+            height: 100%;
+            min-height: 200px
+        }
+
+        .news-featured .news-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+
+        /* ── Automation Risk Overview ── */
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 12px
+        }
+
+        @media(max-width:768px) {
+            .risk-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .risk-panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px 22px
+        }
+
+        .risk-panel-title {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 4px
+        }
+
+        .risk-panel-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 14px
+        }
+
+        .risk-job-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .risk-job-row:last-child {
+            border-bottom: none
+        }
+
+        .risk-job-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            min-width: 140px
+        }
+
+        .risk-job-meta {
+            font-size: 10px;
+            color: var(--text-faint)
+        }
+
+        .risk-bar-wrap {
+            flex: 1;
+            min-width: 100px
+        }
+
+        .risk-bar-track {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden
+        }
+
+        .risk-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width .8s var(--ease)
+        }
+
+        .risk-pct {
+            font-size: 12px;
+            font-weight: 800;
+            min-width: 42px;
+            text-align: right
+        }
+
+        .risk-pct.rp-high {
+            color: var(--red)
+        }
+
+        .risk-pct.rp-mid {
+            color: var(--yellow)
+        }
+
+        .risk-pct.rp-low {
+            color: var(--green)
+        }
+
+        .risk-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent);
+            cursor: pointer;
+            transition: color .15s
+        }
+
+        .risk-link:hover {
+            color: var(--accent-hover)
+        }
+
+        /* ── Salary Chart ── */
+        .salary-chart-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px 22px;
+            margin-bottom: 12px
+        }
+
+        .salary-chart-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 8px
+        }
+
+        .salary-chart-title {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--text-faint)
+        }
+
+        .salary-chart-note {
+            font-size: 10px;
+            color: var(--text-faint)
+        }
+
+        #salarySVG {
+            width: 100%;
+            overflow: visible;
+            display: block
+        }
+
+        /* ── Country Tabs ── */
+        .country-section {
+            margin-bottom: 20px
+        }
+
+        .country-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 10px
+        }
+
+        .country-tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+
+        .ctab {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 13px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-hi);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all .18s var(--ease);
+            white-space: nowrap;
+            position: relative
+        }
+
+        .ctab:hover {
+            border-color: var(--text-faint);
+            color: var(--text)
+        }
+
+        .ctab.active {
+            background: var(--surface-2);
+            border-color: var(--accent);
+            color: #fff
+        }
+
+        .ctab .flag {
+            font-size: 14px;
+            line-height: 1
+        }
+
+        .ctab .cname {
+            font-size: 11px
+        }
+
+        /* ── Industry Deep Dive Cards ── */
+        .dive-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 12px
+        }
+
+        @media(max-width:900px) {
+            .dive-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:480px) {
+            .dive-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .dive-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px 20px;
+            transition: border-color .2s, transform .15s var(--ease);
+            cursor: pointer;
+            text-align: center
+        }
+
+        .dive-card:hover {
+            border-color: var(--border-hi);
+            transform: translateY(-2px)
+        }
+
+        .dive-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+            display: block
+        }
+
+        .dive-name {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 4px
+        }
+
+        .dive-count {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 6px
+        }
+
+        .dive-bar {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden
+        }
+
+        .dive-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 1s var(--ease)
+        }
+
+        .dive-trend {
+            font-size: 10px;
+            color: var(--text-faint);
+            margin-top: 6px
+        }
+
+        /* ── Footer ── */
+        .footer {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border)
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px
+        }
+
+        @media(max-width:768px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px
+            }
+        }
+
+        @media(max-width:480px) {
+            .footer-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .footer-brand {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px
+        }
+
+        .footer-brand-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 12px
+        }
+
+        .footer-col-title {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 10px
+        }
+
+        .footer-link {
+            display: block;
+            font-size: 12px;
+            color: var(--text-faint);
+            padding: 3px 0;
+            transition: color .15s;
+            cursor: pointer
+        }
+
+        .footer-link:hover {
+            color: var(--text)
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--text-faint)
+        }
+
+        /* ── Modal ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .75);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s var(--ease)
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: all
+        }
+
+        .modal {
+            background: var(--surface-2);
+            border: 1px solid var(--border-hi);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            max-width: 420px;
+            width: 100%;
+            transform: translateY(14px) scale(.97);
+            transition: transform .28s var(--ease);
+            position: relative
+        }
+
+        .modal-overlay.open .modal {
+            transform: none
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: background .15s, color .15s
+        }
+
+        .modal-close:hover {
+            background: var(--border);
+            color: var(--text)
+        }
+
+        .modal-icon {
+            width: 42px;
+            height: 42px;
+            background: color-mix(in oklch, var(--accent) 16%, transparent);
+            border: 1px solid color-mix(in oklch, var(--accent) 32%, transparent);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            margin-bottom: 14px
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 19px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 5px;
+            letter-spacing: -.01em
+        }
+
+        .modal-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+            line-height: 1.6
+        }
+
+        .modal-desc strong {
+            color: var(--text)
+        }
+
+        .input-group {
+            display: flex;
+            gap: 7px;
+            margin-bottom: 12px
+        }
+
+        .modal-input {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border-hi);
+            border-radius: var(--radius-md);
+            padding: 9px 13px;
+            color: var(--text);
+            font: inherit;
+            font-size: 13px;
+            outline: none;
+            transition: border-color .18s
+        }
+
+        .modal-input::placeholder {
+            color: var(--text-faint)
+        }
+
+        .modal-input:focus {
+            border-color: var(--accent)
+        }
+
+        .btn-confirm {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 9px 16px;
+            border-radius: var(--radius-md);
+            background: var(--accent);
+            color: #fff;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            white-space: nowrap;
+            transition: background .18s var(--ease), transform .15s
+        }
+
+        .btn-confirm:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px)
+        }
+
+        .modal-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 4px
+        }
+
+        .modal-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 9px;
+            border: 1px solid var(--border-hi);
+            border-radius: 4px;
+            font-size: 11px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all .15s
+        }
+
+        .modal-tag:hover,
+        .modal-tag.sel {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: color-mix(in oklch, var(--accent) 10%, transparent)
+        }
+
+        .modal-success {
+            text-align: center;
+            padding: 14px 0;
+            display: none
+        }
+
+        .modal-success .check {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: color-mix(in oklch, var(--green) 16%, transparent);
+            border: 1px solid var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green);
+            margin: 0 auto 12px;
+            font-size: 22px
+        }
+
+        .modal-success h3 {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 5px
+        }
+
+        .modal-success p {
+            font-size: 12px;
+            color: var(--text-muted)
+        }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            background: var(--surface-2);
+            border: 1px solid var(--border-hi);
+            border-radius: var(--radius-md);
+            padding: 11px 15px;
+            font-size: 12px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            z-index: 200;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .5);
+            transform: translateY(18px);
+            opacity: 0;
+            transition: all .28s var(--ease)
+        }
+
+        .toast.show {
+            transform: none;
+            opacity: 1
+        }
+
+        .toast-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            flex-shrink: 0;
+            animation: pulse 2s infinite
+        }
+
+        .ltv-fade {
+            animation: fadeIn .4s var(--ease)
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: .2;
+                transform: translateY(4px)
+            }
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .sec-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 24px 0
+        }
+
+        /* ── Light Mode ── */
+        html[data-theme="light"] {
+            --bg: #f4f4f5;
+            --surface: #ffffff;
+            --surface-2: #f0f0f0;
+            --surface-3: #e8e8e8;
+            --border: #e0e0e0;
+            --border-hi: #cccccc;
+            --text: #111111;
+            --text-muted: #555555;
+            --text-faint: #999999;
+            --green: #16a34a;
+            --yellow: #ca8a04;
+            --orange: #ea580c;
+            --red: #dc2626;
+            --accent: #2a7b8a;
+            --accent-hover: #1e6474;
+        }
+
+        html[data-theme="light"] body {
+            color: var(--text)
+        }
+
+        html[data-theme="light"] body::before {
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, .02) 2px, rgba(0, 0, 0, .02) 4px)
+        }
+
+        html[data-theme="light"] .page-title {
+            color: #111
+        }
+
+        html[data-theme="light"] .job-title {
+            color: #111
+        }
+
+        html[data-theme="light"] .news-title {
+            color: #111
+        }
+
+        html[data-theme="light"] .risk-job-name {
+            color: #111
+        }
+
+        html[data-theme="light"] .dive-name {
+            color: #111
+        }
+
+        html[data-theme="light"] .risk-panel-title {
+            color: #111
+        }
+
+        html[data-theme="light"] .footer-brand {
+            color: #111
+        }
+
+        html[data-theme="light"] .kpi-val {
+            color: #111
+        }
+
+        html[data-theme="light"] .job-salary {
+            color: var(--accent)
+        }
+
+        html[data-theme="light"] .modal {
+            background: var(--surface)
+        }
+
+        html[data-theme="light"] .modal-title {
+            color: #111
+        }
+
+        html[data-theme="light"] .modal-input {
+            background: var(--surface-2);
+            color: #111
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+        <div class="modal">
+            <button class="modal-close" id="modalClose" aria-label="Close">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+            <div id="modalForm">
+                <div class="modal-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </div>
+                <div class="modal-title">Subscribe to Job Market Alerts</div>
+                <div class="modal-desc">Get notified about <strong>new job postings, salary changes, AI automation risk updates</strong>, and market shifts in your industry.</div>
+                <div class="input-group">
+                    <input class="modal-input" id="emailInput" type="email" placeholder="your@email.com" autocomplete="email">
+                    <button class="btn-confirm" id="confirmBtn">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        Subscribe
+                    </button>
+                </div>
+                <div style="font-size:10px;color:var(--text-faint);margin-bottom:12px">Select alert types:</div>
+                <div class="modal-tags" id="modalTags">
+                    <span class="modal-tag sel" data-val="jobs">💼 New Jobs</span>
+                    <span class="modal-tag sel" data-val="salary">💰 Salary Changes</span>
+                    <span class="modal-tag" data-val="ai">🤖 AI Risk Updates</span>
+                    <span class="modal-tag" data-val="weekly">📅 Weekly Digest</span>
+                    <span class="modal-tag" data-val="layoffs">⚡ Layoff Alerts</span>
+                </div>
+            </div>
+            <div class="modal-success" id="modalSuccess">
+                <div class="check">✓</div>
+                <h3>You're subscribed!</h3>
+                <p>We'll send you job market alerts. Confirm via email.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span class="toast-dot"></span>
+        <span id="toastMsg">Subscribed successfully</span>
+    </div>
+
+    <!-- Page -->
+    <div class="page">
+
+        <!-- Industry Tags -->
+        <div class="industry-row" role="group" aria-label="Industry segments">
+            <span class="industry-pill active" data-ind="all"><span class="ind-dot"></span>All Industries</span>
+            <span class="industry-pill" data-ind="tech"><span class="ind-dot"></span>Technology</span>
+            <span class="industry-pill" data-ind="health"><span class="ind-dot"></span>Healthcare</span>
+            <span class="industry-pill" data-ind="finance"><span class="ind-dot"></span>Finance</span>
+            <span class="industry-pill" data-ind="fb"><span class="ind-dot"></span>Food & Beverage</span>
+            <span class="industry-pill" data-ind="edu"><span class="ind-dot"></span>Education</span>
+            <span class="industry-pill" data-ind="mfg"><span class="ind-dot"></span>Manufacturing</span>
+            <span class="industry-pill" data-ind="legal"><span class="ind-dot"></span>Legal</span>
+            <span class="industry-pill" data-ind="creative"><span class="ind-dot"></span>Creative</span>
+            <span class="industry-pill" data-ind="logistics"><span class="ind-dot"></span>Logistics</span>
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <div>
+                <div class="header-tag"><span class="live-dot"></span> Live Tracking</div>
+                <h1 class="page-title">JobPulse<br>Market Intelligence</h1>
+                <p class="page-subtitle">All jobs · Salary data · AI automation risk · Market news — <span>UPDATED REAL-TIME 2026</span></p>
+            </div>
+            <div class="header-right">
+                <button class="btn-ghost" id="btnUploadResume">Upload Resume</button>
+                <button class="btn-ghost" id="btnMBTI">Enter MBTI</button>
+                <button class="btn-login" id="btnLogin">Login</button>
+                <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">
+                    <span class="th-icon">☀️</span><span id="themeLabel">Light</span>
+                </button>
+                <button class="btn-subscribe" id="openModal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    Subscribe
+                </button>
+            </div>
+        </header>
+
+        <!-- Search -->
+        <div class="search-wrap">
+            <div class="search-bar">
+                <span class="search-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                </span>
+                <input class="search-input" id="searchInput" type="text" placeholder="Search jobs, companies, skills, or locations...">
+                <div class="search-filters">
+                    <button class="search-filter-btn" id="filterLocation">📍 Location</button>
+                    <button class="search-filter-btn" id="filterSalary">💰 Salary</button>
+                    <button class="search-filter-btn" id="filterRemote">🏠 Remote</button>
+                </div>
+                <button class="search-submit" id="searchSubmit">Search</button>
+            </div>
+            <div class="search-suggestions" id="searchSuggestions">
+                <span class="search-suggest-pill">Software Engineer</span>
+                <span class="search-suggest-pill">Nurse Practitioner</span>
+                <span class="search-suggest-pill">Data Scientist</span>
+                <span class="search-suggest-pill">Chef</span>
+                <span class="search-suggest-pill">Paralegal</span>
+                <span class="search-suggest-pill">Product Manager</span>
+                <span class="search-suggest-pill">UX Designer</span>
+                <span class="search-suggest-pill">Financial Analyst</span>
+            </div>
+        </div>
+
+        <!-- KPI Row -->
+        <div class="kpi-grid ltv-fade">
+            <div class="kpi-card k-total">
+                <div class="kpi-lbl">Total Active Jobs</div>
+                <div class="kpi-val" id="kpi-total" style="color:#fff">4,287,530</div>
+                <div class="kpi-meta">Across 142 countries<span class="kpi-change up">▲ 3.2%</span></div>
+            </div>
+            <div class="kpi-card k-new">
+                <div class="kpi-lbl">New This Week</div>
+                <div class="kpi-val" id="kpi-new" style="color:var(--green)">128,440</div>
+                <div class="kpi-meta">+18,200 vs last week<span class="kpi-change up">▲ 16.5%</span></div>
+            </div>
+            <div class="kpi-card k-sal">
+                <div class="kpi-lbl">Global Median Salary</div>
+                <div class="kpi-val" id="kpi-sal" style="color:var(--yellow)">$58,200</div>
+                <div class="kpi-meta">USD equivalent · YoY<span class="kpi-change up">▲ 4.1%</span></div>
+            </div>
+            <div class="kpi-card k-risk">
+                <div class="kpi-lbl">Avg AI Risk Index</div>
+                <div class="kpi-val" id="kpi-risk" style="color:var(--red)">34%</div>
+                <div class="kpi-meta">Weighted across all roles<span class="kpi-change down">▲ 6%</span></div>
+            </div>
+        </div>
+
+        <!-- Country Selector -->
+        <div class="country-section">
+            <div class="country-label">Select Region — Salary & Job Data by Country</div>
+            <div class="country-tabs" role="tablist" id="countryTabs">
+                <button class="ctab active" role="tab" data-country="US"><span class="flag">🇺🇸</span><span class="cname">USA</span></button>
+                <button class="ctab" role="tab" data-country="UK"><span class="flag">🇬🇧</span><span class="cname">UK</span></button>
+                <button class="ctab" role="tab" data-country="AU"><span class="flag">🇦🇺</span><span class="cname">Australia</span></button>
+                <button class="ctab" role="tab" data-country="DE"><span class="flag">🇩🇪</span><span class="cname">Germany</span></button>
+                <button class="ctab" role="tab" data-country="JP"><span class="flag">🇯🇵</span><span class="cname">Japan</span></button>
+                <button class="ctab" role="tab" data-country="SG"><span class="flag">🇸🇬</span><span class="cname">Singapore</span></button>
+                <button class="ctab" role="tab" data-country="TW"><span class="flag">🇹🇼</span><span class="cname">Taiwan</span></button>
+                <button class="ctab" role="tab" data-country="CN"><span class="flag">🇨🇳</span><span class="cname">China</span></button>
+            </div>
+        </div>
+
+        <div class="sec-divider"></div>
+
+        <!-- Job Category Tabs + Cards -->
+        <div class="cat-section">
+            <div class="section-label">Browse Jobs by Category — <span id="catCountLabel">Showing Technology jobs</span></div>
+            <div class="cat-tabs" id="catTabs">
+                <button class="cattab active" data-cat="tech"><span class="cat-emoji">💻</span>Technology<span class="cat-count">842K</span></button>
+                <button class="cattab" data-cat="health"><span class="cat-emoji">🏥</span>Healthcare<span class="cat-count">614K</span></button>
+                <button class="cattab" data-cat="finance"><span class="cat-emoji">📊</span>Finance<span class="cat-count">398K</span></button>
+                <button class="cattab" data-cat="fb"><span class="cat-emoji">🍳</span>Food & Bev<span class="cat-count">520K</span></button>
+                <button class="cattab" data-cat="edu"><span class="cat-emoji">🎓</span>Education<span class="cat-count">287K</span></button>
+                <button class="cattab" data-cat="mfg"><span class="cat-emoji">🏭</span>Manufacturing<span class="cat-count">445K</span></button>
+                <button class="cattab" data-cat="legal"><span class="cat-emoji">⚖️</span>Legal<span class="cat-count">156K</span></button>
+                <button class="cattab" data-cat="creative"><span class="cat-emoji">🎨</span>Creative<span class="cat-count">312K</span></button>
+                <button class="cattab" data-cat="logistics"><span class="cat-emoji">🚛</span>Logistics<span class="cat-count">713K</span></button>
+            </div>
+        </div>
+
+        <div class="jobs-grid" id="jobsGrid"><!-- JS rendered --></div>
+        <div class="load-more-wrap"><button class="load-more-btn" id="loadMoreBtn">Load More Jobs ↓</button></div>
+
+        <div class="sec-divider"></div>
+
+        <!-- Job Market News -->
+        <div class="section-label">Job Market News — Latest Headlines</div>
+        <div class="news-grid" id="newsGrid"><!-- JS rendered --></div>
+
+        <div class="sec-divider"></div>
+
+        <!-- Automation Risk Overview -->
+        <div class="section-label">AI Automation Risk Overview — Top Threatened & Safest Roles</div>
+        <div class="risk-grid">
+            <div class="risk-panel">
+                <div class="risk-panel-title" style="color:var(--red)">🔴 Most At Risk</div>
+                <div class="risk-panel-sub">Jobs with highest automation probability in the next 5–10 years</div>
+                <div id="riskHighList"><!-- JS rendered --></div>
+                <span class="risk-link" onclick="showToast('Full risk analysis page coming soon')">View full risk analysis →</span>
+            </div>
+            <div class="risk-panel">
+                <div class="risk-panel-title" style="color:var(--green)">🟢 Most Protected</div>
+                <div class="risk-panel-sub">Jobs with the lowest automation probability — human judgment essential</div>
+                <div id="riskLowList"><!-- JS rendered --></div>
+                <span class="risk-link" onclick="showToast('Full safe careers page coming soon')">Browse protected careers →</span>
+            </div>
+        </div>
+
+        <div class="sec-divider"></div>
+
+        <!-- Salary Trends Chart -->
+        <div class="salary-chart-wrap">
+            <div class="salary-chart-header">
+                <span class="salary-chart-title">Salary Trends — Top Sectors (<span id="salaryCountryLabel">USA</span>, 2020–2026)</span>
+                <span class="salary-chart-note">Indexed to 2020 baseline · hover for value</span>
+            </div>
+            <svg id="salarySVG" height="220" viewBox="0 0 900 220" preserveAspectRatio="none"></svg>
+        </div>
+
+        <div class="sec-divider"></div>
+
+        <!-- Industry Deep Dive -->
+        <div class="section-label">Industry Deep Dives — Explore by Sector</div>
+        <div class="dive-grid" id="diveGrid"><!-- JS rendered --></div>
+
+        <div class="sec-divider"></div>
+
+        <!-- Career Tools -->
+        <div class="section-label">Career Intelligence Tools</div>
+        <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+            <div class="kpi-card" style="cursor:pointer" onclick="showToast('Resume analyzer launching soon')">
+                <div style="font-size:28px;margin-bottom:8px">📄</div>
+                <div class="kpi-val" style="font-size:18px;color:var(--accent)">Resume Analyzer</div>
+                <div class="kpi-meta">Upload your resume for AI-powered job matching, skill gap analysis, and salary benchmarking.</div>
+            </div>
+            <div class="kpi-card" style="cursor:pointer" onclick="showToast('MBTI career matcher launching soon')">
+                <div style="font-size:28px;margin-bottom:8px">🧠</div>
+                <div class="kpi-val" style="font-size:18px;color:var(--yellow)">MBTI Career Match</div>
+                <div class="kpi-meta">Find careers that align with your personality type, work style, and stress tolerance.</div>
+            </div>
+            <div class="kpi-card" style="cursor:pointer" onclick="showToast('Automation risk checker launching soon')">
+                <div style="font-size:28px;margin-bottom:8px">🤖</div>
+                <div class="kpi-val" style="font-size:18px;color:var(--red)">Automation Risk Check</div>
+                <div class="kpi-meta">Enter your job title to see AI threat level, safe career window, and pivot recommendations.</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand">JobPulse</div>
+                    <div class="footer-brand-sub">Real-time job market intelligence. All jobs, salary data, AI risk analysis, and career news — powered by data from BLS, LinkedIn, Indeed, and proprietary AI forecasts.</div>
+                </div>
+                <div>
+                    <div class="footer-col-title">Platform</div>
+                    <span class="footer-link">Browse All Jobs</span>
+                    <span class="footer-link">Salary Explorer</span>
+                    <span class="footer-link">AI Risk Dashboard</span>
+                    <span class="footer-link">Career Matcher</span>
+                    <span class="footer-link">Resume Analyzer</span>
+                </div>
+                <div>
+                    <div class="footer-col-title">Resources</div>
+                    <span class="footer-link">Market News</span>
+                    <span class="footer-link">Industry Reports</span>
+                    <span class="footer-link">Career Guides</span>
+                    <span class="footer-link">AI Threat Index</span>
+                    <span class="footer-link">API Documentation</span>
+                </div>
+                <div>
+                    <div class="footer-col-title">Company</div>
+                    <span class="footer-link">About Us</span>
+                    <span class="footer-link">Methodology</span>
+                    <span class="footer-link">Data Sources</span>
+                    <span class="footer-link">Contact</span>
+                    <span class="footer-link">Privacy Policy</span>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 JobPulse · Data: BLS, LinkedIn, Indeed, ILO, JobForesight</span>
+                <span>v2.4 · June 2026 · All data refreshed hourly</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        (function() {
+            // ──────────────────────────────────────
+            // GLOBAL STATE
+            // ──────────────────────────────────────
+            let currentCountry = 'US';
+            let currentCategory = 'tech';
+            let currentIndustry = 'all';
+            let jobPageOffset = 0;
+            const JOBS_PER_PAGE = 6;
+            let savedJobs = new Set();
+            let allJobsRendered = [];
+
+            // ──────────────────────────────────────
+            // DATA: Country-specific KPI & salary
+            // ──────────────────────────────────────
+            const countryData = {
+                US: {
+                    name: 'USA',
+                    kpi: { total: '4,287,530', totalChange: '▲ 3.2%', new: '128,440', newChange: '▲ 16.5%',
+                        sal: '$58,200', salChange: '▲ 4.1%', risk: '34%', riskChange: '▲ 6%' },
+                    salaryIndices: {
+                        tech: [100, 108, 120, 135, 148, 160, 175],
+                        health: [100, 105, 112, 120, 128, 135, 142],
+                        finance: [100, 106, 114, 125, 133, 140, 150],
+                        mfg: [100, 103, 107, 112, 118, 124, 130],
+                        logistics: [100, 104, 110, 118, 125, 132, 140]
+                    }
+                },
+                UK: {
+                    name: 'UK',
+                    kpi: { total: '1,892,400', totalChange: '▲ 2.1%', new: '54,300', newChange: '▲ 11.2%',
+                        sal: '£42,500', salChange: '▲ 3.5%', risk: '31%', riskChange: '▲ 4%' },
+                    salaryIndices: {
+                        tech: [100, 106, 116, 128, 139, 150, 162],
+                        health: [100, 104, 110, 117, 124, 131, 138],
+                        finance: [100, 105, 112, 121, 128, 136, 144],
+                        mfg: [100, 102, 106, 111, 116, 121, 127],
+                        logistics: [100, 103, 108, 114, 120, 126, 133]
+                    }
+                },
+                AU: {
+                    name: 'Australia',
+                    kpi: { total: '892,100', totalChange: '▲ 2.8%', new: '22,800', newChange: '▲ 9.5%',
+                        sal: 'AU$76,000', salChange: '▲ 3.8%', risk: '29%', riskChange: '▲ 5%' },
+                    salaryIndices: {
+                        tech: [100, 107, 118, 130, 142, 154, 168],
+                        health: [100, 104, 111, 119, 127, 134, 141],
+                        finance: [100, 105, 113, 123, 130, 138, 147],
+                        mfg: [100, 102, 107, 112, 118, 124, 130],
+                        logistics: [100, 103, 109, 116, 123, 130, 137]
+                    }
+                },
+                DE: {
+                    name: 'Germany',
+                    kpi: { total: '2,156,800', totalChange: '▲ 1.9%', new: '61,200', newChange: '▲ 8.7%',
+                        sal: '€48,300', salChange: '▲ 3.2%', risk: '33%', riskChange: '▲ 5%' },
+                    salaryIndices: {
+                        tech: [100, 107, 118, 131, 143, 155, 169],
+                        health: [100, 104, 110, 118, 126, 133, 140],
+                        finance: [100, 105, 113, 122, 130, 138, 146],
+                        mfg: [100, 103, 108, 113, 119, 125, 132],
+                        logistics: [100, 103, 109, 116, 124, 131, 139]
+                    }
+                },
+                JP: {
+                    name: 'Japan',
+                    kpi: { total: '3,421,600', totalChange: '▲ 1.5%', new: '89,500', newChange: '▲ 6.3%',
+                        sal: '¥5,200,000', salChange: '▲ 2.1%', risk: '38%', riskChange: '▲ 8%' },
+                    salaryIndices: {
+                        tech: [100, 105, 114, 124, 134, 144, 155],
+                        health: [100, 103, 108, 114, 121, 128, 135],
+                        finance: [100, 104, 110, 118, 125, 132, 140],
+                        mfg: [100, 102, 106, 111, 117, 123, 129],
+                        logistics: [100, 102, 107, 113, 119, 126, 133]
+                    }
+                },
+                SG: {
+                    name: 'Singapore',
+                    kpi: { total: '345,200', totalChange: '▲ 4.2%', new: '12,800', newChange: '▲ 14.1%',
+                        sal: 'SGD$61,000', salChange: '▲ 5.1%', risk: '32%', riskChange: '▲ 5%' },
+                    salaryIndices: {
+                        tech: [100, 109, 122, 138, 151, 165, 180],
+                        health: [100, 106, 114, 122, 131, 139, 147],
+                        finance: [100, 107, 116, 128, 137, 146, 156],
+                        mfg: [100, 103, 108, 114, 121, 128, 135],
+                        logistics: [100, 104, 111, 119, 128, 136, 145]
+                    }
+                },
+                TW: {
+                    name: 'Taiwan',
+                    kpi: { total: '567,800', totalChange: '▲ 2.6%', new: '18,400', newChange: '▲ 10.3%',
+                        sal: 'NT$780,000', salChange: '▲ 3.3%', risk: '30%', riskChange: '▲ 4%' },
+                    salaryIndices: {
+                        tech: [100, 108, 119, 132, 145, 158, 172],
+                        health: [100, 104, 111, 119, 127, 135, 143],
+                        finance: [100, 106, 114, 124, 132, 140, 149],
+                        mfg: [100, 103, 108, 113, 119, 126, 133],
+                        logistics: [100, 103, 110, 118, 126, 134, 142]
+                    }
+                },
+                CN: {
+                    name: 'China',
+                    kpi: { total: '8,934,200', totalChange: '▲ 4.8%', new: '312,600', newChange: '▲ 18.2%',
+                        sal: '¥156,000', salChange: '▲ 5.6%', risk: '41%', riskChange: '▲ 9%' },
+                    salaryIndices: {
+                        tech: [100, 110, 125, 142, 160, 178, 198],
+                        health: [100, 106, 114, 124, 134, 144, 154],
+                        finance: [100, 107, 117, 130, 141, 152, 164],
+                        mfg: [100, 104, 110, 118, 126, 134, 143],
+                        logistics: [100, 105, 113, 123, 133, 143, 154]
+                    }
+                }
+            };
+
+            // ──────────────────────────────────────
+            // DATA: Jobs by category
+            // ──────────────────────────────────────
+            const jobsData = {
+                tech: [
+                    { company: 'Google', title: 'Senior Software Engineer', location: 'Mountain View, CA',
+                        salary: '$185K–$240K', type: 'hybrid', posted: '2h ago', risk: 28, tags: ['AI',
+                            'Urgent'
+                        ], desc: 'Build next-gen AI infrastructure.' },
+                    { company: 'Stripe', title: 'Full Stack Developer', location: 'Remote', salary: '$150K–$200K',
+                        type: 'remote', posted: '5h ago', risk: 22, tags: ['Remote'], desc: 'Payments API team.' },
+                    { company: 'OpenAI', title: 'ML Research Engineer', location: 'San Francisco, CA',
+                        salary: '$220K–$320K', type: 'onsite', posted: '1d ago', risk: 15, tags: ['AI'],
+                        desc: 'Train large language models.' },
+                    { company: 'Microsoft', title: 'Cloud Solutions Architect', location: 'Redmond, WA',
+                        salary: '$170K–$220K', type: 'hybrid', posted: '3d ago', risk: 20, tags: ['Urgent'],
+                        desc: 'Azure enterprise architecture.' },
+                    { company: 'Apple', title: 'iOS Engineer', location: 'Cupertino, CA', salary: '$160K–$210K',
+                        type: 'onsite', posted: '1d ago', risk: 18, tags: [], desc: 'Build delightful iOS experiences.' },
+                    { company: 'Meta', title: 'Data Engineer', location: 'Remote', salary: '$155K–$205K', type: 'remote',
+                        posted: '4d ago', risk: 35, tags: ['Remote'], desc: 'Data pipeline optimization.' },
+                    { company: 'Netflix', title: 'Platform Engineer', location: 'Los Gatos, CA', salary: '$190K–$260K',
+                        type: 'hybrid', posted: '6d ago', risk: 16, tags: [], desc: 'Streaming infrastructure at scale.' },
+                    { company: 'Amazon', title: 'SDE III', location: 'Seattle, WA', salary: '$175K–$235K', type: 'hybrid',
+                        posted: '2d ago', risk: 30, tags: ['Urgent'], desc: 'AWS core services.' },
+                ],
+                health: [
+                    { company: 'Mayo Clinic', title: 'Registered Nurse', location: 'Rochester, MN', salary: '$75K–$95K',
+                        type: 'onsite', posted: '1d ago', risk: 8, tags: [], desc: 'Patient care in cardiology unit.' },
+                    { company: 'Kaiser', title: 'Physician Assistant', location: 'Los Angeles, CA',
+                        salary: '$120K–$150K', type: 'onsite', posted: '3d ago', risk: 10, tags: ['Urgent'],
+                        desc: 'Primary care team.' },
+                    { company: 'Cleveland Clinic', title: 'Physical Therapist', location: 'Cleveland, OH',
+                        salary: '$82K–$102K', type: 'onsite', posted: '2d ago', risk: 5, tags: [],
+                    desc: 'Rehab services.' },
+                    { company: 'HCA Healthcare', title: 'Medical Lab Technician', location: 'Nashville, TN',
+                        salary: '$55K–$70K', type: 'onsite', posted: '5d ago', risk: 42, tags: [],
+                        desc: 'Clinical lab diagnostics.' },
+                    { company: 'Johns Hopkins', title: 'Mental Health Counselor', location: 'Baltimore, MD',
+                        salary: '$65K–$85K', type: 'hybrid', posted: '1d ago', risk: 3, tags: [],
+                        desc: 'Behavioral health services.' },
+                    { company: 'UnitedHealth', title: 'Healthcare Data Analyst', location: 'Remote', salary: '$80K–$105K',
+                        type: 'remote', posted: '4d ago', risk: 38, tags: ['Remote'], desc: 'Claims data analysis.' },
+                ],
+                finance: [
+                    { company: 'Goldman Sachs', title: 'Financial Analyst', location: 'New York, NY',
+                        salary: '$100K–$140K', type: 'onsite', posted: '1d ago', risk: 48, tags: ['Urgent'],
+                        desc: 'Investment banking division.' },
+                    { company: 'JPMorgan', title: 'Risk Manager', location: 'New York, NY', salary: '$130K–$170K',
+                        type: 'hybrid', posted: '2d ago', risk: 25, tags: [], desc: 'Credit risk modeling.' },
+                    { company: 'Deloitte', title: 'Senior Accountant', location: 'Chicago, IL', salary: '$90K–$120K',
+                        type: 'hybrid', posted: '5d ago', risk: 55, tags: [], desc: 'Audit & assurance.' },
+                    { company: 'BlackRock', title: 'Quantitative Analyst', location: 'San Francisco, CA',
+                        salary: '$140K–$190K', type: 'onsite', posted: '3d ago', risk: 32, tags: ['AI'],
+                        desc: 'Algorithmic trading strategies.' },
+                    { company: 'Visa', title: 'FinTech Product Manager', location: 'Remote', salary: '$130K–$170K',
+                        type: 'remote', posted: '1d ago', risk: 20, tags: ['Remote'], desc: 'Payment innovation.' },
+                    { company: 'Morgan Stanley', title: 'Wealth Management Advisor', location: 'Boston, MA',
+                        salary: '$110K–$160K', type: 'onsite', posted: '4d ago', risk: 15, tags: [],
+                        desc: 'High-net-worth clients.' },
+                ],
+                fb: [
+                    { company: 'Marriott', title: 'Executive Chef', location: 'Las Vegas, NV', salary: '$75K–$110K',
+                        type: 'onsite', posted: '2d ago', risk: 12, tags: ['Urgent'], desc: 'Fine dining leadership.' },
+                    { company: 'PepsiCo', title: 'Food Scientist', location: 'Plano, TX', salary: '$70K–$95K',
+                        type: 'onsite', posted: '3d ago', risk: 18, tags: [], desc: 'Product R&D.' },
+                    { company: 'Starbucks', title: 'Store Manager', location: 'Seattle, WA', salary: '$55K–$75K',
+                        type: 'onsite', posted: '1d ago', risk: 35, tags: [], desc: 'Retail operations.' },
+                    { company: 'Sysco', title: 'Supply Chain Coordinator', location: 'Houston, TX',
+                        salary: '$50K–$65K', type: 'onsite', posted: '5d ago', risk: 45, tags: [],
+                        desc: 'Food distribution logistics.' },
+                    { company: 'Chipotle', title: 'Sous Chef', location: 'Denver, CO', salary: '$48K–$62K',
+                        type: 'onsite', posted: '2d ago', risk: 22, tags: [], desc: 'Kitchen brigade leadership.' },
+                    { company: 'Nestlé', title: 'Quality Assurance Manager', location: 'St. Louis, MO',
+                        salary: '$80K–$105K', type: 'onsite', posted: '4d ago', risk: 28, tags: [],
+                    desc: 'Food safety compliance.' },
+                ],
+                edu: [
+                    { company: 'Harvard University', title: 'Professor of Computer Science', location: 'Cambridge, MA',
+                        salary: '$140K–$200K', type: 'onsite', posted: '1w ago', risk: 6, tags: [],
+                        desc: 'Tenure-track position.' },
+                    { company: 'Khan Academy', title: 'Curriculum Designer', location: 'Remote', salary: '$80K–$110K',
+                        type: 'remote', posted: '3d ago', risk: 25, tags: ['Remote'], desc: 'Online learning content.' },
+                    { company: 'NYC Public Schools', title: 'High School Teacher', location: 'New York, NY',
+                        salary: '$62K–$92K', type: 'onsite', posted: '2d ago', risk: 4, tags: ['Urgent'],
+                        desc: 'STEM education focus.' },
+                    { company: 'Coursera', title: 'Instructional Designer', location: 'Remote', salary: '$75K–$100K',
+                        type: 'remote', posted: '5d ago', risk: 22, tags: ['Remote'], desc: 'MOOC course development.' },
+                    { company: 'ASU', title: 'Academic Advisor', location: 'Tempe, AZ', salary: '$45K–$60K',
+                        type: 'onsite', posted: '4d ago', risk: 14, tags: [], desc: 'Student success coaching.' },
+                ],
+                mfg: [
+                    { company: 'Tesla', title: 'Production Manager', location: 'Austin, TX', salary: '$95K–$130K',
+                        type: 'onsite', posted: '1d ago', risk: 40, tags: ['Urgent'], desc: 'Gigafactory operations.' },
+                    { company: 'Boeing', title: 'Quality Engineer', location: 'Seattle, WA', salary: '$85K–$115K',
+                        type: 'onsite', posted: '3d ago', risk: 30, tags: [], desc: 'Aerospace manufacturing.' },
+                    { company: 'Toyota', title: 'CNC Programmer', location: 'Georgetown, KY', salary: '$55K–$75K',
+                        type: 'onsite', posted: '2d ago', risk: 62, tags: [], desc: 'Precision machining.' },
+                    { company: '3M', title: 'Process Engineer', location: 'St. Paul, MN', salary: '$80K–$105K',
+                        type: 'onsite', posted: '5d ago', risk: 35, tags: [], desc: 'Manufacturing optimization.' },
+                    { company: 'GE', title: 'Supply Chain Analyst', location: 'Boston, MA', salary: '$70K–$92K',
+                        type: 'hybrid', posted: '4d ago', risk: 50, tags: [], desc: 'Global sourcing.' },
+                ],
+                legal: [
+                    { company: 'Skadden', title: 'Corporate Attorney', location: 'New York, NY',
+                        salary: '$200K–$350K', type: 'onsite', posted: '1d ago', risk: 28, tags: ['Urgent'],
+                        desc: 'M&A transactions.' },
+                    { company: 'LegalZoom', title: 'Paralegal', location: 'Remote', salary: '$55K–$75K', type: 'remote',
+                        posted: '2d ago', risk: 55, tags: ['Remote'], desc: 'Document preparation.' },
+                    { company: 'ACLU', title: 'Civil Rights Lawyer', location: 'Washington, DC',
+                        salary: '$90K–$140K', type: 'hybrid', posted: '3d ago', risk: 8, tags: [],
+                        desc: 'Impact litigation.' },
+                    { company: 'Baker McKenzie', title: 'Compliance Officer', location: 'Chicago, IL',
+                        salary: '$100K–$140K', type: 'hybrid', posted: '5d ago', risk: 22, tags: [],
+                        desc: 'Global regulatory compliance.' },
+                ],
+                creative: [
+                    { company: 'Adobe', title: 'UX Designer', location: 'San Jose, CA', salary: '$120K–$160K',
+                        type: 'hybrid', posted: '1d ago', risk: 18, tags: [], desc: 'Creative Cloud design system.' },
+                    { company: 'Disney', title: 'Art Director', location: 'Burbank, CA', salary: '$110K–$150K',
+                        type: 'onsite', posted: '3d ago', risk: 12, tags: [], desc: 'Animation visual development.' },
+                    { company: 'Figma', title: 'Product Designer', location: 'Remote', salary: '$130K–$175K',
+                        type: 'remote', posted: '2d ago', risk: 10, tags: ['Remote'], desc: 'Design tool innovation.' },
+                    { company: 'Spotify', title: 'Copywriter', location: 'New York, NY', salary: '$70K–$95K',
+                        type: 'hybrid', posted: '4d ago', risk: 32, tags: [], desc: 'Brand voice & campaigns.' },
+                    { company: 'Riot Games', title: 'Video Editor', location: 'Los Angeles, CA', salary: '$65K–$90K',
+                        type: 'onsite', posted: '5d ago', risk: 25, tags: [], desc: 'Esports content production.' },
+                ],
+                logistics: [
+                    { company: 'UPS', title: 'Logistics Coordinator', location: 'Atlanta, GA', salary: '$48K–$65K',
+                        type: 'onsite', posted: '1d ago', risk: 52, tags: ['Urgent'], desc: 'Package routing optimization.' },
+                    { company: 'FedEx', title: 'Warehouse Manager', location: 'Memphis, TN', salary: '$60K–$80K',
+                        type: 'onsite', posted: '2d ago', risk: 45, tags: [], desc: 'Distribution center operations.' },
+                    { company: 'Amazon Logistics', title: 'Delivery Driver', location: 'Various', salary: '$40K–$55K',
+                        type: 'onsite', posted: '1d ago', risk: 75, tags: ['Urgent'], desc: 'Last-mile delivery.' },
+                    { company: 'DHL', title: 'Supply Chain Manager', location: 'Miami, FL', salary: '$80K–$110K',
+                        type: 'hybrid', posted: '3d ago', risk: 35, tags: [], desc: 'International shipping.' },
+                    { company: 'Maersk', title: 'Freight Analyst', location: 'Houston, TX', salary: '$65K–$88K',
+                        type: 'onsite', posted: '5d ago', risk: 48, tags: [], desc: 'Ocean freight optimization.' },
+                ]
+            };
+
+            // ──────────────────────────────────────
+            // DATA: News
+            // ──────────────────────────────────────
+            const newsData = [
+                { cat: 'nc-ai', catLabel: 'AI & Automation', title: 'AI Job Displacement Accelerates: 12M US Workers May Need to Switch Occupations by 2030',
+                    excerpt: 'New McKinsey report warns that generative AI could automate 30% of hours worked across the US economy by 2030, disproportionately affecting office support, customer service, and food service roles.',
+                    source: 'McKinsey Global Institute', time: '2 hours ago',
+                    img: 'https://picsum.photos/seed/airobot/600/400', featured: true },
+                { cat: 'nc-salary', catLabel: 'Salary Trends', title: 'Tech Salaries Plateau After Years of Growth — Healthcare Wages Surge 8.2%',
+                    excerpt: 'The tech salary bubble shows signs of deflating while healthcare wages reach record highs amid persistent staffing shortages across nursing and allied health professions.',
+                    source: 'Bureau of Labor Statistics', time: '5 hours ago',
+                img: 'https://picsum.photos/seed/salarychart/600/400' },
+                { cat: 'nc-layoff', catLabel: 'Layoffs', title: 'Major Layoffs Hit Financial Services: 45,000 Jobs Cut in Q2 2026',
+                    excerpt: 'Automation and consolidation drive the largest quarterly job cuts in banking since 2020, with back-office roles most affected by AI-driven efficiency programs.',
+                    source: 'Reuters', time: '8 hours ago', img: 'https://picsum.photos/seed/layoff/600/400' },
+                { cat: 'nc-trend', catLabel: 'Market Trend', title: 'Remote Work Stabilizes at 28% of All US Job Postings — Hybrid Becomes Dominant Model',
+                    excerpt: 'After years of fluctuation, the remote-to-onsite ratio appears to have found equilibrium, with hybrid arrangements now accounting for 41% of professional job listings.',
+                    source: 'LinkedIn Workforce Report', time: '12 hours ago',
+                img: 'https://picsum.photos/seed/remoteoffice/600/400' },
+                { cat: 'nc-policy', catLabel: 'Policy', title: 'EU Passes AI Worker Protection Directive: Mandatory Retraining Programs for At-Risk Roles',
+                    excerpt: 'Landmark legislation requires companies deploying automation to fund reskilling programs, setting a global precedent for AI-era labor policy.',
+                    source: 'European Commission', time: '1 day ago', img: 'https://picsum.photos/seed/eupolicy/600/400' },
+                { cat: 'nc-ai', catLabel: 'AI & Automation', title: 'Manufacturing Robots Deployed at Record Pace — But Create New Maintenance Jobs',
+                    excerpt: 'Industrial robot installations grew 22% YoY, yet demand for robotics technicians and maintenance engineers outpaces robot deployment 3:1 in job postings.',
+                    source: 'International Federation of Robotics', time: '1 day ago',
+                    img: 'https://picsum.photos/seed/robotfactory/600/400' },
+            ];
+
+            // ──────────────────────────────────────
+            // DATA: Risk jobs
+            // ──────────────────────────────────────
+            const riskHighJobs = [
+                { name: 'Data Entry Clerk', pct: 94, color: 'var(--red)' },
+                { name: 'Telemarketer', pct: 89, color: 'var(--red)' },
+                { name: 'Cashier', pct: 85, color: 'var(--red)' },
+                { name: 'Tax Preparer', pct: 78, color: 'var(--red)' },
+                { name: 'Assembly Line Worker', pct: 72, color: 'var(--red)' },
+            ];
+            const riskLowJobs = [
+                { name: 'Mental Health Counselor', pct: 3, color: 'var(--green)' },
+                { name: 'Physical Therapist', pct: 5, color: 'var(--green)' },
+                { name: 'Teacher (K-12)', pct: 4, color: 'var(--green)' },
+                { name: 'Firefighter', pct: 6, color: 'var(--green)' },
+                { name: 'Social Worker', pct: 7, color: 'var(--green)' },
+            ];
+
+            // ──────────────────────────────────────
+            // DATA: Industry deep dive
+            // ──────────────────────────────────────
+            const diveData = [
+                { icon: '💻', name: 'Technology', count: '842K active jobs', barW: 85, trend: '↑ 12.4% YoY',
+                    color: 'var(--accent)' },
+                { icon: '🏥', name: 'Healthcare', count: '614K active jobs', barW: 72, trend: '↑ 8.2% YoY',
+                    color: 'var(--green)' },
+                { icon: '🚛', name: 'Logistics', count: '713K active jobs', barW: 78, trend: '↑ 5.6% YoY',
+                    color: 'var(--yellow)' },
+                { icon: '📊', name: 'Finance', count: '398K active jobs', barW: 55, trend: '↓ 2.1% YoY',
+                    color: 'var(--orange)' },
+                { icon: '🏭', name: 'Manufacturing', count: '445K active jobs', barW: 60, trend: '↑ 3.3% YoY',
+                    color: 'var(--yellow)' },
+                { icon: '🎨', name: 'Creative', count: '312K active jobs', barW: 48, trend: '↑ 6.8% YoY',
+                    color: 'var(--accent)' },
+                { icon: '🎓', name: 'Education', count: '287K active jobs', barW: 42, trend: '↑ 1.9% YoY',
+                    color: 'var(--green)' },
+                { icon: '⚖️', name: 'Legal', count: '156K active jobs', barW: 32, trend: '↑ 0.8% YoY',
+                    color: 'var(--orange)' },
+            ];
+
+            // ──────────────────────────────────────
+            // HELPERS
+            // ──────────────────────────────────────
+            function getLocationIcon() {
+                return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+            }
+
+            function getSalaryIcon() {
+                return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>';
+            }
+
+            function getBuildingIcon() {
+                return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="9" y1="6" x2="9" y2="6.01"/><line x1="15" y1="6" x2="15" y2="6.01"/><line x1="9" y1="10" x2="9" y2="10.01"/><line x1="15" y1="10" x2="15" y2="10.01"/><line x1="9" y1="14" x2="9" y2="14.01"/><line x1="15" y1="14" x2="15" y2="14.01"/></svg>';
+            }
+
+            function getTypeTagClass(type) {
+                if (type === 'remote') return 'tag-remote';
+                if (type === 'hybrid') return 'tag-hybrid';
+                return 'tag-onsite';
+            }
+
+            function getTypeLabel(type) {
+                if (type === 'remote') return '🏠 Remote';
+                if (type === 'hybrid') return '🔄 Hybrid';
+                return '🏢 On-site';
+            }
+
+            function getRiskColor(pct) {
+                if (pct >= 60) return 'var(--red)';
+                if (pct >= 30) return 'var(--yellow)';
+                return 'var(--green)';
+            }
+
+            function getRiskLabel(pct) {
+                if (pct >= 60) return 'High Risk';
+                if (pct >= 30) return 'Moderate Risk';
+                return 'Low Risk';
+            }
+
+            // ──────────────────────────────────────
+            // RENDER: Job Cards
+            // ──────────────────────────────────────
+            function renderJobCards(jobs, append = false) {
+                const grid = document.getElementById('jobsGrid');
+                if (!append) {
+                    grid.innerHTML = '';
+                    allJobsRendered = [];
+                }
+                let html = '';
+                jobs.forEach((job, idx) => {
+                    const globalIdx = allJobsRendered.length + idx;
+                    const riskColor = getRiskColor(job.risk);
+                    const riskLabel = getRiskLabel(job.risk);
+                    const typeClass = getTypeTagClass(job.type);
+                    const typeLabel = getTypeLabel(job.type);
+                    const isSaved = savedJobs.has(globalIdx);
+                    const savedClass = isSaved ? ' saved' : '';
+                    const savedText = isSaved ? '★' : '☆';
+                    let tagsHtml = `<span class="job-tag ${typeClass}">${typeLabel}</span>`;
+                    job.tags.forEach(tag => {
+                        let tagClass = '';
+                        if (tag === 'Urgent') tagClass = 'tag-urgent';
+                        else if (tag === 'AI') tagClass = 'tag-ai';
+                        else if (tag === 'Remote') tagClass = 'tag-remote';
+                        tagsHtml +=
+                            `<span class="job-tag ${tagClass}">${tag === 'Urgent' ? '⚡ ' : ''}${tag}</span>`;
+                    });
+                    html += `
+                <div class="job-card ltv-fade" data-job-index="${globalIdx}" style="animation-delay:${idx * 0.04}s">
+                  <div class="job-card-header">
+                    <span class="job-company">${job.company}</span>
+                    <span class="job-posted">${job.posted}</span>
+                  </div>
+                  <div class="job-title">${job.title}</div>
+                  <div class="job-meta">
+                    <span class="job-meta-item">${getLocationIcon()} ${job.location}</span>
+                    <span class="job-meta-item">${getSalaryIcon()} ${job.salary}</span>
+                    <span class="job-meta-item">${getBuildingIcon()} ${job.company.split(' ')[0]}</span>
+                  </div>
+                  <div class="job-tags">${tagsHtml}</div>
+                  <div class="job-salary">${job.salary}</div>
+                  <div class="job-salary-note">${job.desc}</div>
+                  <div class="job-risk-bar">
+                    <div class="job-risk-track">
+                      <div class="job-risk-fill" style="width:${job.risk}%;background:${riskColor}"></div>
+                    </div>
+                    <div class="job-risk-label">
+                      <span>AI Risk</span>
+                      <span style="color:${riskColor}">${riskLabel} · ${job.risk}%</span>
+                    </div>
+                  </div>
+                  <div class="job-card-footer">
+                    <button class="job-apply-btn" data-action="apply" data-index="${globalIdx}">Apply Now</button>
+                    <button class="job-save-btn${savedClass}" data-action="save" data-index="${globalIdx}">${savedText}</button>
+                  </div>
+                </div>`;
+                });
+                if (append) {
+                    grid.innerHTML += html;
+                } else {
+                    grid.innerHTML = html;
+                }
+                allJobsRendered = append ? [...allJobsRendered, ...jobs] : [...jobs];
+                // Attach event listeners
+                attachJobCardEvents();
+            }
+
+            function attachJobCardEvents() {
+                const grid = document.getElementById('jobsGrid');
+                grid.querySelectorAll('.job-apply-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const idx = this.getAttribute('data-index');
+                        const job = allJobsRendered[parseInt(idx)];
+                        if (job) showToast(`Applied to ${job.title} at ${job.company}! 🎉`);
+                    });
+                });
+                grid.querySelectorAll('.job-save-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const idx = parseInt(this.getAttribute('data-index'));
+                        if (savedJobs.has(idx)) {
+                            savedJobs.delete(idx);
+                            this.classList.remove('saved');
+                            this.textContent = '☆';
+                            showToast('Job removed from saved list');
+                        } else {
+                            savedJobs.add(idx);
+                            this.classList.add('saved');
+                            this.textContent = '★';
+                            showToast('Job saved! View in your dashboard');
+                        }
+                    });
+                });
+                grid.querySelectorAll('.job-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const idx = parseInt(this.getAttribute('data-job-index'));
+                        const job = allJobsRendered[idx];
+                        if (job) showToast(`Viewing details: ${job.title} at ${job.company}`);
+                    });
+                });
+            }
+
+            function getFilteredJobs() {
+                let pool = [];
+                if (currentCategory === 'all') {
+                    Object.values(jobsData).forEach(arr => pool.push(...arr));
+                } else {
+                    pool = jobsData[currentCategory] || jobsData['tech'];
+                }
+                if (currentIndustry !== 'all') {
+                    // Simple industry filtering based on category
+                    const indToCat = {
+                        tech: 'tech',
+                        health: 'health',
+                        finance: 'finance',
+                        fb: 'fb',
+                        edu: 'edu',
+                        mfg: 'mfg',
+                        legal: 'legal',
+                        creative: 'creative',
+                        logistics: 'logistics'
+                    };
+                    const targetCat = indToCat[currentIndustry];
+                    if (targetCat && targetCat !== currentCategory && currentCategory === 'all') {
+                        pool = jobsData[targetCat] || pool;
+                    }
+                }
+                return pool;
+            }
+
+            function loadJobs(append = false) {
+                const pool = getFilteredJobs();
+                const start = append ? allJobsRendered.length : 0;
+                const slice = pool.slice(start, start + JOBS_PER_PAGE);
+                if (slice.length > 0) {
+                    renderJobCards(slice, append);
+                    document.getElementById('loadMoreBtn').style.display =
+                        (allJobsRendered.length < pool.length) ? 'inline-block' : 'none';
+                } else {
+                    document.getElementById('loadMoreBtn').style.display = 'none';
+                    if (!append) renderJobCards([]);
+                }
+            }
+
+            // ──────────────────────────────────────
+            // RENDER: News
+            // ──────────────────────────────────────
+            function renderNews() {
+                const grid = document.getElementById('newsGrid');
+                let html = '';
+                newsData.forEach((news, i) => {
+                    if (news.featured) {
+                        html += `
+                  <div class="news-card news-featured ltv-fade" style="animation-delay:${i*0.06}s">
+                    <img class="news-img" src="${news.img}" alt="${news.title}" loading="lazy" onerror="this.src='https://picsum.photos/seed/fallback${i}/600/400'">
+                    <div class="news-body">
+                      <span class="news-cat ${news.cat}">${news.catLabel}</span>
+                      <div class="news-title">${news.title}</div>
+                      <div class="news-excerpt">${news.excerpt}</div>
+                      <div class="news-footer">
+                        <span class="news-source">${news.source}</span>
+                        <span>${news.time}</span>
+                      </div>
+                    </div>
+                  </div>`;
+                    } else {
+                        html += `
+                  <div class="news-card ltv-fade" style="animation-delay:${i*0.06}s">
+                    <img class="news-img" src="${news.img}" alt="${news.title}" loading="lazy" onerror="this.src='https://picsum.photos/seed/fallback${i}/600/400'">
+                    <div class="news-body">
+                      <span class="news-cat ${news.cat}">${news.catLabel}</span>
+                      <div class="news-title">${news.title}</div>
+                      <div class="news-excerpt">${news.excerpt}</div>
+                      <div class="news-footer">
+                        <span class="news-source">${news.source}</span>
+                        <span>${news.time}</span>
+                      </div>
+                    </div>
+                  </div>`;
+                    }
+                });
+                grid.innerHTML = html;
+                // Attach click events
+                grid.querySelectorAll('.news-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const title = this.querySelector('.news-title')?.textContent || 'News article';
+                        showToast('Opening: ' + title.substring(0, 50) + '...');
+                    });
+                });
+            }
+
+            // ──────────────────────────────────────
+            // RENDER: Risk Lists
+            // ──────────────────────────────────────
+            function renderRiskLists() {
+                const highList = document.getElementById('riskHighList');
+                const lowList = document.getElementById('riskLowList');
+                let highHtml = '';
+                riskHighJobs.forEach(job => {
+                    highHtml += `
+                <div class="risk-job-row">
+                  <span class="risk-job-name">${job.name}</span>
+                  <span class="risk-job-meta">Automation risk</span>
+                  <div class="risk-bar-wrap">
+                    <div class="risk-bar-track">
+                      <div class="risk-bar-fill" style="width:${job.pct}%;background:${job.color}"></div>
+                    </div>
+                  </div>
+                  <span class="risk-pct rp-high">${job.pct}%</span>
+                </div>`;
+                });
+                highList.innerHTML = highHtml;
+                let lowHtml = '';
+                riskLowJobs.forEach(job => {
+                    lowHtml += `
+                <div class="risk-job-row">
+                  <span class="risk-job-name">${job.name}</span>
+                  <span class="risk-job-meta">Automation risk</span>
+                  <div class="risk-bar-wrap">
+                    <div class="risk-bar-track">
+                      <div class="risk-bar-fill" style="width:${job.pct}%;background:${job.color}"></div>
+                    </div>
+                  </div>
+                  <span class="risk-pct rp-low">${job.pct}%</span>
+                </div>`;
+                });
+                lowList.innerHTML = lowHtml;
+            }
+
+            // ──────────────────────────────────────
+            // RENDER: Salary Chart (SVG)
+            // ──────────────────────────────────────
+            function renderSalaryChart() {
+                const svg = document.getElementById('salarySVG');
+                const data = countryData[currentCountry].salaryIndices;
+                const sectors = [
+                    { key: 'tech', label: 'Technology', color: '#4f98a3' },
+                    { key: 'health', label: 'Healthcare', color: '#22c55e' },
+                    { key: 'finance', label: 'Finance', color: '#eab308' },
+                    { key: 'mfg', label: 'Manufacturing', color: '#f97316' },
+                    { key: 'logistics', label: 'Logistics', color: '#ef4444' },
+                ];
+                const years = ['2020', '2021', '2022', '2023', '2024', '2025', '2026'];
+                const margin = { top: 20, right: 30, bottom: 35, left: 55 };
+                const chartW = 900 - margin.left - margin.right;
+                const chartH = 220 - margin.top - margin.bottom;
+                const xStep = chartW / (years.length - 1);
+                const yMin = 90;
+                const yMax = 200;
+
+                function yPos(val) { return margin.top + chartH - ((val - yMin) / (yMax - yMin)) * chartH; }
+
+                function xPos(i) { return margin.left + i * xStep; }
+
+                let html = '';
+                // Grid lines
+                for (let v = yMin; v <= yMax; v += 20) {
+                    const y = yPos(v);
+                    html +=
+                        `<line x1="${margin.left}" y1="${y}" x2="${margin.left+chartW}" y2="${y}" stroke="var(--border)" stroke-width="0.5" opacity="0.5"/>`;
+                    html +=
+                        `<text x="${margin.left-8}" y="${y+3}" text-anchor="end" fill="var(--text-faint)" font-size="9">${v}</text>`;
+                }
+                // X axis labels
+                years.forEach((yr, i) => {
+                    html +=
+                        `<text x="${xPos(i)}" y="${margin.top+chartH+18}" text-anchor="middle" fill="var(--text-faint)" font-size="10">${yr}</text>`;
+                });
+                // Lines
+                sectors.forEach(sector => {
+                    const vals = data[sector.key];
+                    if (!vals) return;
+                    let points = '';
+                    vals.forEach((v, i) => {
+                        points += `${xPos(i)},${yPos(v)} `;
+                    });
+                    html +=
+                        `<polyline points="${points.trim()}" fill="none" stroke="${sector.color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+                    // Dots
+                    vals.forEach((v, i) => {
+                        html +=
+                            `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="4" fill="${sector.color}" stroke="#fff" stroke-width="1.5"><title>${sector.label} ${years[i]}: Index ${v}</title></circle>`;
+                    });
+                });
+                // Legend
+                sectors.forEach((sector, i) => {
+                    const lx = margin.left + i * 120;
+                    const ly = margin.top + chartH + 28;
+                    html +=
+                        `<rect x="${lx}" y="${ly-5}" width="10" height="10" rx="2" fill="${sector.color}"/><text x="${lx+14}" y="${ly+3}" fill="var(--text-muted)" font-size="9">${sector.label}</text>`;
+                });
+                svg.innerHTML = html;
+            }
+
+            // ──────────────────────────────────────
+            // RENDER: Industry Dive Cards
+            // ──────────────────────────────────────
+            function renderDiveCards() {
+                const grid = document.getElementById('diveGrid');
+                let html = '';
+                diveData.forEach((d, i) => {
+                    html += `
+                <div class="dive-card ltv-fade" style="animation-delay:${i*0.05}s" data-industry="${d.name.toLowerCase()}">
+                  <span class="dive-icon">${d.icon}</span>
+                  <div class="dive-name">${d.name}</div>
+                  <div class="dive-count">${d.count}</div>
+                  <div class="dive-bar">
+                    <div class="dive-bar-fill" style="width:${d.barW}%;background:${d.color}"></div>
+                  </div>
+                  <div class="dive-trend">${d.trend}</div>
+                </div>`;
+                });
+                grid.innerHTML = html;
+                grid.querySelectorAll('.dive-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const name = this.querySelector('.dive-name')?.textContent || 'Industry';
+                        showToast('Exploring: ' + name + ' sector deep dive');
+                    });
+                });
+            }
+
+            // ──────────────────────────────────────
+            // UPDATE: KPI values
+            // ──────────────────────────────────────
+            function updateKPIs() {
+                const kpi = countryData[currentCountry].kpi;
+                document.getElementById('kpi-total').textContent = kpi.total;
+                document.getElementById('kpi-new').textContent = kpi.new;
+                document.getElementById('kpi-sal').textContent = kpi.sal;
+                document.getElementById('kpi-risk').textContent = kpi.risk;
+                // Update change indicators
+                const changes = document.querySelectorAll('.kpi-change');
+                if (changes.length >= 4) {
+                    changes[0].textContent = kpi.totalChange;
+                    changes[1].textContent = kpi.newChange;
+                    changes[2].textContent = kpi.salChange;
+                    changes[3].textContent = kpi.riskChange;
+                }
+                document.getElementById('salaryCountryLabel').textContent = countryData[currentCountry].name;
+                document.getElementById('catCountLabel').textContent =
+                    `Showing ${currentCategory === 'all' ? 'all' : currentCategory.charAt(0).toUpperCase()+currentCategory.slice(1)} jobs`;
+            }
+
+            // ──────────────────────────────────────
+            // TOAST
+            // ──────────────────────────────────────
+            window.showToast = function(msg) {
+                const toast = document.getElementById('toast');
+                const toastMsg = document.getElementById('toastMsg');
+                toastMsg.textContent = msg;
+                toast.classList.add('show');
+                clearTimeout(toast._timeout);
+                toast._timeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2500);
+            };
+
+            // ──────────────────────────────────────
+            // MODAL
+            // ──────────────────────────────────────
+            function setupModal() {
+                const overlay = document.getElementById('modalOverlay');
+                const openBtn = document.getElementById('openModal');
+                const closeBtn = document.getElementById('modalClose');
+                const confirmBtn = document.getElementById('confirmBtn');
+                const emailInput = document.getElementById('emailInput');
+                const modalForm = document.getElementById('modalForm');
+                const modalSuccess = document.getElementById('modalSuccess');
+                const modalTags = document.getElementById('modalTags');
+
+                openBtn.addEventListener('click', () => {
+                    overlay.classList.add('open');
+                    modalForm.style.display = 'block';
+                    modalSuccess.style.display = 'none';
+                    emailInput.value = '';
+                });
+                closeBtn.addEventListener('click', () => overlay.classList.remove('open'));
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === overlay) overlay.classList.remove('open');
+                });
+                confirmBtn.addEventListener('click', () => {
+                    const email = emailInput.value.trim();
+                    if (!email || !email.includes('@')) {
+                        showToast('Please enter a valid email address');
+                        return;
+                    }
+                    const selectedTags = [];
+                    modalTags.querySelectorAll('.modal-tag.sel').forEach(t => selectedTags.push(t
+                        .getAttribute('data-val')));
+                    modalForm.style.display = 'none';
+                    modalSuccess.style.display = 'block';
+                    setTimeout(() => {
+                        overlay.classList.remove('open');
+                        showToast('Subscribed! Check your email to confirm.');
+                    }, 1800);
+                });
+                // Tag toggle
+                modalTags.querySelectorAll('.modal-tag').forEach(tag => {
+                    tag.addEventListener('click', function() {
+                        this.classList.toggle('sel');
+                    });
+                });
+                // Close on Escape
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && overlay.classList.contains('open')) {
+                        overlay.classList.remove('open');
+                    }
+                });
+            }
+
+            // ──────────────────────────────────────
+            // THEME TOGGLE
+            // ──────────────────────────────────────
+            function setupTheme() {
+                const toggle = document.getElementById('themeToggle');
+                const label = document.getElementById('themeLabel');
+                const icon = toggle.querySelector('.th-icon');
+                const html = document.documentElement;
+                let isDark = true;
+
+                function updateUI() {
+                    if (isDark) {
+                        html.removeAttribute('data-theme');
+                        icon.textContent = '☀️';
+                        label.textContent = 'Light';
+                    } else {
+                        html.setAttribute('data-theme', 'light');
+                        icon.textContent = '🌙';
+                        label.textContent = 'Dark';
+                    }
+                }
+                toggle.addEventListener('click', () => {
+                    isDark = !isDark;
+                    updateUI();
+                    showToast(isDark ? 'Dark mode activated' : 'Light mode activated');
+                });
+                updateUI();
+            }
+
+            // ──────────────────────────────────────
+            // EVENT: Country tabs
+            // ──────────────────────────────────────
+            function setupCountryTabs() {
+                const tabs = document.getElementById('countryTabs');
+                tabs.querySelectorAll('.ctab').forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        tabs.querySelectorAll('.ctab').forEach(t => t.classList.remove(
+                            'active'));
+                        this.classList.add('active');
+                        currentCountry = this.getAttribute('data-country');
+                        updateKPIs();
+                        renderSalaryChart();
+                        jobPageOffset = 0;
+                        loadJobs(false);
+                        showToast('Region updated: ' + countryData[currentCountry].name);
+                    });
+                });
+            }
+
+            // ──────────────────────────────────────
+            // EVENT: Category tabs
+            // ──────────────────────────────────────
+            function setupCategoryTabs() {
+                const tabs = document.getElementById('catTabs');
+                tabs.querySelectorAll('.cattab').forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        tabs.querySelectorAll('.cattab').forEach(t => t.classList.remove(
+                            'active'));
+                        this.classList.add('active');
+                        currentCategory = this.getAttribute('data-cat');
+                        document.getElementById('catCountLabel').textContent =
+                            `Showing ${currentCategory.charAt(0).toUpperCase()+currentCategory.slice(1)} jobs`;
+                        jobPageOffset = 0;
+                        loadJobs(false);
+                    });
+                });
+            }
+
+            // ──────────────────────────────────────
+            // EVENT: Industry pills
+            // ──────────────────────────────────────
+            function setupIndustryPills() {
+                const row = document.querySelector('.industry-row');
+                row.querySelectorAll('.industry-pill').forEach(pill => {
+                    pill.addEventListener('click', function() {
+                        row.querySelectorAll('.industry-pill').forEach(p => p.classList.remove(
+                            'active'));
+                        this.classList.add('active');
+                        currentIndustry = this.getAttribute('data-ind');
+                        jobPageOffset = 0;
+                        loadJobs(false);
+                        showToast('Filtered by: ' + this.textContent.trim());
+                    });
+                });
+            }
+
+            // ──────────────────────────────────────
+            // EVENT: Search
+            // ──────────────────────────────────────
+            function setupSearch() {
+                const input = document.getElementById('searchInput');
+                const submitBtn = document.getElementById('searchSubmit');
+                const suggestions = document.getElementById('searchSuggestions');
+
+                function doSearch(term) {
+                    term = term.trim().toLowerCase();
+                    if (!term) {
+                        loadJobs(false);
+                        return;
+                    }
+                    const pool = getFilteredJobs();
+                    const filtered = pool.filter(job =>
+                        job.title.toLowerCase().includes(term) ||
+                        job.company.toLowerCase().includes(term) ||
+                        job.location.toLowerCase().includes(term) ||
+                        job.desc.toLowerCase().includes(term)
+                    );
+                    if (filtered.length === 0) {
+                        document.getElementById('jobsGrid').innerHTML =
+                            '<div style="text-align:center;padding:40px;color:var(--text-faint);grid-column:1/-1">No jobs found matching "' +
+                            term + '". Try a different search.</div>';
+                        allJobsRendered = [];
+                        document.getElementById('loadMoreBtn').style.display = 'none';
+                    } else {
+                        renderJobCards(filtered.slice(0, JOBS_PER_PAGE), false);
+                        document.getElementById('loadMoreBtn').style.display = filtered.length > JOBS_PER_PAGE ?
+                            'inline-block' : 'none';
+                    }
+                }
+
+                submitBtn.addEventListener('click', () => doSearch(input.value));
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') doSearch(input.value);
+                });
+
+                suggestions.querySelectorAll('.search-suggest-pill').forEach(pill => {
+                    pill.addEventListener('click', function() {
+                        input.value = this.textContent.trim();
+                        doSearch(input.value);
+                    });
+                });
+
+                document.getElementById('filterLocation').addEventListener('click', () => {
+                    input.value = 'location: ';
+                    input.focus();
+                });
+                document.getElementById('filterSalary').addEventListener('click', () => {
+                    input.value = 'salary > $';
+                    input.focus();
+                });
+                document.getElementById('filterRemote').addEventListener('click', () => {
+                    input.value = 'remote';
+                    doSearch('remote');
+                });
+            }
+
+            // ──────────────────────────────────────
+            // EVENT: Load More
+            // ──────────────────────────────────────
+            function setupLoadMore() {
+                document.getElementById('loadMoreBtn').addEventListener('click', () => {
+                    loadJobs(true);
+                });
+            }
+
+            // ──────────────────────────────────────
+            // EVENT: Header buttons
+            // ──────────────────────────────────────
+            function setupHeaderButtons() {
+                document.getElementById('btnUploadResume').addEventListener('click', () => showToast(
+                    'Resume upload feature coming soon! 📄'));
+                document.getElementById('btnMBTI').addEventListener('click', () => showToast(
+                    'MBTI career matching launching soon! 🧠'));
+                document.getElementById('btnLogin').addEventListener('click', () => showToast(
+                    'Login portal opening soon! 🔐'));
+            }
+
+            // ──────────────────────────────────────
+            // EVENT: Footer links
+            // ──────────────────────────────────────
+            function setupFooterLinks() {
+                document.querySelectorAll('.footer-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        showToast('Navigating to: ' + link.textContent.trim());
+                    });
+                });
+            }
+
+            // ──────────────────────────────────────
+            // INIT
+            // ──────────────────────────────────────
+            function init() {
+                updateKPIs();
+                renderSalaryChart();
+                loadJobs(false);
+                renderNews();
+                renderRiskLists();
+                renderDiveCards();
+                setupModal();
+                setupTheme();
+                setupCountryTabs();
+                setupCategoryTabs();
+                setupIndustryPills();
+                setupSearch();
+                setupLoadMore();
+                setupHeaderButtons();
+                setupFooterLinks();
+                // Animate risk bars on load
+                setTimeout(() => {
+                    document.querySelectorAll('.risk-bar-fill').forEach(bar => {
+                        bar.style.transition = 'width 0.8s var(--ease)';
+                    });
+                    document.querySelectorAll('.dive-bar-fill').forEach(bar => {
+                        bar.style.transition = 'width 1s var(--ease)';
+                    });
+                }, 200);
+            }
+
+            // Run on DOM ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+</body>
+</html>

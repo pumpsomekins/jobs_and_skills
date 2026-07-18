@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobForesight — Every Job, Ranked by AI Risk</title>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=cabinet-grotesk@800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;--surface:#131313;--surface-2:#181818;--surface-3:#1e1e1e;
+  --border:#252525;--border-hi:#303030;
+  --text:#e4e4e4;--text-muted:#888;--text-faint:#444;
+  --green:#22c55e;--yellow:#eab308;--orange:#f97316;--red:#ef4444;
+  --accent:#4f98a3;--accent-hover:#60b8c4;--accent-dim:rgba(79,152,163,.12);
+  --font-body:'Satoshi','Inter',sans-serif;
+  --font-display:'Cabinet Grotesk','Satoshi',sans-serif;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --radius-sm:4px;--radius-md:8px;--radius-lg:12px;--radius-xl:18px;
+}
+[data-theme="light"]{
+  --bg:#f5f5f0;--surface:#fff;--surface-2:#f0f0ea;--surface-3:#e8e8e0;
+  --border:#e0e0d8;--border-hi:#ccc;
+  --text:#111;--text-muted:#555;--text-faint:#aaa;
+}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.6;min-height:100dvh;overflow-x:hidden}
+button{cursor:pointer;border:none;background:none;font:inherit}
+a{text-decoration:none;color:inherit}
+
+/* scanline texture */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.04) 2px,rgba(0,0,0,.04) 4px);pointer-events:none;z-index:0}
+
+/* ── NAVBAR ── */
+.nav{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+[data-theme="light"] .nav{background:rgba(245,245,240,.92)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;gap:20px}
+.nav-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em;flex-shrink:0}
+[data-theme="light"] .nav-logo{color:#111}
+.nav-logo-mark{width:28px;height:28px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:900}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:2px;margin-left:8px}
+.nav-link{padding:6px 11px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;color:var(--text-muted);transition:color .15s,background .15s;white-space:nowrap}
+.nav-link:hover{color:var(--text);background:var(--surface-3)}
+.nav-link.active{color:#fff;background:var(--surface-3)}
+[data-theme="light"] .nav-link.active{color:#111}
+.nav-search{flex:1;max-width:320px;margin-left:auto;position:relative}
+.nav-search-input{width:100%;background:var(--surface-2);border:1px solid var(--border-hi);border-radius:var(--radius-md);padding:7px 14px 7px 34px;font:inherit;font-size:13px;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+.nav-search-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,152,163,.15)}
+.nav-search-input::placeholder{color:var(--text-faint)}
+.nav-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-faint);pointer-events:none}
+.nav-actions{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.btn-ghost{padding:7px 14px;border-radius:var(--radius-md);font-size:12px;font-weight:700;color:var(--text-muted);border:1px solid var(--border-hi);transition:all .15s var(--ease)}
+.btn-ghost:hover{color:var(--text);border-color:var(--text-faint)}
+.btn-accent{padding:7px 16px;border-radius:var(--radius-md);font-size:12px;font-weight:700;background:var(--accent);color:#fff;transition:background .15s var(--ease),transform .12s,box-shadow .15s}
+.btn-accent:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 4px 18px rgba(79,152,163,.35)}
+.theme-btn{width:32px;height:32px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:14px;border:1px solid var(--border-hi);color:var(--text-muted);transition:all .15s}
+.theme-btn:hover{border-color:var(--text-faint);color:var(--text)}
+
+/* ── HERO ── */
+.hero{position:relative;z-index:1;overflow:hidden;padding:72px 24px 60px;text-align:center}
+.hero::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(79,152,163,.18) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);background:rgba(79,152,163,.1);border:1px solid rgba(79,152,163,.28);padding:5px 12px;border-radius:20px;margin-bottom:20px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:var(--font-display);font-size:clamp(36px,6vw,76px);font-weight:800;color:#fff;line-height:1.0;letter-spacing:-.03em;margin-bottom:16px}
+[data-theme="light"] .hero h1{color:#111}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-sub{font-size:clamp(14px,2vw,17px);color:var(--text-muted);max-width:560px;margin:0 auto 36px;line-height:1.65}
+.hero-sub strong{color:var(--text)}
+
+/* hero search */
+.hero-search-wrap{max-width:620px;margin:0 auto 32px;position:relative}
+.hero-search{display:flex;gap:0;background:var(--surface);border:1px solid var(--border-hi);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.4);transition:border-color .2s,box-shadow .2s}
+.hero-search:focus-within{border-color:var(--accent);box-shadow:0 8px 40px rgba(0,0,0,.4),0 0 0 3px rgba(79,152,163,.15)}
+.hero-search-input{flex:1;background:transparent;border:none;padding:16px 20px;font:inherit;font-size:15px;color:var(--text);outline:none}
+.hero-search-input::placeholder{color:var(--text-faint)}
+.hero-search-btn{padding:12px 22px;background:var(--accent);color:#fff;font:inherit;font-size:13px;font-weight:700;cursor:pointer;border:none;border-left:1px solid rgba(79,152,163,.4);transition:background .15s;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.hero-search-btn:hover{background:var(--accent-hover)}
+.hero-search-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--surface-2);border:1px solid var(--border-hi);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.5);z-index:10;display:none}
+.hero-search-wrap:focus-within .hero-search-dropdown{display:block}
+.search-suggestion{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;transition:background .12s}
+.search-suggestion:hover{background:var(--surface-3)}
+.search-sug-icon{width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.search-sug-text{flex:1}
+.search-sug-title{font-size:13px;font-weight:600;color:var(--text)}
+.search-sug-meta{font-size:11px;color:var(--text-muted)}
+.search-sug-risk{font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;flex-shrink:0}
+
+/* quick filters */
+.hero-quick-filters{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}
+.qf-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}
+.qf-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;border:1px solid var(--border-hi);font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .15s var(--ease)}
+.qf-pill:hover{border-color:var(--text-faint);color:var(--text)}
+.qf-pill.active{color:#fff;border-color:transparent}
+.qf-pill.qf-all.active{background:rgba(255,255,255,.12)}
+.qf-pill.qf-safe.active{background:rgba(34,197,94,.18);border-color:var(--green);color:var(--green)}
+.qf-pill.qf-mid.active{background:rgba(234,179,8,.14);border-color:var(--yellow);color:var(--yellow)}
+.qf-pill.qf-risk.active{background:rgba(239,68,68,.13);border-color:var(--red);color:var(--red)}
+.qf-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+
+/* ── LIVE STATS BAR ── */
+.stats-bar{position:relative;z-index:1;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);padding:0 24px}
+.stats-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);divide-x}
+.stat-item{padding:18px 28px;display:flex;flex-direction:column;gap:3px;border-right:1px solid var(--border)}
+.stat-item:last-child{border-right:none}
+.stat-val{font-family:var(--font-display);font-size:clamp(22px,2.5vw,30px);font-weight:800;letter-spacing:-.02em;line-height:1}
+.stat-lbl{font-size:11px;color:var(--text-muted);font-weight:500}
+.stat-delta{font-size:10px;font-weight:700;margin-top:1px}
+.stat-up{color:var(--red)}.stat-dn{color:var(--green)}.stat-neu{color:var(--yellow)}
+@media(max-width:640px){.stats-inner{grid-template-columns:repeat(2,1fr)}.stat-item{padding:14px 16px}}
+
+/* ── SECTION CHROME ── */
+.section{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:52px 24px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:28px;flex-wrap:wrap}
+.section-eyebrow{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.section-title{font-family:var(--font-display);font-size:clamp(20px,3vw,28px);font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.1}
+[data-theme="light"] .section-title{color:#111}
+.section-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+.view-all{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--accent);transition:gap .15s}
+.view-all:hover{gap:8px}
+.view-all svg{transition:transform .15s}
+.view-all:hover svg{transform:translateX(2px)}
+
+/* ── INDUSTRY FILTER BAR ── */
+.ind-filter-bar{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:24px}
+.ind-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 13px;border-radius:20px;border:1px solid var(--border-hi);font-size:11px;font-weight:600;color:var(--text-faint);cursor:pointer;transition:all .15s var(--ease);white-space:nowrap}
+.ind-pill:hover{color:var(--text-muted);border-color:var(--text-faint)}
+.ind-pill.active{color:#fff;border-color:rgba(255,255,255,.2);background:var(--surface-3)}
+.ind-dot{width:5px;height:5px;border-radius:50%;background:var(--ind-color,currentColor);flex-shrink:0}
+
+/* ── JOB CARDS GRID ── */
+.jobs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.job-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;position:relative;overflow:hidden;cursor:pointer;transition:border-color .2s var(--ease),box-shadow .2s var(--ease),transform .18s var(--ease);display:flex;flex-direction:column;gap:12px}
+.job-card:hover{border-color:var(--border-hi);box-shadow:0 10px 36px rgba(0,0,0,.4);transform:translateY(-2px)}
+.job-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--card-accent,var(--border));transition:opacity .2s}
+.job-card:hover::before{opacity:1}
+.job-card.risk-safe{--card-accent:var(--green)}
+.job-card.risk-mid{--card-accent:var(--yellow)}
+.job-card.risk-high{--card-accent:var(--orange)}
+.job-card.risk-crit{--card-accent:var(--red)}
+.job-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.job-icon{width:42px;height:42px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:var(--surface-3)}
+.job-card-meta{flex:1;min-width:0}
+.job-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+[data-theme="light"] .job-title{color:#111}
+.job-industry{font-size:11px;color:var(--text-muted)}
+.risk-badge{flex-shrink:0;padding:4px 9px;border-radius:4px;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;display:inline-flex;align-items:center;gap:4px}
+.rb-safe{background:rgba(34,197,94,.14);color:var(--green);border:1px solid rgba(34,197,94,.28)}
+.rb-mid{background:rgba(234,179,8,.13);color:var(--yellow);border:1px solid rgba(234,179,8,.25)}
+.rb-high{background:rgba(249,115,22,.14);color:var(--orange);border:1px solid rgba(249,115,22,.28)}
+.rb-crit{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.24)}
+.job-stats{display:flex;align-items:center;gap:12px}
+.job-stat{display:flex;flex-direction:column;gap:2px}
+.job-stat-val{font-size:13px;font-weight:700;color:var(--text)}
+.job-stat-lbl{font-size:10px;color:var(--text-faint)}
+.job-bar-wrap{display:flex;flex-direction:column;gap:4px}
+.job-bar-row{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--text-faint)}
+.job-bar-row span:last-child{font-weight:700;color:var(--text-muted)}
+.job-bar-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.job-bar-fill{height:100%;border-radius:2px;background:var(--fill-color,var(--accent));transition:width 1s var(--ease)}
+.job-card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);margin-top:auto}
+.job-salary{font-size:12px;color:var(--text-muted)}
+.job-salary strong{color:var(--text);font-weight:700}
+.job-eta{font-size:11px;font-weight:600}
+.eta-soon{color:var(--red)}.eta-mid{color:var(--yellow)}.eta-far{color:var(--green)}.eta-prot{color:var(--accent)}
+
+/* load-more */
+.load-more-wrap{text-align:center;margin-top:28px}
+.btn-load-more{display:inline-flex;align-items:center;gap:7px;padding:10px 24px;border-radius:var(--radius-md);border:1px solid var(--border-hi);font-size:13px;font-weight:700;color:var(--text-muted);transition:all .18s var(--ease)}
+.btn-load-more:hover{color:var(--text);border-color:var(--text-faint);background:var(--surface)}
+
+/* ── TOP RISK TABLE ── */
+.risk-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.risk-table-scroll{overflow-x:auto}
+.risk-table{width:100%;border-collapse:collapse;min-width:700px}
+.risk-table thead{background:var(--surface-2)}
+.risk-table th{padding:11px 16px;font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-faint);border-bottom:1px solid var(--border);white-space:nowrap}
+.risk-table th:not(:last-child){border-right:1px solid var(--border)}
+.risk-table td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:middle}
+.risk-table td:not(:last-child){border-right:1px solid var(--border)}
+.risk-table tr:last-child td{border-bottom:none}
+.risk-table tbody tr{transition:background .15s}
+.risk-table tbody tr:hover{background:var(--surface-2);cursor:pointer}
+.rt-rank{font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--text-faint);width:40px}
+.rt-job-name{font-weight:600;font-size:14px;color:#fff}
+[data-theme="light"] .rt-job-name{color:#111}
+.rt-sub{font-size:11px;color:var(--text-muted);margin-top:1px}
+.rt-score-wrap{display:flex;align-items:center;gap:10px;min-width:160px}
+.rt-score-bar{flex:1;height:5px;background:var(--border);border-radius:2px;overflow:hidden}
+.rt-score-fill{height:100%;border-radius:2px}
+.fill-green{background:var(--green)}.fill-yellow{background:var(--yellow)}.fill-orange{background:var(--orange)}.fill-red{background:var(--red)}
+.rt-pct{font-size:13px;font-weight:700;width:40px;text-align:right}
+.rt-salary{font-size:13px;font-weight:600;color:var(--text)}
+.rt-eta{font-size:12px;font-weight:600}
+.rt-trend{font-size:20px;text-align:center}
+
+/* ── NEWS GRID ── */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.news-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:580px){.news-grid{grid-template-columns:1fr}}
+.news-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .18s var(--ease)}
+.news-card:hover{border-color:var(--border-hi);box-shadow:0 10px 36px rgba(0,0,0,.4);transform:translateY(-2px)}
+.news-card.featured{grid-column:1/-1}
+@media(max-width:580px){.news-card.featured{grid-column:unset}}
+.news-img{height:180px;background:var(--surface-2);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.news-card.featured .news-img{height:240px}
+.news-img-bg{position:absolute;inset:0;opacity:.35}
+.news-img-icon{font-size:48px;position:relative;z-index:1}
+.news-cat-badge{position:absolute;top:12px;left:12px;z-index:2;padding:4px 9px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.ncat-market{background:rgba(79,152,163,.22);color:var(--accent);border:1px solid rgba(79,152,163,.38)}
+.ncat-tech{background:rgba(79,152,163,.22);color:var(--accent);border:1px solid rgba(79,152,163,.38)}
+.ncat-policy{background:rgba(234,179,8,.16);color:var(--yellow);border:1px solid rgba(234,179,8,.3)}
+.ncat-research{background:rgba(34,197,94,.14);color:var(--green);border:1px solid rgba(34,197,94,.28)}
+.ncat-warn{background:rgba(239,68,68,.14);color:var(--red);border:1px solid rgba(239,68,68,.26)}
+.news-body{padding:16px 18px}
+.news-date{font-size:10px;color:var(--text-faint);margin-bottom:7px;font-weight:600;letter-spacing:.05em}
+.news-title{font-size:15px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:7px}
+[data-theme="light"] .news-title{color:#111}
+.news-card.featured .news-title{font-size:18px}
+.news-excerpt{font-size:12px;color:var(--text-muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.news-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.news-source{font-size:11px;color:var(--text-faint);font-weight:600}
+.news-read{font-size:11px;color:var(--accent);font-weight:600}
+
+/* ── INDUSTRY CARDS ── */
+.industry-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.ind-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;cursor:pointer;transition:all .2s var(--ease);position:relative;overflow:hidden}
+.ind-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 60% 0%,var(--ic-glow,transparent) 0%,transparent 65%);pointer-events:none}
+.ind-card:hover{border-color:var(--border-hi);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.35)}
+.ind-card-icon{font-size:28px;margin-bottom:12px;display:block}
+.ind-card-name{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px}
+[data-theme="light"] .ind-card-name{color:#111}
+.ind-card-count{font-size:11px;color:var(--text-muted)}
+.ind-card-risk{margin-top:12px;display:flex;align-items:center;gap:8px}
+.ind-risk-bar{flex:1;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.ind-risk-fill{height:100%;border-radius:2px}
+.ind-risk-pct{font-size:10px;font-weight:700;flex-shrink:0}
+
+/* ── FEATURED TOOLS ── */
+.tools-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:860px){.tools-row{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.tools-row{grid-template-columns:1fr}}
+.tool-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;display:flex;flex-direction:column;gap:12px;cursor:pointer;transition:all .2s var(--ease)}
+.tool-card:hover{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 8px 32px rgba(79,152,163,.15);transform:translateY(-2px)}
+.tool-icon-wrap{width:44px;height:44px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:22px}
+.tool-title{font-size:15px;font-weight:700;color:#fff}
+[data-theme="light"] .tool-title{color:#111}
+.tool-desc{font-size:12px;color:var(--text-muted);line-height:1.65;flex:1}
+.tool-cta{font-size:12px;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:4px;margin-top:auto}
+
+/* ── MARQUEE ── */
+.marquee-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);padding:10px 0;position:relative;z-index:1}
+.marquee-track{display:flex;gap:0;animation:scroll-left 40s linear infinite;width:max-content}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{display:inline-flex;align-items:center;gap:8px;padding:0 28px;white-space:nowrap;font-size:12px;color:var(--text-muted);border-right:1px solid var(--border)}
+.marquee-item .mi-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.marquee-item .mi-chg{font-weight:700;font-size:11px}
+.mi-up{color:var(--red)}.mi-dn{color:var(--green)}
+@keyframes scroll-left{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── NEWSLETTER BANNER ── */
+.newsletter{position:relative;z-index:1;background:linear-gradient(135deg,rgba(79,152,163,.12) 0%,rgba(79,152,163,.04) 100%);border-top:1px solid rgba(79,152,163,.2);border-bottom:1px solid rgba(79,152,163,.2);padding:48px 24px;text-align:center;overflow:hidden}
+.newsletter::before{content:'';position:absolute;top:-80px;right:-80px;width:350px;height:350px;background:radial-gradient(circle,rgba(79,152,163,.15) 0%,transparent 70%);pointer-events:none}
+.newsletter-inner{max-width:520px;margin:0 auto;position:relative;z-index:1}
+.newsletter-title{font-family:var(--font-display);font-size:clamp(20px,3.5vw,28px);font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:8px}
+[data-theme="light"] .newsletter-title{color:#111}
+.newsletter-sub{font-size:13px;color:var(--text-muted);margin-bottom:24px;line-height:1.6}
+.newsletter-form{display:flex;gap:8px;max-width:420px;margin:0 auto}
+.newsletter-input{flex:1;background:var(--surface-2);border:1px solid var(--border-hi);border-radius:var(--radius-md);padding:10px 14px;font:inherit;font-size:13px;color:var(--text);outline:none;transition:border-color .2s}
+.newsletter-input:focus{border-color:var(--accent)}
+.newsletter-input::placeholder{color:var(--text-faint)}
+.newsletter-btn{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-md);font:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .15s,transform .12s}
+.newsletter-btn:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.newsletter-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.nl-tag{font-size:10px;font-weight:600;color:var(--text-faint);display:flex;align-items:center;gap:4px}
+
+/* ── FOOTER ── */
+.footer{position:relative;z-index:1;border-top:1px solid var(--border);background:var(--surface);padding:48px 24px 28px}
+.footer-inner{max-width:1280px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+@media(max-width:800px){.footer-top{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.footer-top{grid-template-columns:1fr}}
+.footer-brand-desc{font-size:13px;color:var(--text-muted);line-height:1.65;margin-top:12px;max-width:280px}
+.footer-col-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:12px}
+.footer-links{display:flex;flex-direction:column;gap:7px}
+.footer-link{font-size:13px;color:var(--text-muted);transition:color .15s}
+.footer-link:hover{color:var(--text)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:11px;color:var(--text-faint)}
+.footer-badges{display:flex;gap:8px}
+.footer-badge{padding:3px 9px;border:1px solid var(--border-hi);border-radius:4px;font-size:10px;font-weight:600;color:var(--text-faint)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.anim{animation:fadeUp .5s var(--ease) both}
+.anim-1{animation-delay:.05s}.anim-2{animation-delay:.12s}.anim-3{animation-delay:.2s}.anim-4{animation-delay:.28s}.anim-5{animation-delay:.36s}
+
+/* ── UTILS ── */
+.divider{height:1px;background:var(--border);margin:0}
+.text-green{color:var(--green)}.text-yellow{color:var(--yellow)}.text-orange{color:var(--orange)}.text-red{color:var(--red)}.text-accent{color:var(--accent)}
+.hidden{display:none!important}
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hero{padding:52px 18px 44px}
+  .section{padding:40px 18px}
+  .tools-row{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .nav-search{display:none}
+  .news-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-mark">JF</div>
+      Job<span>Foresight</span>
+    </a>
+    <div class="nav-links">
+      <a href="#jobs" class="nav-link active">All Jobs</a>
+      <a href="#risk" class="nav-link">Risk Index</a>
+      <a href="#news" class="nav-link">Market News</a>
+      <a href="#" class="nav-link">Salary Data</a>
+      <a href="#" class="nav-link">Compare</a>
+      <a href="#" class="nav-link">Research</a>
+    </div>
+    <div class="nav-search">
+      <svg class="nav-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="nav-search-input" type="text" placeholder="Search jobs, skills, industries…">
+    </div>
+    <div class="nav-actions">
+      <button class="btn-ghost">Upload Resume</button>
+      <button class="btn-ghost">Login</button>
+      <button class="btn-accent">Get Alerts</button>
+      <button class="theme-btn" id="themeToggle" title="Toggle theme">☀️</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── MARQUEE TICKER ── -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack"></div>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero anim">
+  <div class="hero-eyebrow"><span class="live-dot"></span> Live Tracking · 847 Occupations · Updated Daily</div>
+  <h1 class="anim anim-1">Every Job.<br><em>Ranked by AI Risk.</em></h1>
+  <p class="hero-sub anim anim-2">The world's most comprehensive automation compatibility tracker. Know your career's <strong>30-year earnings outlook</strong>, disruption timeline, and skill pivot options — by country and seniority.</p>
+
+  <div class="hero-search-wrap anim anim-3">
+    <div class="hero-search">
+      <input class="hero-search-input" id="heroSearch" type="text" placeholder="Search any job title, e.g. "Nurse", "Software Engineer", "Accountant"…" autocomplete="off">
+      <button class="hero-search-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Search
+      </button>
+    </div>
+    <div class="hero-search-dropdown" id="heroDropdown">
+      <!-- populated by JS -->
+    </div>
+  </div>
+
+  <div class="hero-quick-filters anim anim-4">
+    <span class="qf-label">Browse by risk:</span>
+    <button class="qf-pill qf-all active" data-risk="all"><span class="qf-dot" style="background:#888"></span> All Jobs</button>
+    <button class="qf-pill qf-safe" data-risk="safe"><span class="qf-dot" style="background:var(--green)"></span> Low Risk</button>
+    <button class="qf-pill qf-mid" data-risk="mid"><span class="qf-dot" style="background:var(--yellow)"></span> Medium Risk</button>
+    <button class="qf-pill qf-risk" data-risk="high"><span class="qf-dot" style="background:var(--orange)"></span> High Risk</button>
+    <button class="qf-pill qf-risk" data-risk="crit"><span class="qf-dot" style="background:var(--red)"></span> Critical</button>
+  </div>
+</section>
+
+<!-- ── STATS BAR ── -->
+<div class="stats-bar anim anim-5">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-val" style="color:#fff" id="statJobs">847</div>
+      <div class="stat-lbl">Occupations Tracked</div>
+      <div class="stat-delta stat-up">+23 this month</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val" style="color:var(--yellow)" id="statIdx">61%</div>
+      <div class="stat-lbl">Avg. Automation Index</div>
+      <div class="stat-delta stat-up">↑ 3.2% from last quarter</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val" style="color:var(--red)" id="statRisk">312</div>
+      <div class="stat-lbl">Jobs at Risk by 2030</div>
+      <div class="stat-delta stat-up">↑ 41 since Jan 2025</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val" style="color:var(--green)" id="statSafe">189</div>
+      <div class="stat-lbl">Human-Safe Roles</div>
+      <div class="stat-delta stat-dn">↑ Stable / growing</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ALL JOBS SECTION ── -->
+<div class="section" id="jobs">
+  <div class="section-head">
+    <div>
+      <div class="section-eyebrow">Job Directory</div>
+      <div class="section-title">Browse All Occupations</div>
+      <div class="section-sub">Showing <span id="jobCount">847</span> jobs — click any card for full analysis</div>
+    </div>
+    <a href="#" class="view-all">View full directory <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+
+  <!-- Industry filter -->
+  <div class="ind-filter-bar" id="indFilter">
+    <button class="ind-pill active" data-ind="all"><span class="ind-dot" style="--ind-color:#888"></span> All Industries</button>
+    <button class="ind-pill" data-ind="tech"><span class="ind-dot" style="--ind-color:#4f98a3"></span> Technology</button>
+    <button class="ind-pill" data-ind="health"><span class="ind-dot" style="--ind-color:#22c55e"></span> Healthcare</button>
+    <button class="ind-pill" data-ind="finance"><span class="ind-dot" style="--ind-color:#eab308"></span> Finance</button>
+    <button class="ind-pill" data-ind="legal"><span class="ind-dot" style="--ind-color:#f97316"></span> Legal</button>
+    <button class="ind-pill" data-ind="food"><span class="ind-dot" style="--ind-color:#ef4444"></span> Food & Bev</button>
+    <button class="ind-pill" data-ind="transport"><span class="ind-dot" style="--ind-color:#a855f7"></span> Transport</button>
+    <button class="ind-pill" data-ind="edu"><span class="ind-dot" style="--ind-color:#06b6d4"></span> Education</button>
+    <button class="ind-pill" data-ind="creative"><span class="ind-dot" style="--ind-color:#ec4899"></span> Creative</button>
+    <button class="ind-pill" data-ind="construct"><span class="ind-dot" style="--ind-color:#84cc16"></span> Construction</button>
+    <button class="ind-pill" data-ind="mfg"><span class="ind-dot" style="--ind-color:#f59e0b"></span> Manufacturing</button>
+  </div>
+
+  <!-- Jobs grid -->
+  <div class="jobs-grid" id="jobsGrid"></div>
+
+  <div class="load-more-wrap">
+    <button class="btn-load-more" id="loadMoreBtn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      Load More Jobs
+    </button>
+  </div>
+</div>
+
+<!-- ── TOP RISK RANKING ── -->
+<div style="background:var(--surface-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+<div class="section" id="risk">
+  <div class="section-head">
+    <div>
+      <div class="section-eyebrow">Risk Rankings</div>
+      <div class="section-title">Most Disrupted Jobs in 2026</div>
+      <div class="section-sub">Ranked by automation index — updated weekly from BLS, WEF &amp; JobForesight research</div>
+    </div>
+    <a href="#" class="view-all">Full rankings <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+  <div class="risk-table-wrap">
+    <div class="risk-table-scroll">
+      <table class="risk-table" id="riskTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Occupation</th>
+            <th>Automation Index</th>
+            <th>Avg. US Salary</th>
+            <th>AI Arrival ETA</th>
+            <th>6-mo Trend</th>
+          </tr>
+        </thead>
+        <tbody id="riskTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ── MARKET NEWS ── -->
+<div class="section" id="news">
+  <div class="section-head">
+    <div>
+      <div class="section-eyebrow">Market Intelligence</div>
+      <div class="section-title">Job Market News</div>
+      <div class="section-sub">Latest reports, policy shifts, and automation breakthroughs impacting careers</div>
+    </div>
+    <a href="#" class="view-all">All news <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+  <div class="news-grid" id="newsGrid"></div>
+</div>
+
+<!-- ── INDUSTRY OVERVIEW ── -->
+<div style="background:var(--surface-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+<div class="section">
+  <div class="section-head">
+    <div>
+      <div class="section-eyebrow">Industries</div>
+      <div class="section-title">Browse by Sector</div>
+      <div class="section-sub">Explore automation risk across all major industries</div>
+    </div>
+  </div>
+  <div class="industry-cards" id="industryCards"></div>
+</div>
+</div>
+
+<!-- ── TOOLS ── -->
+<div class="section">
+  <div class="section-head">
+    <div>
+      <div class="section-eyebrow">Free Tools</div>
+      <div class="section-title">Plan Your Career Future</div>
+      <div class="section-sub">Personalized analysis tools — no account required to start</div>
+    </div>
+  </div>
+  <div class="tools-row" id="toolsRow"></div>
+</div>
+
+<!-- ── NEWSLETTER ── -->
+<div class="newsletter">
+  <div class="newsletter-inner">
+    <div class="newsletter-title">Stay Ahead of Automation</div>
+    <p class="newsletter-sub">Get weekly risk updates for your specific job, salary benchmarks, and early alerts when AI breakthroughs change your disruption timeline.</p>
+    <div class="newsletter-form">
+      <input class="newsletter-input" type="email" placeholder="your@email.com">
+      <button class="newsletter-btn">Subscribe Free</button>
+    </div>
+    <div class="newsletter-tags">
+      <span class="nl-tag">✓ Weekly digest</span>
+      <span class="nl-tag">✓ Risk alerts</span>
+      <span class="nl-tag">✓ Salary updates</span>
+      <span class="nl-tag">✓ No spam</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="nav-logo" style="font-size:16px">
+          <div class="nav-logo-mark">JF</div>
+          Job<span>Foresight</span>
+        </div>
+        <p class="footer-brand-desc">The most comprehensive job automation tracking platform. 847 occupations, 14 countries, updated daily from official labor data and AI research.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Platform</div>
+        <div class="footer-links">
+          <a class="footer-link" href="#">Job Directory</a>
+          <a class="footer-link" href="#">Risk Index</a>
+          <a class="footer-link" href="#">Salary Database</a>
+          <a class="footer-link" href="#">Job Comparison</a>
+          <a class="footer-link" href="#">LTV Calculator</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Research</div>
+        <div class="footer-links">
+          <a class="footer-link" href="#">Market Reports</a>
+          <a class="footer-link" href="#">Industry Analysis</a>
+          <a class="footer-link" href="#">Methodology</a>
+          <a class="footer-link" href="#">Data Sources</a>
+          <a class="footer-link" href="#">API Access</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <div class="footer-links">
+          <a class="footer-link" href="#">About</a>
+          <a class="footer-link" href="#">Blog</a>
+          <a class="footer-link" href="#">Press</a>
+          <a class="footer-link" href="#">Privacy</a>
+          <a class="footer-link" href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 JobForesight. Data sourced from BLS, WEF, OECD, and proprietary AI research. Not financial advice.</div>
+      <div class="footer-badges">
+        <span class="footer-badge">BLS Data</span>
+        <span class="footer-badge">WEF Aligned</span>
+        <span class="footer-badge">OECD Source</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── DATA ────────────────────────────────────────────────────────────────────
+
+const JOBS = [
+  // Technology
+  { id:1, title:"Software Engineer", industry:"tech", icon:"💻", riskLevel:"safe", riskPct:18, salary:"$130k–$195k", eta:"2035+", trend:"→", human:"Creative problem solving, system design, client relations", ai:"Code generation, testing, documentation", ind:"Technology" },
+  { id:2, title:"Data Scientist", industry:"tech", icon:"📊", riskLevel:"mid", riskPct:42, salary:"$115k–$170k", eta:"~2029", trend:"↑", human:"Hypothesis building, domain expertise", ai:"Model training, data wrangling, EDA", ind:"Technology" },
+  { id:3, title:"UX Designer", industry:"tech", icon:"🎨", riskLevel:"safe", riskPct:22, salary:"$95k–$145k", eta:"2035+", trend:"→", human:"Empathy research, stakeholder interviews", ai:"Wireframing, design variations", ind:"Technology" },
+  { id:4, title:"Network Engineer", industry:"tech", icon:"🔌", riskLevel:"mid", riskPct:55, salary:"$85k–$130k", eta:"~2030", trend:"↑", human:"Physical infra, complex troubleshooting", ai:"Monitoring, config management", ind:"Technology" },
+  { id:5, title:"IT Support Specialist", industry:"tech", icon:"🖥️", riskLevel:"high", riskPct:72, salary:"$45k–$70k", eta:"~2027", trend:"↑↑", human:"On-site hardware, VIP support", ai:"Ticket resolution, password resets, FAQs", ind:"Technology" },
+  { id:6, title:"Cybersecurity Analyst", industry:"tech", icon:"🛡️", riskLevel:"safe", riskPct:20, salary:"$100k–$155k", eta:"2035+", trend:"↓", human:"Threat hunting, incident response", ai:"Anomaly detection, log analysis", ind:"Technology" },
+  // Healthcare
+  { id:7, title:"Registered Nurse", industry:"health", icon:"🏥", riskLevel:"safe", riskPct:12, salary:"$75k–$110k", eta:"Protected", trend:"↓", human:"Bedside care, patient advocacy, crisis judgment", ai:"Monitoring vitals, documentation", ind:"Healthcare" },
+  { id:8, title:"Radiologist", industry:"health", icon:"🩻", riskLevel:"crit", riskPct:82, salary:"$300k–$450k", eta:"~2026", trend:"↑↑", human:"Complex edge cases, patient consultation", ai:"Image reading, report drafting", ind:"Healthcare" },
+  { id:9, title:"General Practitioner", industry:"health", icon:"🩺", riskLevel:"safe", riskPct:28, salary:"$185k–$260k", eta:"2035+", trend:"→", human:"Empathy, diagnosis, complex multi-system cases", ai:"Triage, prescription patterns, follow-ups", ind:"Healthcare" },
+  { id:10, title:"Medical Coder", industry:"health", icon:"📋", riskLevel:"crit", riskPct:88, salary:"$40k–$58k", eta:"~2026", trend:"↑↑", human:"Auditing AI output, appeals", ai:"Code assignment, billing", ind:"Healthcare" },
+  { id:11, title:"Physical Therapist", industry:"health", icon:"🦴", riskLevel:"safe", riskPct:15, salary:"$80k–$115k", eta:"2035+", trend:"↓", human:"Manual therapy, patient motivation", ai:"Exercise planning, progress tracking", ind:"Healthcare" },
+  { id:12, title:"Pharmacist", industry:"health", icon:"💊", riskLevel:"mid", riskPct:52, salary:"$120k–$155k", eta:"~2030", trend:"↑", human:"Counseling, compound formulation", ai:"Dispensing, interaction checks", ind:"Healthcare" },
+  // Finance
+  { id:13, title:"Financial Analyst", industry:"finance", icon:"📈", riskLevel:"mid", riskPct:58, salary:"$75k–$125k", eta:"~2028", trend:"↑", human:"Client relations, strategic narrative", ai:"Modeling, data aggregation", ind:"Finance" },
+  { id:14, title:"Loan Officer", industry:"finance", icon:"🏦", riskLevel:"crit", riskPct:85, salary:"$55k–$90k", eta:"~2027", trend:"↑↑", human:"Complex commercial deals, relationship banking", ai:"Application review, underwriting, approval", ind:"Finance" },
+  { id:15, title:"Accountant", industry:"finance", icon:"🧾", riskLevel:"high", riskPct:76, salary:"$60k–$95k", eta:"~2028", trend:"↑", human:"Advisory, M&A, complex tax structures", ai:"Bookkeeping, reconciliation, standard returns", ind:"Finance" },
+  { id:16, title:"Investment Manager", industry:"finance", icon:"💼", riskLevel:"mid", riskPct:44, salary:"$95k–$250k", eta:"~2030", trend:"→", human:"Client trust, alternative assets", ai:"Portfolio rebalancing, algo trading", ind:"Finance" },
+  // Legal
+  { id:17, title:"Paralegal", industry:"legal", icon:"⚖️", riskLevel:"crit", riskPct:84, salary:"$45k–$72k", eta:"~2027", trend:"↑↑", human:"Court appearances (state-dependent), client intake", ai:"Document review, legal research, contract drafting", ind:"Legal" },
+  { id:18, title:"Corporate Attorney", industry:"legal", icon:"🏛️", riskLevel:"mid", riskPct:40, salary:"$180k–$400k", eta:"~2031", trend:"→", human:"Negotiation, courtroom, client strategy", ai:"Discovery, due diligence, memo writing", ind:"Legal" },
+  { id:19, title:"Court Reporter", industry:"legal", icon:"📝", riskLevel:"crit", riskPct:91, salary:"$48k–$78k", eta:"~2026", trend:"↑↑", human:"Realtime events, certified proceedings", ai:"Transcription, speech-to-text", ind:"Legal" },
+  // Food & Beverage
+  { id:20, title:"Executive Chef", industry:"food", icon:"👨‍🍳", riskLevel:"safe", riskPct:24, salary:"$55k–$95k", eta:"2035+", trend:"→", human:"Menu creativity, team management, brand identity", ai:"Recipe scaling, ordering, nutrition analysis", ind:"Food & Bev" },
+  { id:21, title:"Line Cook", industry:"food", icon:"🍳", riskLevel:"high", riskPct:74, salary:"$32k–$48k", eta:"~2028", trend:"↑", human:"Fine dining tableside prep", ai:"Standard prep, fry stations, QSR automation", ind:"Food & Bev" },
+  { id:22, title:"Barista", industry:"food", icon:"☕", riskLevel:"high", riskPct:70, salary:"$30k–$42k", eta:"~2027", trend:"↑", human:"Specialty coffee, customer experience", ai:"Standard drinks, automated espresso", ind:"Food & Bev" },
+  { id:23, title:"Dishwasher", industry:"food", icon:"🍽️", riskLevel:"crit", riskPct:90, salary:"$28k–$36k", eta:"~2026", trend:"↑↑", human:"Special item handling", ai:"Commercial automated systems", ind:"Food & Bev" },
+  // Transport
+  { id:24, title:"Truck Driver", industry:"transport", icon:"🚛", riskLevel:"high", riskPct:78, salary:"$55k–$85k", eta:"~2028", trend:"↑↑", human:"Urban last-mile, hazmat, oversized loads", ai:"Highway long-haul, port-to-DC routes", ind:"Transport" },
+  { id:25, title:"Taxi / Rideshare Driver", industry:"transport", icon:"🚕", riskLevel:"crit", riskPct:87, salary:"$35k–$55k", eta:"~2027", trend:"↑↑", human:"Assistive transport, rural areas", ai:"Urban autonomous, robotaxi fleets", ind:"Transport" },
+  { id:26, title:"Airline Pilot", industry:"transport", icon:"✈️", riskLevel:"safe", riskPct:25, salary:"$175k–$300k", eta:"2035+", trend:"→", human:"Emergency handling, international regs", ai:"Autopilot, co-pilot assist", ind:"Transport" },
+  { id:27, title:"Delivery Driver", industry:"transport", icon:"📦", riskLevel:"high", riskPct:76, salary:"$38k–$58k", eta:"~2028", trend:"↑", human:"Complex multi-stop, customer service", ai:"Drone delivery, autonomous ground vehicles", ind:"Transport" },
+  // Education
+  { id:28, title:"Elementary Teacher", industry:"edu", icon:"🏫", riskLevel:"safe", riskPct:14, salary:"$52k–$75k", eta:"Protected", trend:"↓", human:"Social-emotional development, mentorship", ai:"Lesson material generation, grading", ind:"Education" },
+  { id:29, title:"College Professor", industry:"edu", icon:"🎓", riskLevel:"safe", riskPct:30, salary:"$75k–$140k", eta:"2033+", trend:"→", human:"Original research, mentorship, seminars", ai:"Lecture content, assignment generation", ind:"Education" },
+  { id:30, title:"Corporate Trainer", industry:"edu", icon:"📚", riskLevel:"mid", riskPct:60, salary:"$60k–$95k", eta:"~2029", trend:"↑", human:"Leadership programs, culture change", ai:"E-learning modules, onboarding sequences", ind:"Education" },
+  // Creative
+  { id:31, title:"Graphic Designer", industry:"creative", icon:"✏️", riskLevel:"mid", riskPct:48, salary:"$50k–$88k", eta:"~2029", trend:"↑", human:"Brand strategy, client direction, illustration", ai:"Variation generation, asset production", ind:"Creative" },
+  { id:32, title:"Copywriter", industry:"creative", icon:"✍️", riskLevel:"high", riskPct:74, salary:"$48k–$85k", eta:"~2027", trend:"↑↑", human:"Brand voice, strategy, long-form editorial", ai:"Ad copy, product descriptions, social posts", ind:"Creative" },
+  { id:33, title:"Video Editor", industry:"creative", icon:"🎬", riskLevel:"mid", riskPct:50, salary:"$52k–$90k", eta:"~2029", trend:"↑", human:"Narrative editing, documentaries, broadcast", ai:"Auto-edit, highlight reels, social cuts", ind:"Creative" },
+  { id:34, title:"Musician / Composer", industry:"creative", icon:"🎵", riskLevel:"safe", riskPct:22, salary:"$40k–$120k", eta:"2035+", trend:"→", human:"Live performance, genre innovation, artist vision", ai:"Background music, royalty-free generation", ind:"Creative" },
+  // Construction
+  { id:35, title:"Electrician", industry:"construct", icon:"⚡", riskLevel:"safe", riskPct:18, salary:"$65k–$100k", eta:"2035+", trend:"↓", human:"Complex wiring, code interpretation, troubleshooting", ai:"Routine inspections, thermal imaging", ind:"Construction" },
+  { id:36, title:"Plumber", industry:"construct", icon:"🔧", riskLevel:"safe", riskPct:15, salary:"$58k–$92k", eta:"2035+", trend:"↓", human:"Emergency repair, custom installs", ai:"Routine maintenance scheduling", ind:"Construction" },
+  { id:37, title:"Civil Engineer", industry:"construct", icon:"🏗️", riskLevel:"mid", riskPct:38, salary:"$85k–$135k", eta:"2032+", trend:"→", human:"Regulatory approval, site management", ai:"Structural simulation, permit documentation", ind:"Construction" },
+  { id:38, title:"Crane Operator", industry:"construct", icon:"🏚️", riskLevel:"high", riskPct:68, salary:"$65k–$95k", eta:"~2030", trend:"↑", human:"Complex urban lifts", ai:"Remote/autonomous crane systems", ind:"Construction" },
+  // Manufacturing
+  { id:39, title:"Assembly Line Worker", industry:"mfg", icon:"🏭", riskLevel:"crit", riskPct:88, salary:"$35k–$52k", eta:"~2027", trend:"↑↑", human:"Flexible assembly, artisan production", ai:"Robotic arms, conveyor automation", ind:"Manufacturing" },
+  { id:40, title:"Quality Inspector", industry:"mfg", icon:"🔍", riskLevel:"high", riskPct:78, salary:"$42k–$65k", eta:"~2028", trend:"↑", human:"Sensory judgment, novel defect types", ai:"Computer vision inspection systems", ind:"Manufacturing" },
+  { id:41, title:"Machinist / CNC Operator", industry:"mfg", icon:"⚙️", riskLevel:"mid", riskPct:55, salary:"$48k–$78k", eta:"~2030", trend:"→", human:"Custom one-off parts, programming setup", ai:"Routine runs, rescheduling, monitoring", ind:"Manufacturing" },
+  { id:42, title:"Welding Engineer", industry:"mfg", icon:"🔥", riskLevel:"mid", riskPct:45, salary:"$62k–$95k", eta:"~2031", trend:"→", human:"Specialized alloys, inspection sign-off", ai:"Standard welds, repetitive bead runs", ind:"Manufacturing" },
+];
+
+const NEWS = [
+  { featured:true, cat:"policy", catClass:"ncat-policy", icon:"📜", bg:"linear-gradient(135deg,rgba(234,179,8,.15),rgba(249,115,22,.1))", date:"Apr 23, 2026", title:"White House Signs Executive Order Mandating AI Impact Disclosure for Federal Contractors", excerpt:"New regulations require all federal contractors to publish annual reports detailing which roles have been partially or fully automated. The order, effective Q3 2026, will affect an estimated 2.2 million workers across 14 agencies.", source:"Reuters", readTime:"4 min read" },
+  { cat:"tech", catClass:"ncat-tech", icon:"🤖", bg:"linear-gradient(135deg,rgba(79,152,163,.2),rgba(79,152,163,.05))", date:"Apr 22, 2026", title:"Anthropic's Latest Model Passes CPA Exam With 94% Score, Rattling Accounting Industry", excerpt:"Weeks after passing the bar exam, Claude Opus 4.6 has now cleared the CPA, prompting the AICPA to announce an emergency summit on the profession's future.", source:"Financial Times", readTime:"5 min read" },
+  { cat:"research", catClass:"ncat-research", icon:"📊", bg:"linear-gradient(135deg,rgba(34,197,94,.15),rgba(34,197,94,.05))", date:"Apr 20, 2026", title:"WEF Report: 97 Million New AI-Adjacent Jobs Created Since 2023, But Require Significant Retraining", excerpt:"The World Economic Forum's annual Future of Jobs report finds net job creation is positive — but the skills gap is widening faster than training programs can address.", source:"World Economic Forum", readTime:"7 min read" },
+  { cat:"warn", catClass:"ncat-warn", icon:"⚠️", bg:"linear-gradient(135deg,rgba(239,68,68,.15),rgba(239,68,68,.05))", date:"Apr 19, 2026", title:"BLS Quarterly Data Shows 340,000 Clerical Jobs Eliminated in Q1 2026 — Fastest Rate on Record", excerpt:"The Bureau of Labor Statistics reports that administrative support roles saw the sharpest single-quarter decline in recorded history, driven by enterprise AI rollouts.", source:"Bureau of Labor Statistics", readTime:"3 min read" },
+  { cat:"market", catClass:"ncat-market", icon:"🌍", bg:"linear-gradient(135deg,rgba(79,152,163,.15),rgba(79,152,163,.05))", date:"Apr 18, 2026", title:"Nursing Shortage Deepens as AI Takes Over Documentation: Actual Care Roles Surge in Demand", excerpt:"Healthcare systems globally are reporting record demand for bedside nurses as AI handles 80% of clinical documentation — paradoxically creating more human-care jobs than it displaces.", source:"NEJM Journal", readTime:"6 min read" },
+  { cat:"tech", catClass:"ncat-tech", icon:"🚗", bg:"linear-gradient(135deg,rgba(168,85,247,.15),rgba(168,85,247,.05))", date:"Apr 17, 2026", title:"Waymo Expands to 28 US Cities: Commercial Truck Driver Job Listings Down 18% Year-Over-Year", excerpt:"As Waymo's commercial fleet crosses 50,000 vehicles, freight industry analysts are revising their timeline for full highway automation from 2032 to as early as 2028.", source:"The Verge", readTime:"4 min read" },
+];
+
+const INDUSTRIES = [
+  { name:"Technology", icon:"💻", count:124, risk:38, color:"#4f98a3", glow:"rgba(79,152,163,.18)" },
+  { name:"Healthcare", icon:"🏥", count:98, risk:22, color:"#22c55e", glow:"rgba(34,197,94,.14)" },
+  { name:"Finance", icon:"📈", count:87, risk:65, color:"#eab308", glow:"rgba(234,179,8,.14)" },
+  { name:"Legal", icon:"⚖️", count:52, risk:70, color:"#f97316", glow:"rgba(249,115,22,.14)" },
+  { name:"Food & Bev", icon:"🍽️", count:61, risk:75, color:"#ef4444", glow:"rgba(239,68,68,.14)" },
+  { name:"Transport", icon:"🚛", count:44, risk:80, color:"#a855f7", glow:"rgba(168,85,247,.14)" },
+  { name:"Education", icon:"🎓", count:55, risk:28, color:"#06b6d4", glow:"rgba(6,182,212,.14)" },
+  { name:"Creative", icon:"🎨", count:73, risk:52, color:"#ec4899", glow:"rgba(236,72,153,.14)" },
+  { name:"Construction", icon:"🏗️", count:68, risk:30, color:"#84cc16", glow:"rgba(132,204,22,.14)" },
+  { name:"Manufacturing", icon:"⚙️", count:95, risk:82, color:"#f59e0b", glow:"rgba(245,158,11,.14)" },
+];
+
+const TOOLS = [
+  { icon:"🧮", bg:"rgba(79,152,163,.14)", title:"LTV Calculator", desc:"Calculate your 30-year career earnings potential and how much automation risk will erode your lifetime income — by country and seniority level.", cta:"Try Calculator" },
+  { icon:"📄", bg:"rgba(34,197,94,.12)", title:"Resume Risk Analyzer", desc:"Upload your CV and get a personalized automation risk score with a recommended skill pivot path, salary trajectory, and re-training timeline.", cta:"Analyze Resume" },
+  { icon:"⚖️", bg:"rgba(234,179,8,.12)", title:"Job Comparator", desc:"Compare any two occupations head-to-head across automation risk, salary growth, skills overlap, and LTV in up to 14 countries simultaneously.", cta:"Compare Jobs" },
+];
+
+const RISK_TABLE_DATA = [
+  { rank:1, title:"Court Reporter", sub:"Legal · Administrative", pct:91, color:"fill-red", salary:"$48k–$78k", eta:"~2026", etaClass:"eta-soon", trend:"↑↑" },
+  { rank:2, title:"Assembly Line Worker", sub:"Manufacturing · Repetitive Task", pct:88, color:"fill-red", salary:"$35k–$52k", eta:"~2027", etaClass:"eta-soon", trend:"↑↑" },
+  { rank:3, title:"Medical Coder", sub:"Healthcare · Administrative", pct:88, color:"fill-red", salary:"$40k–$58k", eta:"~2026", etaClass:"eta-soon", trend:"↑↑" },
+  { rank:4, title:"Taxi / Rideshare Driver", sub:"Transport · Autonomous Vehicles", pct:87, color:"fill-red", salary:"$35k–$55k", eta:"~2027", etaClass:"eta-soon", trend:"↑↑" },
+  { rank:5, title:"Loan Officer", sub:"Finance · Decision Automation", pct:85, color:"fill-red", salary:"$55k–$90k", eta:"~2027", etaClass:"eta-soon", trend:"↑" },
+  { rank:6, title:"Paralegal", sub:"Legal · Document Automation", pct:84, color:"fill-red", salary:"$45k–$72k", eta:"~2027", etaClass:"eta-soon", trend:"↑↑" },
+  { rank:7, title:"Radiologist", sub:"Healthcare · Imaging AI", pct:82, color:"fill-orange", salary:"$300k–$450k", eta:"~2026", etaClass:"eta-soon", trend:"↑↑" },
+  { rank:8, title:"Truck Driver", sub:"Transport · Autonomous Freight", pct:78, color:"fill-orange", salary:"$55k–$85k", eta:"~2028", etaClass:"eta-mid", trend:"↑↑" },
+  { rank:9, title:"Quality Inspector", sub:"Manufacturing · Computer Vision", pct:78, color:"fill-orange", salary:"$42k–$65k", eta:"~2028", etaClass:"eta-mid", trend:"↑" },
+  { rank:10, title:"Accountant", sub:"Finance · Workflow Automation", pct:76, color:"fill-orange", salary:"$60k–$95k", eta:"~2028", etaClass:"eta-mid", trend:"↑" },
+];
+
+const TICKER = [
+  { label:"Software Engineer", chg:"-2% risk", dir:"dn" },
+  { label:"Radiologist", chg:"+6% risk", dir:"up" },
+  { label:"Truck Driver", chg:"+4% risk", dir:"up" },
+  { label:"Nurse (RN)", chg:"-1% risk", dir:"dn" },
+  { label:"Court Reporter", chg:"+3% risk", dir:"up" },
+  { label:"Financial Analyst", chg:"+2% risk", dir:"up" },
+  { label:"UX Designer", chg:"-1% risk", dir:"dn" },
+  { label:"Paralegal", chg:"+5% risk", dir:"up" },
+  { label:"Electrician", chg:"Stable", dir:"neu" },
+  { label:"Copywriter", chg:"+7% risk", dir:"up" },
+  { label:"Executive Chef", chg:"Stable", dir:"neu" },
+  { label:"Cybersecurity Analyst", chg:"-3% risk", dir:"dn" },
+  { label:"Assembly Worker", chg:"+4% risk", dir:"up" },
+  { label:"Physical Therapist", chg:"-2% risk", dir:"dn" },
+];
+
+// ── RISK HELPERS ─────────────────────────────────────────────────────────────
+
+function riskClass(level){ return {safe:'risk-safe',mid:'risk-mid',high:'risk-high',crit:'risk-crit'}[level]||'risk-mid'; }
+function riskBadgeClass(level){ return {safe:'rb-safe',mid:'rb-mid',high:'rb-high',crit:'rb-crit'}[level]||'rb-mid'; }
+function riskLabel(level){ return {safe:'Low Risk',mid:'Medium',high:'High Risk',crit:'Critical'}[level]||'Medium'; }
+function fillColor(pct){ if(pct>=80) return '#ef4444'; if(pct>=60) return '#f97316'; if(pct>=35) return '#eab308'; return '#22c55e'; }
+
+// ── BUILD MARQUEE ─────────────────────────────────────────────────────────────
+function buildMarquee(){
+  const track = document.getElementById('marqueeTrack');
+  const items = [...TICKER,...TICKER]; // duplicate for infinite
+  track.innerHTML = items.map(t=>`
+    <span class="marquee-item">
+      <span class="mi-dot" style="background:${t.dir==='up'?'#ef4444':t.dir==='dn'?'#22c55e':'#eab308'}"></span>
+      ${t.label}
+      <span class="mi-chg mi-${t.dir}">${t.chg}</span>
+    </span>
+  `).join('');
+}
+
+// ── BUILD JOBS GRID ───────────────────────────────────────────────────────────
+let currentFilter = 'all';
+let currentRisk = 'all';
+let visibleCount = 12;
+
+function jobHtml(j){
+  const rc = riskClass(j.riskLevel);
+  const rb = riskBadgeClass(j.riskLevel);
+  const fc = fillColor(j.riskPct);
+  return `
+  <div class="job-card ${rc}" data-ind="${j.industry}" data-risk="${j.riskLevel}" onclick="openJob(${j.id})">
+    <div class="job-card-top">
+      <div class="job-icon">${j.icon}</div>
+      <div class="job-card-meta">
+        <div class="job-title">${j.title}</div>
+        <div class="job-industry">${j.ind}</div>
+      </div>
+      <span class="risk-badge ${rb}">${riskLabel(j.riskLevel)}</span>
+    </div>
+    <div class="job-bar-wrap">
+      <div class="job-bar-row"><span>Automation Index</span><span>${j.riskPct}%</span></div>
+      <div class="job-bar-track"><div class="job-bar-fill" style="width:${j.riskPct}%;background:${fc}"></div></div>
+    </div>
+    <div class="job-card-footer">
+      <div class="job-salary"><strong>US Salary:</strong> ${j.salary}</div>
+      <div class="job-eta ${j.riskPct>=75?'eta-soon':j.riskPct>=50?'eta-mid':j.riskPct>=30?'eta-far':'eta-prot'}">AI: ${j.eta}</div>
+    </div>
+  </div>`;
+}
+
+function renderJobs(){
+  const grid = document.getElementById('jobsGrid');
+  let filtered = JOBS;
+  if(currentFilter !== 'all') filtered = filtered.filter(j=>j.industry===currentFilter);
+  if(currentRisk !== 'all') filtered = filtered.filter(j=>j.riskLevel===currentRisk);
+  const shown = filtered.slice(0, visibleCount);
+  grid.innerHTML = shown.map(jobHtml).join('');
+  document.getElementById('jobCount').textContent = filtered.length;
+  document.getElementById('loadMoreBtn').style.display = filtered.length > visibleCount ? '' : 'none';
+  // animate bars in
+  requestAnimationFrame(()=>{
+    grid.querySelectorAll('.job-bar-fill').forEach(el=>{ const w=el.style.width; el.style.width='0'; requestAnimationFrame(()=>{el.style.width=w;}); });
+  });
+}
+
+function openJob(id){
+  const j = JOBS.find(x=>x.id===id);
+  if(j) alert(`Opening full analysis for: ${j.title}\n\nThis would navigate to the job detail page — like the Chef prototype you already built!`);
+}
+
+// ── BUILD RISK TABLE ──────────────────────────────────────────────────────────
+function buildRiskTable(){
+  const tbody = document.getElementById('riskTableBody');
+  tbody.innerHTML = RISK_TABLE_DATA.map(r=>`
+    <tr>
+      <td class="rt-rank">${r.rank}</td>
+      <td><div class="rt-job-name">${r.title}</div><div class="rt-sub">${r.sub}</div></td>
+      <td>
+        <div class="rt-score-wrap">
+          <div class="rt-score-bar"><div class="rt-score-fill ${r.color}" style="width:${r.pct}%"></div></div>
+          <div class="rt-pct" style="color:${fillColor(r.pct)}">${r.pct}%</div>
+        </div>
+      </td>
+      <td class="rt-salary">${r.salary}</td>
+      <td class="rt-eta ${r.etaClass}">${r.eta}</td>
+      <td class="rt-trend" style="color:${r.trend.includes('↑')?'#ef4444':'#22c55e'}">${r.trend}</td>
+    </tr>
+  `).join('');
+}
+
+// ── BUILD NEWS ────────────────────────────────────────────────────────────────
+function buildNews(){
+  const grid = document.getElementById('newsGrid');
+  grid.innerHTML = NEWS.map((n,i)=>`
+    <div class="news-card${n.featured?' featured':''}">
+      <div class="news-img">
+        <div class="news-img-bg" style="background:${n.bg}"></div>
+        <span class="news-img-icon">${n.icon}</span>
+        <span class="news-cat-badge ${n.catClass}">${n.cat.toUpperCase()}</span>
+      </div>
+      <div class="news-body">
+        <div class="news-date">${n.date}</div>
+        <div class="news-title">${n.title}</div>
+        <div class="news-excerpt">${n.excerpt}</div>
+        <div class="news-footer">
+          <span class="news-source">${n.source}</span>
+          <span class="news-read">${n.readTime} →</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── BUILD INDUSTRY CARDS ──────────────────────────────────────────────────────
+function buildIndustry(){
+  const wrap = document.getElementById('industryCards');
+  wrap.innerHTML = INDUSTRIES.map(ind=>{
+    const fc = fillColor(ind.risk);
+    return `
+    <div class="ind-card" style="--ic-glow:${ind.glow}">
+      <span class="ind-card-icon">${ind.icon}</span>
+      <div class="ind-card-name">${ind.name}</div>
+      <div class="ind-card-count">${ind.count} occupations tracked</div>
+      <div class="ind-card-risk">
+        <div class="ind-risk-bar"><div class="ind-risk-fill" style="width:${ind.risk}%;background:${fc}"></div></div>
+        <div class="ind-risk-pct" style="color:${fc}">${ind.risk}%</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── BUILD TOOLS ───────────────────────────────────────────────────────────────
+function buildTools(){
+  const wrap = document.getElementById('toolsRow');
+  wrap.innerHTML = TOOLS.map(t=>`
+    <div class="tool-card">
+      <div class="tool-icon-wrap" style="background:${t.bg}">${t.icon}</div>
+      <div class="tool-title">${t.title}</div>
+      <div class="tool-desc">${t.desc}</div>
+      <div class="tool-cta">${t.cta} <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+  `).join('');
+}
+
+// ── BUILD SEARCH DROPDOWN ─────────────────────────────────────────────────────
+function buildDropdown(query=''){
+  const drop = document.getElementById('heroDropdown');
+  const matches = JOBS.filter(j=>!query || j.title.toLowerCase().includes(query.toLowerCase())).slice(0,6);
+  drop.innerHTML = matches.map(j=>`
+    <div class="search-suggestion" onclick="openJob(${j.id})">
+      <div class="search-sug-icon" style="background:var(--surface-3)">${j.icon}</div>
+      <div class="search-sug-text">
+        <div class="search-sug-title">${j.title}</div>
+        <div class="search-sug-meta">${j.ind}</div>
+      </div>
+      <span class="search-sug-risk ${riskBadgeClass(j.riskLevel)}">${j.riskPct}%</span>
+    </div>
+  `).join('');
+}
+
+// ── FILTERS ───────────────────────────────────────────────────────────────────
+document.getElementById('indFilter').addEventListener('click', e=>{
+  const pill = e.target.closest('.ind-pill');
+  if(!pill) return;
+  document.querySelectorAll('.ind-pill').forEach(p=>p.classList.remove('active'));
+  pill.classList.add('active');
+  currentFilter = pill.dataset.ind;
+  visibleCount = 12;
+  renderJobs();
+});
+
+document.querySelectorAll('.qf-pill').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.qf-pill').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentRisk = btn.dataset.risk;
+    visibleCount = 12;
+    renderJobs();
+    // scroll to jobs
+    document.getElementById('jobs').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+document.getElementById('loadMoreBtn').addEventListener('click', ()=>{
+  visibleCount += 12;
+  renderJobs();
+});
+
+// ── SEARCH ────────────────────────────────────────────────────────────────────
+document.getElementById('heroSearch').addEventListener('input', e=>{
+  buildDropdown(e.target.value);
+});
+document.getElementById('heroSearch').addEventListener('focus', ()=>{
+  buildDropdown(document.getElementById('heroSearch').value);
+});
+
+// ── THEME TOGGLE ──────────────────────────────────────────────────────────────
+(function(){
+  const btn=document.getElementById('themeToggle');
+  let dark=true;
+  btn.addEventListener('click',()=>{
+    dark=!dark;
+    document.documentElement.setAttribute('data-theme',dark?'':'light');
+    btn.textContent=dark?'☀️':'🌙';
+  });
+})();
+
+// ── ANIMATED NUMBERS ─────────────────────────────────────────────────────────
+function animNum(el, from, to, suffix='', prefix=''){
+  if(!el) return;
+  const dur=1400, start=performance.now();
+  const ease=t=>t<.5?2*t*t:(-1+(4-2*t)*t);
+  function step(now){
+    const p=Math.min((now-start)/dur,1);
+    const v=Math.round(from+(to-from)*ease(p));
+    el.textContent=prefix+v.toLocaleString()+suffix;
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function triggerStats(){
+  animNum(document.getElementById('statJobs'),0,847);
+  animNum(document.getElementById('statIdx'),0,61,'%');
+  animNum(document.getElementById('statRisk'),0,312);
+  animNum(document.getElementById('statSafe'),0,189);
+}
+
+// ── INTERSECTION OBSERVER for stat bar ───────────────────────────────────────
+const statObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ triggerStats(); statObs.disconnect(); } });
+},{threshold:.3});
+const statBar = document.querySelector('.stats-bar');
+if(statBar) statObs.observe(statBar);
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+buildMarquee();
+renderJobs();
+buildRiskTable();
+buildNews();
+buildIndustry();
+buildTools();
+buildDropdown();
+
+// ── ANIMATE risk table bars on scroll ────────────────────────────────────────
+const tableObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.rt-score-fill').forEach(el=>{
+        const w=el.style.width; el.style.width='0';
+        requestAnimationFrame(()=>{ el.style.transition='width 1s cubic-bezier(0.16,1,0.3,1)'; el.style.width=w; });
+      });
+      tableObs.disconnect();
+    }
+  });
+},{threshold:.2});
+const tw = document.querySelector('.risk-table-wrap');
+if(tw) tableObs.observe(tw);
+</script>
+</body>
+</html>

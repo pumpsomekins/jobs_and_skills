@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobForesight – AI Job Market & Automation Index</title>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=cabinet-grotesk@800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0e0e0e;--surface:#161616;--surface-2:#1c1c1c;--surface-3:#222;
+  --border:#2a2a2a;--border-hi:#363636;
+  --text:#e2e2e2;--text-muted:#888;--text-faint:#444;
+  --green:#22c55e;--yellow:#eab308;--orange:#f97316;--red:#ef4444;
+  --accent:#4f98a3;--accent-hover:#60b8c4;
+  --font-body:'Satoshi','Inter',sans-serif;
+  --font-display:'Cabinet Grotesk','Satoshi',sans-serif;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --radius-sm:4px;--radius-md:8px;--radius-lg:12px;
+}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.6;min-height:100dvh}
+button, a{cursor:pointer;border:none;background:none;font:inherit;text-decoration:none}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.05) 2px,rgba(0,0,0,.05) 4px);pointer-events:none;z-index:0}
+
+/* Layout */
+.page{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:24px 24px 80px}
+@media(max-width:768px){.page{padding:14px 14px 60px}}
+
+/* ── Header ── */
+.header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.logo-area{display:flex;align-items:center;gap:12px}
+.logo-icon{width:32px;height:32px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff}
+.logo-text{font-family:var(--font-display);font-size:20px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.logo-text span{color:var(--accent)}
+.header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.btn-ghost{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius-md);border:1px solid var(--border-hi);background:var(--surface);color:var(--text-muted);font-size:12px;font-weight:700;transition:all .18s var(--ease);letter-spacing:.04em}
+.btn-ghost:hover{border-color:var(--accent);color:var(--text)}
+.btn-login{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--radius-md);font-size:13px;font-weight:700;letter-spacing:.02em;background:var(--surface-3);color:#fff;border:1px solid var(--border-hi);transition:all .18s var(--ease)}
+.btn-login:hover{background:var(--surface-2);border-color:var(--text-muted)}
+.theme-toggle{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius-md);border:1px solid var(--border-hi);background:var(--surface);color:var(--text-muted);font-size:12px;font-weight:700;transition:all .18s var(--ease)}
+.theme-toggle:hover{border-color:var(--accent);color:var(--text)}
+
+/* ── Ticker ── */
+.ticker-wrap{background:var(--surface-2);border-bottom:1px solid var(--border);padding:6px 0;overflow:hidden;position:relative;z-index:1;display:flex;align-items:center;font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--text-muted)}
+.ticker-label{background:var(--accent);color:#fff;padding:2px 10px;border-radius:2px;font-weight:700;margin-left:24px;margin-right:12px;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;letter-spacing:.1em;text-transform:uppercase}
+.ticker-label .live-dot{width:5px;height:5px;border-radius:50%;background:#fff;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.ticker-content{display:flex;gap:32px;white-space:nowrap;animation:scroll 35s linear infinite}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item span.up{color:var(--red)}
+.ticker-item span.down{color:var(--green)}
+.ticker-item span.new{color:var(--accent)}
+
+/* ── Hero / Search ── */
+.hero{text-align:center;padding:40px 0 50px}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:color-mix(in oklch,var(--accent) 12%,transparent);border:1px solid color-mix(in oklch,var(--accent) 30%,transparent);padding:5px 12px;border-radius:20px;margin-bottom:16px}
+.hero-title{font-family:var(--font-display);font-size:clamp(32px,5vw,54px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:14px;letter-spacing:-.02em}
+.hero-subtitle{font-size:15px;color:var(--text-muted);max-width:600px;margin:0 auto 32px}
+.search-container{max-width:640px;margin:0 auto;position:relative}
+.search-input{width:100%;background:var(--surface);border:1px solid var(--border-hi);border-radius:var(--radius-lg);padding:18px 24px 18px 52px;font-size:16px;color:var(--text);font-family:var(--font-body);transition:all .2s var(--ease);box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.search-input:focus{outline:none;border-color:var(--accent);box-shadow:0 8px 40px color-mix(in oklch,var(--accent) 20%,transparent)}
+.search-icon{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--text-faint);width:20px;height:20px}
+.search-shortcut{position:absolute;right:16px;top:50%;transform:translateY(-50%);background:var(--surface-2);border:1px solid var(--border);padding:4px 8px;border-radius:4px;font-size:11px;color:var(--text-muted);font-weight:600;letter-spacing:.05em}
+
+/* ── Global Stats Grid ── */
+.global-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:40px}
+@media(max-width:900px){.global-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.global-stats{grid-template-columns:1fr}}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--glow,transparent) 0%,transparent 70%);pointer-events:none;opacity:.3}
+.stat-card.s-red{--glow:var(--red)} .stat-card.s-green{--glow:var(--green)} .stat-card.s-yellow{--glow:var(--yellow)} .stat-card.s-accent{--glow:var(--accent)}
+.stat-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.stat-val{font-family:var(--font-display);font-size:32px;font-weight:800;color:#fff;line-height:1;margin-bottom:4px}
+.stat-meta{font-size:11px;color:var(--text-faint);display:flex;align-items:center;gap:4px}
+.stat-meta span.trend-up{color:var(--red)} .stat-meta span.trend-down{color:var(--green)}
+
+/* ── Main Layout ── */
+.main-layout{display:grid;grid-template-columns:1fr 340px;gap:24px}
+@media(max-width:1000px){.main-layout{grid-template-columns:1fr}}
+
+/* ── Directory Section ── */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px}
+.section-title{font-family:var(--font-display);font-size:22px;font-weight:800;color:#fff}
+.industry-filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;overflow-x:auto;padding-bottom:4px}
+.industry-pill{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border-hi);color:var(--text-faint);cursor:pointer;transition:all .18s var(--ease);white-space:nowrap}
+.industry-pill:hover{color:var(--text-muted);border-color:var(--text-faint)}
+.industry-pill.active{color:#fff;border-color:transparent;background:var(--surface-3)}
+
+.job-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.job-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;transition:all .2s var(--ease);display:block}
+.job-card:hover{border-color:var(--border-hi);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.jc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.jc-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
+.jc-id{font-size:10px;font-family:monospace;color:var(--text-faint);letter-spacing:.05em}
+.risk-badge{font-size:11px;font-weight:800;padding:4px 8px;border-radius:4px;letter-spacing:.05em;display:inline-flex;align-items:center;gap:4px}
+.risk-badge.r-high{background:color-mix(in oklch,var(--red) 15%,transparent);color:var(--red);border:1px solid color-mix(in oklch,var(--red) 30%,transparent)}
+.risk-badge.r-mid{background:color-mix(in oklch,var(--yellow) 15%,transparent);color:var(--yellow);border:1px solid color-mix(in oklch,var(--yellow) 30%,transparent)}
+.risk-badge.r-low{background:color-mix(in oklch,var(--green) 15%,transparent);color:var(--green);border:1px solid color-mix(in oklch,var(--green) 30%,transparent)}
+.jc-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.jc-stat-lbl{font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.jc-stat-val{font-size:13px;font-weight:700;color:var(--text-muted)}
+.jc-bar-wrap{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.jc-bar-fill{height:100%;border-radius:2px}
+.jc-eta{font-size:11px;color:var(--text-faint);display:flex;justify-content:space-between}
+.jc-eta span{font-weight:600;color:var(--text)}
+
+/* ── Market News ── */
+.news-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;height:max-content;position:sticky;top:24px}
+.news-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px}
+.news-header h3{font-family:var(--font-display);font-size:16px;font-weight:800;color:#fff}
+.news-list{display:flex;flex-direction:column;gap:16px}
+.news-item{display:block;group}
+.news-meta{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--text-faint);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.n-tag{padding:2px 6px;border-radius:3px;background:var(--surface-3);color:var(--text-muted)}
+.n-tag.alert{background:color-mix(in oklch,var(--red) 15%,transparent);color:var(--red)}
+.news-title{font-size:13px;font-weight:600;color:#fff;line-height:1.4;margin-bottom:4px;transition:color .15s}
+.news-item:hover .news-title{color:var(--accent)}
+.news-excerpt{font-size:11px;color:var(--text-muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* ── Light Mode Varis ── */
+html[data-theme="light"]{
+  --bg:#f4f4f5;--surface:#ffffff;--surface-2:#f0f0f0;--surface-3:#e8e8e8;
+  --border:#e0e0e0;--border-hi:#cccccc;
+  --text:#111111;--text-muted:#555555;--text-faint:#999999;
+  --green:#16a34a;--yellow:#ca8a04;--orange:#ea580c;--red:#dc2626;
+  --accent:#2a7b8a;--accent-hover:#1e6474;
+}
+html[data-theme="light"] .logo-text, html[data-theme="light"] .hero-title, html[data-theme="light"] .section-title, html[data-theme="light"] .stat-val, html[data-theme="light"] .jc-title, html[data-theme="light"] .news-header h3, html[data-theme="light"] .news-title {color:#111}
+html[data-theme="light"] .search-input{background:var(--surface-2);color:#111}
+html[data-theme="light"] .news-item:hover .news-title{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<div class="ticker-wrap">
+  <div class="ticker-label"><span class="live-dot"></span> LIVE DATA</div>
+  <div class="ticker-content" aria-hidden="true">
+    <div class="ticker-item">GLOBAL INDEX RISK <span class="up">▲ 41.2%</span></div>
+    <div class="ticker-item">SWE AUTOMATION ETA <span class="down">▼ 1.5 YRS</span></div>
+    <div class="ticker-item">NURSING LTV <span class="new">STABLE</span></div>
+    <div class="ticker-item">MISO ROBOTICS DEPLOYS GEN 4 <span class="new">NEW</span></div>
+    <div class="ticker-item">LOGISTICS JOB DEMAND <span class="up">▼ -12%</span></div>
+    <div class="ticker-item">CLIMATE TECH JOBS <span class="down">▲ +18%</span></div>
+    <div class="ticker-item">GLOBAL INDEX RISK <span class="up">▲ 41.2%</span></div>
+    <div class="ticker-item">SWE AUTOMATION ETA <span class="down">▼ 1.5 YRS</span></div>
+    <div class="ticker-item">NURSING LTV <span class="new">STABLE</span></div>
+    <div class="ticker-item">MISO ROBOTICS DEPLOYS GEN 4 <span class="new">NEW</span></div>
+    <div class="ticker-item">LOGISTICS JOB DEMAND <span class="up">▼ -12%</span></div>
+    <div class="ticker-item">CLIMATE TECH JOBS <span class="down">▲ +18%</span></div>
+  </div>
+</div>
+
+<div class="page">
+  <header class="header">
+    <div class="logo-area">
+      <div class="logo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </div>
+      <div class="logo-text">Job<span>Foresight</span></div>
+    </div>
+    <div class="header-right">
+      <button class="btn-ghost">Methodology</button>
+      <button class="btn-ghost">Upload Resume</button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <span class="th-icon">☀️</span> <span id="themeLabel">Light</span>
+      </button>
+      <button class="btn-login">Login</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-tag">Q2 2026 Index Updated</div>
+    <h1 class="hero-title">Will AI Replace Your Career?</h1>
+    <p class="hero-subtitle">Search our database of 840+ professions. Compare Human-Safe LTV, automation ETA, and pivot strategies based on the latest generative AI and robotics capabilities.</p>
+    
+    <div class="search-container">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" class="search-input" id="jobSearch" placeholder="Search occupations (e.g. Software Engineer, Chef, Accountant)..." autocomplete="off">
+      <span class="search-shortcut">⌘ K</span>
+    </div>
+  </section>
+
+  <div class="global-stats">
+    <div class="stat-card s-red">
+      <div class="stat-lbl">Global At-Risk LTV</div>
+      <div class="stat-val">41.2%</div>
+      <div class="stat-meta"><span class="trend-up">▲ 2.4%</span> vs Q1 2026</div>
+    </div>
+    <div class="stat-card s-yellow">
+      <div class="stat-lbl">Avg Automation ETA</div>
+      <div class="stat-val">4.8 yrs</div>
+      <div class="stat-meta"><span class="trend-up">▼ 0.6 yrs</span> acceleration</div>
+    </div>
+    <div class="stat-card s-green">
+      <div class="stat-lbl">Safest Sector</div>
+      <div class="stat-val">Healthcare</div>
+      <div class="stat-meta">12% avg risk index</div>
+    </div>
+    <div class="stat-card s-accent">
+      <div class="stat-lbl">Occupations Tracked</div>
+      <div class="stat-val">842</div>
+      <div class="stat-meta">Updated April 23, 2026</div>
+    </div>
+  </div>
+
+  <div class="main-layout">
+    <main>
+      <div class="section-header">
+        <h2 class="section-title">Directory</h2>
+        <div class="industry-filters" id="industryFilters">
+          <span class="industry-pill active" data-filter="all">All Sectors</span>
+          <span class="industry-pill" data-filter="tech">Technology</span>
+          <span class="industry-pill" data-filter="health">Healthcare</span>
+          <span class="industry-pill" data-filter="fb">Food & Bev</span>
+          <span class="industry-pill" data-filter="finance">Finance</span>
+          <span class="industry-pill" data-filter="logistics">Logistics</span>
+        </div>
+      </div>
+
+      <div class="job-grid" id="jobGrid">
+        <a href="#" class="job-card" data-sector="tech">
+          <div class="jc-top">
+            <div>
+              <div class="jc-title">Software Engineer</div>
+              <div class="jc-id">OCC-1024-T</div>
+            </div>
+            <div class="risk-badge r-high">82% RISK</div>
+          </div>
+          <div class="jc-stats">
+            <div>
+              <div class="jc-stat-lbl">Human-Safe LTV</div>
+              <div class="jc-stat-val" style="color:var(--green)">$840,000</div>
+            </div>
+            <div>
+              <div class="jc-stat-lbl">At-Risk LTV</div>
+              <div class="jc-stat-val" style="color:var(--red)">$3.8M</div>
+            </div>
+          </div>
+          <div class="jc-bar-wrap">
+            <div class="jc-bar-fill" style="width:82%;background:var(--red)"></div>
+          </div>
+          <div class="jc-eta">ETA to Mass Auto: <span>1.5 - 3 yrs</span></div>
+        </a>
+
+        <a href="042126_223206_claude-sonnet-4-6.html" class="job-card" data-sector="fb" style="border-color:color-mix(in oklch,var(--accent) 30%,transparent)">
+          <div class="jc-top">
+            <div>
+              <div class="jc-title">Chef / Cook</div>
+              <div class="jc-id">OCC-2026-C</div>
+            </div>
+            <div class="risk-badge r-mid">37% RISK</div>
+          </div>
+          <div class="jc-stats">
+            <div>
+              <div class="jc-stat-lbl">Human-Safe LTV</div>
+              <div class="jc-stat-val" style="color:var(--green)">$1.05M</div>
+            </div>
+            <div>
+              <div class="jc-stat-lbl">At-Risk LTV</div>
+              <div class="jc-stat-val" style="color:var(--red)">$621K</div>
+            </div>
+          </div>
+          <div class="jc-bar-wrap">
+            <div class="jc-bar-fill" style="width:37%;background:var(--yellow)"></div>
+          </div>
+          <div class="jc-eta">ETA to Mass Auto: <span>3 - 5 yrs</span></div>
+        </a>
+
+        <a href="#" class="job-card" data-sector="health">
+          <div class="jc-top">
+            <div>
+              <div class="jc-title">Registered Nurse</div>
+              <div class="jc-id">OCC-3050-H</div>
+            </div>
+            <div class="risk-badge r-low">12% RISK</div>
+          </div>
+          <div class="jc-stats">
+            <div>
+              <div class="jc-stat-lbl">Human-Safe LTV</div>
+              <div class="jc-stat-val" style="color:var(--green)">$2.4M</div>
+            </div>
+            <div>
+              <div class="jc-stat-lbl">At-Risk LTV</div>
+              <div class="jc-stat-val" style="color:var(--red)">$320K</div>
+            </div>
+          </div>
+          <div class="jc-bar-wrap">
+            <div class="jc-bar-fill" style="width:12%;background:var(--green)"></div>
+          </div>
+          <div class="jc-eta">ETA to Mass Auto: <span>10+ yrs</span></div>
+        </a>
+
+        <a href="#" class="job-card" data-sector="finance">
+          <div class="jc-top">
+            <div>
+              <div class="jc-title">Accountant</div>
+              <div class="jc-id">OCC-4122-F</div>
+            </div>
+            <div class="risk-badge r-high">76% RISK</div>
+          </div>
+          <div class="jc-stats">
+            <div>
+              <div class="jc-stat-lbl">Human-Safe LTV</div>
+              <div class="jc-stat-val" style="color:var(--green)">$580K</div>
+            </div>
+            <div>
+              <div class="jc-stat-lbl">At-Risk LTV</div>
+              <div class="jc-stat-val" style="color:var(--red)">$1.8M</div>
+            </div>
+          </div>
+          <div class="jc-bar-wrap">
+            <div class="jc-bar-fill" style="width:76%;background:var(--red)"></div>
+          </div>
+          <div class="jc-eta">ETA to Mass Auto: <span>2 - 4 yrs</span></div>
+        </a>
+
+        <a href="#" class="job-card" data-sector="logistics">
+          <div class="jc-top">
+            <div>
+              <div class="jc-title">Logistics Coordinator</div>
+              <div class="jc-id">OCC-5010-L</div>
+            </div>
+            <div class="risk-badge r-high">88% RISK</div>
+          </div>
+          <div class="jc-stats">
+            <div>
+              <div class="jc-stat-lbl">Human-Safe LTV</div>
+              <div class="jc-stat-val" style="color:var(--green)">$150K</div>
+            </div>
+            <div>
+              <div class="jc-stat-lbl">At-Risk LTV</div>
+              <div class="jc-stat-val" style="color:var(--red)">$1.1M</div>
+            </div>
+          </div>
+          <div class="jc-bar-wrap">
+            <div class="jc-bar-fill" style="width:88%;background:var(--red)"></div>
+          </div>
+          <div class="jc-eta">ETA to Mass Auto: <span>1 - 2 yrs</span></div>
+        </a>
+
+        <a href="#" class="job-card" data-sector="all">
+          <div class="jc-top">
+            <div>
+              <div class="jc-title">Electrician</div>
+              <div class="jc-id">OCC-6200-T</div>
+            </div>
+            <div class="risk-badge r-low">8% RISK</div>
+          </div>
+          <div class="jc-stats">
+            <div>
+              <div class="jc-stat-lbl">Human-Safe LTV</div>
+              <div class="jc-stat-val" style="color:var(--green)">$2.1M</div>
+            </div>
+            <div>
+              <div class="jc-stat-lbl">At-Risk LTV</div>
+              <div class="jc-stat-val" style="color:var(--red)">$180K</div>
+            </div>
+          </div>
+          <div class="jc-bar-wrap">
+            <div class="jc-bar-fill" style="width:8%;background:var(--green)"></div>
+          </div>
+          <div class="jc-eta">ETA to Mass Auto: <span>10+ yrs</span></div>
+        </a>
+      </div>
+    </main>
+
+    <aside>
+      <div class="news-panel">
+        <div class="news-header">
+          <h3>Market Intelligence</h3>
+          <span style="font-size:11px;color:var(--text-faint)">Live Updates</span>
+        </div>
+        <div class="news-list">
+          <a href="#" class="news-item">
+            <div class="news-meta">
+              <span class="n-tag alert">High Impact</span>
+              <span>2 hrs ago</span>
+            </div>
+            <div class="news-title">OpenAI's "Devin 3.0" accelerates junior dev obsolescence</div>
+            <div class="news-excerpt">The latest autonomous coding agent solves 64% of GitHub issues end-to-end, prompting a massive downgrade in SWE LTV forecasts.</div>
+          </a>
+          <a href="#" class="news-item">
+            <div class="news-meta">
+              <span class="n-tag">Robotics</span>
+              <span>Yesterday</span>
+            </div>
+            <div class="news-title">Miso Robotics scales Gen 4 'Flippy' to 2,000 QSR locations</div>
+            <div class="news-excerpt">Fast food automation hits critical mass. Frying and grilling nodes for Line Cooks moved from 'Intro' to 'In-Game' status.</div>
+          </a>
+          <a href="#" class="news-item">
+            <div class="news-meta">
+              <span class="n-tag">Policy</span>
+              <span>Apr 21, 2026</span>
+            </div>
+            <div class="news-title">EU drafts "Human-in-the-Loop" mandate for medical AI</div>
+            <div class="news-excerpt">Legislation guarantees diagnostic override rights for doctors and nurses, securing their Human-Safe LTV for the next decade.</div>
+          </a>
+          <a href="#" class="news-item">
+            <div class="news-meta">
+              <span class="n-tag alert">Layoffs</span>
+              <span>Apr 18, 2026</span>
+            </div>
+            <div class="news-title">Big 4 Accounting firms announce 15% workforce reduction</div>
+            <div class="news-excerpt">Generative audit tools successfully replaced tier-1 manual compliance checks, eliminating thousands of entry-level roles.</div>
+          </a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+// Theme Toggle
+const btn = document.getElementById('themeToggle');
+const lbl = document.getElementById('themeLabel');
+let dark = true;
+btn.addEventListener('click', () => {
+  dark = !dark;
+  if(dark){
+    document.documentElement.removeAttribute('data-theme');
+    btn.querySelector('.th-icon').textContent = '☀️';
+    lbl.textContent = 'Light';
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+    btn.querySelector('.th-icon').textContent = '🌙';
+    lbl.textContent = 'Dark';
+  }
+});
+
+// Sector Filtering
+const pills = document.querySelectorAll('.industry-pill');
+const cards = document.querySelectorAll('.job-card');
+
+pills.forEach(pill => {
+  pill.addEventListener('click', () => {
+    pills.forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    const filter = pill.dataset.filter;
+    
+    cards.forEach(card => {
+      if(filter === 'all' || card.dataset.sector === filter) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+
+// Basic Search Logic
+const searchInput = document.getElementById('jobSearch');
+searchInput.addEventListener('input', (e) => {
+  const term = e.target.value.toLowerCase();
+  
+  // Reset pills if searching
+  if(term.length > 0) {
+    pills.forEach(p => p.classList.remove('active'));
+    document.querySelector('[data-filter="all"]').classList.add('active');
+  }
+
+  cards.forEach(card => {
+    const title = card.querySelector('.jc-title').textContent.toLowerCase();
+    const id = card.querySelector('.jc-id').textContent.toLowerCase();
+    if(title.includes(term) || id.includes(term)) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+});
+
+// Keyboard shortcut (CMD+K or CTRL+K) to focus search
+document.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    searchInput.focus();
+  }
+});
+</script>
+</body>
+</html>
